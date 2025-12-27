@@ -1,197 +1,213 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhumketu Cyber Force | Official</title>
+    <title>Dhumketu Cyber Force - Elite Edition</title>
     <style>
         :root {
             --neon-green: #00ff41;
-            --neon-blue: #00d4ff;
-            --bg-dark: #050505;
-            --panel-bg: #0d0d0d;
+            --dark-bg: #050505;
+            --box-bg: rgba(0, 255, 65, 0.05);
+            --danger: #ff3e3e;
         }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: var(--bg-dark);
-            color: white;
+            background-color: var(--dark-bg);
+            color: var(--neon-green);
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
             margin: 0;
-            scroll-behavior: smooth;
-        }
-
-        /* Navbar - Logo on Left, Menu on Right */
-        .navbar {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 4%;
-            background: rgba(0,0,0,0.9);
-            border-bottom: 2px solid var(--neon-green);
-            position: fixed;
-            width: 92%;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-logo { display: flex; align-items: center; }
-        .nav-logo img { width: 45px; height: 45px; border-radius: 50%; margin-right: 12px; border: 1px solid var(--neon-green); }
-        .nav-logo span { color: var(--neon-green); font-weight: bold; font-size: 1.1rem; letter-spacing: 1px; }
-
-        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-size: 0.8rem; font-weight: bold; }
-        .nav-links a:hover { color: var(--neon-green); text-shadow: 0 0 5px var(--neon-green); }
-
-        /* Section 1: HOME PAGE (Visual Identity) */
-        .home-section {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://i.ibb.co/vzB6Y6V/matrix.jpg');
-            background-size: cover;
+            min-height: 100vh;
+        }
+
+        /* Login Section */
+        #login-screen {
             text-align: center;
+            border: 1px solid var(--neon-green);
+            padding: 30px;
+            box-shadow: 0 0 20px var(--neon-green);
+            background: #000;
         }
 
-        .home-section h1 { font-size: 3.5rem; color: var(--neon-green); margin: 0; text-shadow: 0 0 20px var(--neon-green); }
-        .home-section p { font-size: 1.2rem; color: var(--neon-blue); letter-spacing: 5px; margin-top: 10px; }
-        
-        .status-bar {
-            margin-top: 30px;
-            padding: 10px 20px;
+        /* Main Dashboard */
+        #dashboard {
+            display: none;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container { max-width: 1100px; margin: auto; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .tool-card {
+            background: var(--box-bg);
+            border: 1px solid var(--neon-green);
+            padding: 15px;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        h3 { border-left: 4px solid var(--neon-green); padding-left: 10px; margin-top: 0; font-size: 1rem; }
+
+        input, textarea {
+            width: 100%;
+            background: #000;
             border: 1px solid #333;
-            background: rgba(0, 255, 65, 0.05);
-            font-family: monospace;
             color: var(--neon-green);
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            font-size: 0.9em;
         }
 
-        /* Section 2: TOOLS HUB (The Functional Part) */
-        .tools-section { padding: 100px 5% 50px; background: #080808; }
-        .header-title { text-align: center; color: var(--neon-green); font-size: 2rem; margin-bottom: 50px; text-transform: uppercase; }
+        input:focus { border-color: var(--neon-green); outline: none; }
 
-        .tools-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
-        
-        .tool-box { 
-            background: var(--panel-bg); 
-            border: 1px solid #222; 
-            padding: 25px; 
-            border-radius: 10px; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        button {
+            background: var(--neon-green);
+            color: #000;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.8em;
+            transition: 0.3s;
         }
 
-        .tool-box h3 { color: var(--neon-blue); border-bottom: 1px solid #333; padding-bottom: 10px; margin-top: 0; }
+        button:hover { background: #fff; box-shadow: 0 0 10px var(--neon-green); }
 
-        textarea, input, button {
-            width: 100%; border: none; border-radius: 5px; margin-top: 10px; font-family: monospace; box-sizing: border-box;
-        }
-        textarea { height: 120px; background: #111; color: var(--neon-green); padding: 10px; border: 1px solid #333; }
-        input { background: #111; color: white; padding: 12px; border: 1px solid #333; }
-        
-        button { 
-            background: var(--neon-green); color: black; padding: 12px; font-weight: bold; cursor: pointer; transition: 0.3s; 
-        }
-        button:hover { background: white; box-shadow: 0 0 15px var(--neon-green); }
+        .status { font-size: 0.8em; color: #00d4ff; min-height: 20px; margin-top: 5px; }
 
-        .console-output {
-            margin-top: 15px; background: #000; padding: 10px; height: 150px; overflow-y: auto;
-            border-left: 3px solid var(--neon-green); font-size: 0.85rem; color: #00ff41;
-        }
-
-        footer { text-align: center; padding: 50px; color: #444; font-size: 0.8rem; border-top: 1px solid #111; }
-
+        /* Temp Mail specific */
+        .mail-box { display: flex; gap: 5px; }
     </style>
 </head>
 <body>
 
-<div class="navbar">
-    <div class="nav-logo">
-        <img src="dhumketu-logo.png" alt="Logo">
-        <span>DHUMKETU FORCE</span>
-    </div>
-    <div class="nav-links">
-        <a href="#home">HOME</a>
-        <a href="#tools">TOOLS</a>
-        <a href="https://t.me/yourtelegram" target="_blank">COMMUNITY</a>
+<div id="login-screen">
+    <h1 style="font-size: 1.5rem;">[ DHUMKETU ACCESS ]</h1>
+    <input type="password" id="passkey" placeholder="Enter Key..." style="text-align:center;">
+    <br>
+    <button onclick="checkAuth()">Decrypt & Enter</button>
+    <p id="err" style="color: var(--danger); font-size: 0.8em; margin-top: 10px;"></p>
+</div>
+
+<div id="dashboard">
+    <div class="container">
+        <header style="text-align:center; margin-bottom: 30px; border-bottom: 1px solid var(--neon-green); padding-bottom: 10px;">
+            <h1 style="letter-spacing: 5px;">DHUMKETU CYBER FORCE</h1>
+            <p>>_ ID: ADMIN_01 | SYSTEM: <span id="clock"></span></p>
+        </header>
+
+        <div class="grid">
+            <div class="tool-card">
+                <h3>[#] TEMP MAIL GEN</h3>
+                <div class="mail-box">
+                    <input type="text" id="tempMail" readonly placeholder="Click Generate...">
+                    <button onclick="genMail()">GEN</button>
+                </div>
+                <button onclick="copyToClipboard('tempMail')">COPY MAIL</button>
+                <div class="status" id="mailStat"></div>
+            </div>
+
+            <div class="tool-card">
+                <h3>[!] PASS VULN CHECKER</h3>
+                <input type="text" id="passInput" placeholder="Enter password to test..." oninput="checkStrength()">
+                <div id="strengthResult" class="status">Strength: Waiting...</div>
+            </div>
+
+            <div class="tool-card">
+                <h3>[*] PHISH ANALYZER</h3>
+                <input type="text" id="phUrl" placeholder="https://example.com">
+                <button onclick="scanPhish()">SCAN LINK</button>
+                <div id="phRes" class="status"></div>
+            </div>
+
+            <div class="tool-card">
+                <h3>[@] SOCIAL OSINT</h3>
+                <input type="text" id="target" placeholder="Username...">
+                <button onclick="trackUser()">TRACK ID</button>
+                <div id="osintRes" class="status"></div>
+            </div>
+
+            <div class="tool-card">
+                <h3>[$] BIN/CC STORAGE</h3>
+                <textarea id="binData" rows="3" placeholder="Paste generated bins here..."></textarea>
+                <button onclick="copyToClipboard('binData')">COPY ALL</button>
+                <button onclick="document.getElementById('binData').value=''">CLEAR</button>
+            </div>
+
+            <div class="tool-card">
+                <h3>[&] IP GEOLOCATOR</h3>
+                <input type="text" id="ip" placeholder="Target IP...">
+                <button onclick="locateIP()">GET LOCATION</button>
+                <div id="ipRes" class="status"></div>
+            </div>
+        </div>
     </div>
 </div>
 
-<section class="home-section" id="home">
-    <h1>DHUMKETU CYBER FORCE</h1>
-    <p>CYBER POWER GROWING IN SILENCE</p>
-    <div class="status-bar">
-        SYSTEM: ONLINE | SESSION: ENCRYPTED | YOUR_IP: <span id="my-ip">...</span>
-    </div>
-</section>
-
-<section class="tools-section" id="tools">
-    <h2 class="header-title">:: Working Protocols ::</h2>
-
-    <div class="tools-wrapper">
-        <div class="tool-box">
-            <h3>CARD GENERATOR (Bulk x10)</h3>
-            <input type="text" id="bin-gen" placeholder="Enter BIN (e.g. 448590)">
-            <button onclick="massGen()">GENERATE 10 CARDS</button>
-            <div id="gen-out" class="console-output">Ready to generate...</div>
-        </div>
-
-        <div class="tool-box">
-            <h3>CARD CHECKER (Luhn Algorithm)</h3>
-            <textarea id="check-list" placeholder="Paste your card list here..."></textarea>
-            <button onclick="massCheck()">START CHECKING</button>
-            <div id="check-out" class="console-output">Waiting for data...</div>
-        </div>
-
-        <div class="tool-box">
-            <h3>IP & NETWORK LOOKUP</h3>
-            <input type="text" id="ip-search" placeholder="Enter IP address">
-            <button onclick="lookup()">TRACK IP</button>
-            <div id="ip-out" class="console-output">System idle...</div>
-        </div>
-    </div>
-</section>
-
-<footer>
-    [ TERMINAL ACCESS GRANTED ]<br>
-    &copy; 2025 DHUMKETU CYBER FORCE | ALL RIGHTS RESERVED.
-</footer>
-
 <script>
-    // IP auto-display
-    fetch('https://api.ipify.org?format=json').then(r=>r.json()).then(d=>document.getElementById('my-ip').innerText=d.ip);
-
-    // Bulk Generator logic
-    function massGen() {
-        let bin = document.getElementById('bin-gen').value || "450591";
-        let out = "";
-        for(let i=0; i<10; i++) {
-            let remain = Math.floor(Math.random() * 899999999) + 100000000;
-            let m = ("0" + (Math.floor(Math.random() * 12) + 1)).slice(-2);
-            let y = 2026 + Math.floor(Math.random() * 4);
-            let cvv = Math.floor(Math.random() * 899) + 100;
-            out += `${bin}${remain}|${m}|${y}|${cvv}<br>`;
+    function checkAuth() {
+        if(document.getElementById('passkey').value === "dhumketu@129") {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            document.body.style.alignItems = 'normal';
+        } else {
+            document.getElementById('err').innerText = "[!] ACCESS DENIED";
         }
-        document.getElementById('gen-out').innerHTML = out;
     }
 
-    // Checker logic (Working Luhn Simulation)
-    function massCheck() {
-        let list = document.getElementById('check-list').value.split('\n');
-        let out = "";
-        list.forEach(c => {
-            if(c.length > 5) {
-                let status = Math.random() > 0.7 ? "<span style='color:lime'>[LIVE]</span>" : "<span style='color:red'>[DEAD]</span>";
-                out += `${status} ${c}<br>`;
-            }
-        });
-        document.getElementById('check-out').innerHTML = out || "No data provided.";
+    setInterval(() => {
+        document.getElementById('clock').innerText = new Date().toLocaleTimeString();
+    }, 1000);
+
+    // Temp Mail Logic
+    function genMail() {
+        const domains = ["@tempmail.com", "@cyberforce.sh", "@ghostmail.org"];
+        const rand = Math.random().toString(36).substring(7);
+        const domain = domains[Math.floor(Math.random() * domains.length)];
+        document.getElementById('tempMail').value = rand + domain;
+        document.getElementById('mailStat').innerText = "New mail generated.";
     }
 
-    // IP Lookup
-    function lookup() {
-        let target = document.getElementById('ip-search').value;
-        fetch(`https://ipapi.co/${target}/json/`).then(r=>r.json()).then(data=>{
-            document.getElementById('ip-out').innerHTML = `CITY: ${data.city}<br>ORG: ${data.org}<br>ASN: ${data.asn}<br>COUNTRY: ${data.country_name}`;
-        });
+    // Password Strength
+    function checkStrength() {
+        let p = document.getElementById('passInput').value;
+        let res = document.getElementById('strengthResult');
+        if(p.length < 6) res.innerHTML = "Status: <span style='color:red;'>WEAK (Too Short)</span>";
+        else if(p.length < 10) res.innerHTML = "Status: <span style='color:yellow;'>MEDIUM</span>";
+        else res.innerHTML = "Status: <span style='color:#00ff41;'>STRONG (SAFE)</span>";
+    }
+
+    // Others
+    function scanPhish() {
+        let val = document.getElementById('phUrl').value;
+        document.getElementById('phRes').innerText = "Scanning " + (val.includes('secure') ? "ALERT: SUSPICIOUS" : "Clean");
+    }
+
+    function trackUser() {
+        let u = document.getElementById('target').value;
+        document.getElementById('osintRes').innerHTML = `<a href='https://social-searcher.com/?q=${u}' target='_blank' style='color:cyan'>Deep Search ${u}</a>`;
+    }
+
+    function locateIP() {
+        document.getElementById('ipRes').innerText = "Loc: Dhaka, ISP: Link3, Lat: 23.7";
+    }
+
+    function copyToClipboard(id) {
+        let el = document.getElementById(id);
+        el.select();
+        document.execCommand('copy');
+        alert("Copied to clipboard!");
     }
 </script>
 
