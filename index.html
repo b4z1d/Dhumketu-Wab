@@ -3,66 +3,321 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhumketu Cyber Force | Stealth Edition</title>
+    <title>Dhumketu Cyber Force | Official</title>
     <style>
-        /* CSS Variables for Unique Branding */
         :root {
-            --primary: #00ff41; /* Neon Green */
-            --accent: #00ccff;  /* Cyber Blue */
-            --warning: #ff3e3e; /* Alert Red */
-            --bg-deep: #020202;
-            --surface: rgba(255, 255, 255, 0.03);
+            --neon-green: #00ff41;
+            --neon-red: #ff003c;
+            --dark-bg: #050505;
+            --card-bg: rgba(0, 255, 65, 0.05);
+            --border: rgba(0, 255, 65, 0.2);
         }
 
         body {
-            background-color: var(--bg-deep);
-            color: var(--primary);
-            font-family: 'JetBrains Mono', 'Segoe UI', monospace;
+            background-color: var(--dark-bg);
+            color: var(--neon-green);
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
             margin: 0;
             overflow-x: hidden;
-            line-height: 1.6;
         }
 
-        /* Unique Geometric Background */
-        #bg-canvas {
+        /* Matrix Rain Background */
+        #matrix-canvas {
             position: fixed;
             top: 0; left: 0;
             z-index: -1;
-            opacity: 0.2;
+            opacity: 0.15;
         }
 
-        /* Floating Sidebar Navigation */
-        .sidebar {
-            position: fixed;
-            left: 0; top: 0; height: 100%;
-            width: 70px;
+        /* Navigation Style (Image 18982 style) */
+        nav {
             background: rgba(0, 0, 0, 0.9);
-            border-right: 1px solid var(--primary);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 30px;
+            border-bottom: 2px solid var(--neon-green);
+            padding: 15px 5%;
+            text-align: center;
+            position: sticky;
+            top: 0;
             z-index: 1000;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            letter-spacing: 5px;
+            font-weight: bold;
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: var(--neon-red);
+            text-decoration: none;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-green);
+            text-shadow: 0 0 8px var(--neon-green);
+        }
+
+        /* Sections Styling */
+        section {
+            padding: 60px 10%;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .active-section {
+            display: block;
+        }
+
+        /* Home Page (Image 18995 style) */
+        #home {
+            text-align: center;
+            padding-top: 100px;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            letter-spacing: 8px;
+            margin-bottom: 15px;
+            color: var(--neon-green);
+            text-shadow: 0 0 20px var(--neon-green);
+        }
+
+        .hero-sub {
+            color: var(--neon-green);
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+
+        .btn-start {
+            background: var(--neon-green);
+            color: #000;
+            border: none;
+            padding: 12px 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.4s;
+            box-shadow: 0 0 15px var(--neon-green);
+        }
+
+        /* Tools Hub (Image 18984 style) */
+        .tools-hub-title {
+            color: var(--neon-red);
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px var(--neon-red);
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .tool-item {
+            background: rgba(255, 0, 0, 0.05);
+            border: 1px solid var(--neon-red);
+            padding: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
             transition: 0.3s;
         }
 
-        .sidebar:hover { width: 200px; }
+        .tool-item:hover {
+            background: var(--neon-red);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-red);
+        }
 
-        .nav-item {
-            margin-bottom: 40px;
-            cursor: pointer;
-            width: 100%;
+        /* Extras Page (Image 18983 style) */
+        .extra-card {
+            background: rgba(0, 204, 255, 0.05);
+            border: 1px solid #00ccff;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 20px;
+            cursor: pointer;
             transition: 0.3s;
         }
 
-        .nav-text { display: none; margin-left: 15px; font-size: 0.8rem; text-transform: uppercase; }
-        .sidebar:hover .nav-text { display: block; }
-        .nav-item:hover { color: #fff; text-shadow: 0 0 10px var(--primary); }
+        .extra-card:hover {
+            background: rgba(0, 204, 255, 0.15);
+            transform: scale(1.02);
+        }
 
-        /* Content Area */
+        .extra-icon {
+            width: 50px; height: 50px;
+            border: 1px solid #00ccff;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.2rem;
+            color: #00ccff;
+        }
+
+        /* Footer / Contact Details (Image 18983 footer style) */
+        footer {
+            background: #000;
+            padding: 40px 10%;
+            border-top: 1px solid #111;
+            margin-top: 50px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            font-size: 0.75rem;
+        }
+
+        .footer-info h4 { color: #00ccff; text-transform: uppercase; margin-bottom: 15px; }
+        .footer-info p { margin: 5px 0; line-height: 1.6; }
+
+    </style>
+</head>
+<body>
+
+<canvas id="matrix-canvas"></canvas>
+
+<nav>
+    <div class="nav-logo">DHUMKETU FORCE</div>
+    <div class="nav-links">
+        <a onclick="showPage('home')">Home</a>
+        <a onclick="showPage('tools')">Tools</a>
+        <a onclick="showPage('extras')">Extras</a>
+        <a onclick="showPage('about')">About Us</a>
+        <a href="https://github.com/b4z1d" target="_blank">GitHub</a>
+    </div>
+</nav>
+
+<section id="home" class="active-section">
+    <h1 class="hero-title">DHUMKETU CYBER FORCE</h1>
+    <p class="hero-sub">>_ CYBER POWER GROWING IN SILENCE<br>Advanced Digital Research & Security Framework.</p>
+    <button class="btn-start" onclick="showPage('tools')">Get Started</button>
+</section>
+
+<section id="tools">
+    <h2 class="tools-hub-title">Dhumketu Tools Hub</h2>
+    <div class="tools-grid">
+        <div class="tool-item">bin generator</div>
+        <div class="tool-item">temp mail</div>
+        <div class="tool-item">osint finder</div>
+        <div class="tool-item">ip tracker</div>
+        <div class="tool-item">id checker</div>
+        <div class="tool-item">admin panel</div>
+    </div>
+</section>
+
+<section id="extras">
+    <h2 style="color: #00ccff; text-align: center; margin-bottom: 30px;">Extras</h2>
+    <div class="extra-card">
+        <div class="extra-icon">👤</div>
+        <div>
+            <div style="color: #00ccff; font-weight: bold;">Staff</div>
+            <div style="font-size: 0.8rem; opacity: 0.7;">Team Authority Control</div>
+        </div>
+    </div>
+    <div class="extra-card">
+        <div class="extra-icon">💻</div>
+        <div>
+            <div style="color: #00ccff; font-weight: bold;">Developers</div>
+            <div style="font-size: 0.8rem; opacity: 0.7;">Created & Maintained by Our Team</div>
+        </div>
+    </div>
+</section>
+
+<section id="about">
+    <h2>:: About Dhumketu Force</h2>
+    <p>> Dhumketu Cyber Force হলো একটি স্বাধীন সাইবার সিকিউরিটি রিসার্চ টিম। আমাদের লক্ষ্য হলো ডিজিটাল নিরাপত্তা নিশ্চিত করা এবং নতুন প্রজন্মকে সাইবার সিকিউরিটি সম্পর্কে শিক্ষিত করা।</p>
+</section>
+
+<footer>
+    <div class="footer-grid">
+        <div class="footer-info">
+            <h4>Dhumketu Cyber Squad</h4>
+            <p>SYSTEM STATUS: <span style="color: #00ff41;">OPERATIONAL</span></p>
+            <p>Protecting Digital Assets through advanced security research.</p>
+        </div>
+        <div class="footer-info">
+            <h4>:: Contact & Logs ::</h4>
+            <p>> LOCATION: Dhaka, Bangladesh</p>
+            <p>> EMAIL: dhumketu.official@gmail.com</p>
+            <p>> DEVELOPER: Bazid Team</p>
+        </div>
+    </div>
+    <div style="text-align: center; margin-top: 30px; font-size: 0.6rem; opacity: 0.5;">
+        > INIT 2025 | ACCESS GRANTED | DHUMKETU FORCE
+    </div>
+</footer>
+
+<script>
+    // Page Navigation
+    function showPage(pageId) {
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.remove('active-section');
+        });
+        document.getElementById(pageId).classList.add('active-section');
+    }
+
+    // Matrix Rain Effect
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const chars = "0101DHUMKETUFORCE";
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    function drawMatrix() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#0F0';
+        ctx.font = fontSize + 'px monospace';
+
+        for (let i = 0; i < drops.length; i++) {
+            const text = chars.charAt(Math.floor(Math.random() * chars.length));
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
+        }
+    }
+    setInterval(drawMatrix, 50);
+
+    window.onresize = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    };
+</script>
+
+</body>
+</html>        /* Content Area */
         main { margin-left: 70px; padding: 40px; }
 
         /* Hero Glitch Section */
