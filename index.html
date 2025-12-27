@@ -1,250 +1,189 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dhumketu Cyber Force | Stealth Dashboard</title>
     <style>
-        :root {
-            --neon-green: #00ff41;
-            --neon-red: #ff003c;
-            --neon-blue: #00ccff;
-            --dark-bg: #000000;
-        }
+        :root { --neon: #00ff41; --bg: #000; --red: #ff003c; --blue: #00ccff; }
+        body { background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; margin: 0; overflow-x: hidden; }
+        #matrix { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.15; }
 
-        body {
-            background-color: var(--dark-bg);
-            color: var(--neon-green);
-            font-family: 'JetBrains Mono', monospace;
-            margin: 0; padding: 0; overflow-x: hidden;
-        }
-
-        #matrix-canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.15; }
-
-        /* Navigation */
-        nav {
-            background: rgba(0, 0, 0, 0.95);
-            border-bottom: 2px solid var(--neon-green);
-            padding: 10px 5%;
-            display: flex; justify-content: space-between; align-items: center;
-            position: sticky; top: 0; z-index: 1000;
-        }
-
-        .nav-logo { display: flex; align-items: center; gap: 15px; }
-        .nav-logo img { height: 45px; width: 45px; border-radius: 50%; border: 1px solid var(--neon-green); box-shadow: 0 0 15px var(--neon-green); }
-        .logo-text { font-size: 1.2rem; letter-spacing: 3px; font-weight: bold; }
-
-        .nav-links a {
-            color: var(--neon-red); text-decoration: none; font-size: 0.8rem;
-            margin-left: 20px; text-transform: uppercase; cursor: pointer; transition: 0.3s;
-        }
-        .nav-links a:hover { color: var(--neon-green); text-shadow: 0 0 10px var(--neon-green); }
+        /* Nav & Logo */
+        nav { background: rgba(0,0,0,0.95); border-bottom: 2px solid var(--neon); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .nav-logo { display: flex; align-items: center; gap: 10px; }
+        .nav-logo img { height: 45px; border-radius: 50%; border: 1px solid var(--neon); box-shadow: 0 0 10px var(--neon); }
+        .nav-links a { color: var(--red); text-decoration: none; margin-left: 15px; font-size: 0.8rem; text-transform: uppercase; cursor: pointer; }
 
         /* Sections */
         section { padding: 40px 8%; display: none; min-height: 80vh; }
-        .active-section { display: block; animation: fadeIn 0.5s ease; }
+        .active { display: block; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Articles */
-        .article-box {
-            background: rgba(0, 255, 65, 0.05);
-            border-left: 5px solid var(--neon-green);
-            padding: 30px; margin-bottom: 30px;
-            line-height: 1.8; text-align: justify;
-        }
+        /* Articles & Tools Hub */
+        .article { background: rgba(0, 255, 65, 0.05); border-left: 4px solid var(--neon); padding: 25px; margin-bottom: 25px; text-align: justify; line-height: 1.6; }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; }
+        .tool-btn { background: #111; border: 1px solid var(--red); padding: 15px; color: var(--red); cursor: pointer; text-transform: uppercase; border-radius: 5px; font-weight: bold; }
+        .tool-btn:hover { background: var(--red); color: #000; box-shadow: 0 0 15px var(--red); }
 
-        /* Admin/Dhumketu Section */
-        .admin-lock-screen { border: 1px solid var(--neon-red); padding: 50px; text-align: center; max-width: 500px; margin: 10vh auto; }
-        .log-vault {
-            background: #050505; border: 1px solid var(--neon-blue);
-            padding: 20px; height: 400px; overflow-y: scroll;
-            text-align: left; font-size: 0.85rem; display: none;
-        }
-        .ip-entry-row { border-bottom: 1px solid #222; padding: 10px 0; }
+        /* Admin/Dhumketu Logs */
+        .admin-lock { border: 1px solid var(--red); padding: 40px; text-align: center; max-width: 400px; margin: 10vh auto; }
+        .log-vault { background: #050505; border: 1px solid var(--blue); padding: 20px; height: 350px; overflow-y: scroll; display: none; }
+        .ip-row { border-bottom: 1px solid #222; padding: 10px 0; font-size: 0.8rem; }
 
-        /* Chat Bot Styles */
-        #chat-bot {
-            position: fixed; bottom: 80px; right: 20px;
-            width: 300px; height: 400px; background: #000;
-            border: 2px solid var(--neon-green); border-radius: 10px;
-            display: none; flex-direction: column; z-index: 2000;
-            box-shadow: 0 0 20px var(--neon-green);
-        }
-        #chat-header { background: var(--neon-green); color: #000; padding: 10px; font-weight: bold; display: flex; justify-content: space-between; }
-        #chat-messages { flex: 1; overflow-y: auto; padding: 10px; font-size: 0.8rem; display: flex; flex-direction: column; gap: 5px; }
-        .bot-msg { color: var(--neon-blue); }
-        .user-msg { color: var(--neon-green); text-align: right; }
-        #chat-input-area { display: flex; border-top: 1px solid #333; }
-        #chat-input { background: #000; border: none; color: #fff; padding: 10px; flex: 1; outline: none; }
+        /* Chat Bot */
+        #bot-ui { position: fixed; bottom: 80px; left: 20px; width: 280px; height: 380px; background: #000; border: 2px solid var(--neon); display: none; flex-direction: column; box-shadow: 0 0 20px var(--neon); z-index: 2000; }
+        #bot-header { background: var(--neon); color: #000; padding: 10px; font-weight: bold; display: flex; justify-content: space-between; }
+        #bot-msgs { flex: 1; overflow-y: auto; padding: 10px; font-size: 0.8rem; display: flex; flex-direction: column; gap: 8px; }
+        .bot-txt { color: var(--blue); } .user-txt { color: #fff; text-align: right; }
+        #bot-input-area { display: flex; border-top: 1px solid #333; }
+        #bot-input { background: #000; border: none; color: #fff; padding: 10px; flex: 1; outline: none; }
         
-        #chat-toggle {
-            position: fixed; bottom: 20px; left: 20px;
-            background: var(--neon-green); color: #000;
-            padding: 10px 20px; border-radius: 50px; cursor: pointer;
-            font-weight: bold; box-shadow: 0 0 10px var(--neon-green);
-        }
-
-        input[type="password"] { background: #000; border: 1px solid #444; color: var(--neon-green); padding: 12px; width: 100%; box-sizing: border-box; margin-bottom: 15px; outline: none; }
-        .btn-red { background: var(--neon-red); color: #000; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer; width: 100%; text-transform: uppercase; }
-
-        /* Visitor Point Counter */
-        .point-counter {
-            position: fixed; bottom: 20px; right: 20px;
-            background: rgba(0, 255, 65, 0.1); border: 1px solid var(--neon-green);
-            padding: 10px 20px; border-radius: 5px; font-size: 0.9rem;
-        }
+        #toggle-bot { position: fixed; bottom: 20px; left: 20px; background: var(--neon); color: #000; padding: 10px 20px; border-radius: 50px; cursor: pointer; font-weight: bold; }
+        .points { position: fixed; bottom: 20px; right: 20px; background: rgba(0, 255, 65, 0.1); border: 1px solid var(--neon); padding: 10px 20px; font-size: 0.9rem; }
     </style>
 </head>
-<body onload="init()">
+<body onload="startSystem()">
 
-<canvas id="matrix-canvas"></canvas>
+<canvas id="matrix"></canvas>
 
 <nav>
     <div class="nav-logo">
         <img src="dhumketu-logo.png" alt="Logo">
-        <div class="logo-text">DHUMKETU FORCE</div>
+        <span style="font-weight:bold; letter-spacing: 2px;">DHUMKETU FORCE</span>
     </div>
     <div class="nav-links">
-        <a onclick="showPage('home')">Home</a>
-        <a onclick="showPage('tools')">Tools</a>
-        <a onclick="showPage('admin')" style="color:var(--neon-blue)">[Dhumketu]</a>
+        <a onclick="show('home')">Home</a>
+        <a onclick="show('tools')">Tools</a>
+        <a onclick="show('admin')" style="color:var(--blue)">[Dhumketu]</a>
     </div>
 </nav>
 
-<section id="home" class="active-section">
-    <div class="article-box">
-        <h2>:: The Evolution of Stealth Cyber Power ::</h2>
-        <p><b>Dhumketu Cyber Force (DCF)</b> বর্তমান যুগের এক অগ্রগামী সাইবার সিকিউরিটি রিসার্চ প্ল্যাটফর্ম। আমরা ডিজিটাল দুনিয়ার পর্দার আড়ালে থেকে সিস্টেমের ত্রুটিগুলো খুঁজে বের করি এবং সেগুলোকে নিরাপদ করতে কাজ করি।</p>
-    </div>
-    <div class="article-box" style="border-left-color: var(--neon-red);">
-        <h2>:: Our Cyber Ethics ::</h2>
-        <p>নিরাপত্তার দেয়াল যত মজবুতই হোক না কেন, মানুষের সামান্য ভুল বড় বিপর্যয় ডেকে আনতে পারে। আমরা সচেতনতা বৃদ্ধির মাধ্যমে একটি সুরক্ষিত সাইবার কমিউনিটি গড়ে তুলতে চাই।</p>
-    </div>
-</section>
+<main>
+    <section id="home" class="active">
+        <div class="article">
+            <h2 style="color:var(--blue)">:: Evolution of Cyber Power ::</h2>
+            <p>Dhumketu Cyber Force (DCF) একটি স্বাধীন রিসার্চ টিম। আমরা ডিজিটাল নিরাপত্তার ত্রুটি বিশ্লেষণ করি। আমাদের লক্ষ্য সচেতনতা এবং নিরাপত্তা নিশ্চিত করা।</p>
+        </div>
+        <div class="article" style="border-left-color: var(--red);">
+            <h2 style="color:var(--red)">:: Awareness is Our Weapon ::</h2>
+            <p>হ্যাকিং শুধু আক্রমণ নয়, এটি রক্ষার কৌশল। আমরা সাধারণ ব্যবহারকারীদের ডিজিটাল হুমকি থেকে বাঁচার পথ দেখাই।</p>
+        </div>
+    </section>
 
-<section id="tools">
-    <h2 style="color: var(--neon-red); text-align: center;">[ ACCESS GRANTED: TOOLS HUB ]</h2>
-    <p style="text-align: center;">Tools functionality integrated. Use Sidebar for specific actions.</p>
-</section>
+    <section id="tools">
+        <h2 style="color:var(--red); text-align: center;">[ ACCESS GRANTED: TOOLS HUB ]</h2>
+        <div class="tools-grid">
+            <button class="tool-btn" onclick="alert('Bin Gen Active')">bin generator</button>
+            <button class="tool-btn" onclick="alert('Checker Active')">live checker</button>
+            <button class="tool-btn" onclick="alert('Temp Mail Ready')">temp mail</button>
+            <button class="tool-btn" onclick="alert('OSINT Ready')">osint finder</button>
+        </div>
+    </section>
 
-<section id="admin">
-    <div id="gate" class="admin-lock-screen">
-        <h2 style="color: var(--neon-red);">[ DHUMKETU VAULT LOCKED ]</h2>
-        <p>Security Key প্রদান করুন</p>
-        <input type="password" id="vault-key" placeholder="Enter Access Key..." style="text-align: center;">
-        <button class="btn-red" onclick="accessVault()">ACCESS LOGS</button>
-    </div>
+    <section id="admin">
+        <div id="gate" class="admin-lock">
+            <h3 style="color:var(--red)">[ VAULT ENCRYPTED ]</h3>
+            <input type="password" id="key" placeholder="Enter Access Key" style="background:#000; border:1px solid var(--neon); color:var(--neon); padding:10px; width:80%; margin-bottom:15px; outline:none; text-align:center;">
+            <button class="tool-btn" style="width:85%" onclick="unlock()">Unlock Logs</button>
+        </div>
+        <div id="vault" class="log-vault">
+            <h3 style="color:var(--blue); border-bottom:1px solid var(--blue)">:: IP TRACKER LOGS ::</h3>
+            <div id="log-content"></div>
+        </div>
+    </section>
+</main>
 
-    <div id="vault-area" class="log-vault">
-        <h3 style="color: var(--neon-blue); border-bottom: 1px solid var(--neon-blue); padding-bottom: 10px;">:: DHUMKETU TRACKER ::</h3>
-        <div id="log-display"></div>
-    </div>
-</section>
-
-<div id="chat-toggle" onclick="toggleChat()">Chat with Dhumketu Bot</div>
-<div id="chat-bot">
-    <div id="chat-header">
-        <span>DHUMKETU BOT</span>
-        <span onclick="toggleChat()" style="cursor:pointer;">X</span>
-    </div>
-    <div id="chat-messages"></div>
-    <div id="chat-input-area">
-        <input type="text" id="chat-input" placeholder="Type a command (hello, help)...">
-        <button onclick="sendMessage()" style="width:60px; background:var(--neon-green); border:none; cursor:pointer;">></button>
+<div id="toggle-bot" onclick="toggleBot()">Chat with Dhumketu Bot</div>
+<div id="bot-ui">
+    <div id="bot-header"><span>DHUMKETU BOT</span><span onclick="toggleBot()" style="cursor:pointer;">X</span></div>
+    <div id="bot-msgs"></div>
+    <div id="bot-input-area">
+        <input type="text" id="bot-input" placeholder="Type anything..." onkeypress="if(event.key==='Enter') botSend()">
     </div>
 </div>
 
-<div class="point-counter">
-    VISITOR POINTS: <span id="v-count" style="color:white; font-weight:bold;">00</span>
-</div>
+<div class="points">VISITOR POINTS: <span id="v-count">00</span></div>
 
 <script>
-    function init() {
-        processVisitor();
-        // Matrix Rain
-        const canvas = document.getElementById('matrix-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        const chars = "0101DHUMKETUFORCE";
-        const fontSize = 16;
-        const drops = Array(Math.floor(canvas.width / fontSize)).fill(1);
-        setInterval(() => {
-            ctx.fillStyle = 'rgba(0,0,0,0.05)'; ctx.fillRect(0,0,canvas.width,canvas.height);
-            ctx.fillStyle = '#0F0'; ctx.font = fontSize + 'px monospace';
-            drops.forEach((y, i) => {
-                ctx.fillText(chars[Math.floor(Math.random()*chars.length)], i*fontSize, y*fontSize);
-                if (y*fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
-            });
-        }, 50);
-
-        addBotMessage("System Initialized. Hello Agent! Type 'help' to see commands.");
+    function startSystem() {
+        processIP();
+        initMatrix();
+        botLog("System Online. Greetings, Agent! How can I assist you today?");
     }
 
-    function showPage(id) {
-        document.querySelectorAll('section').forEach(s => s.classList.remove('active-section'));
-        document.getElementById(id).classList.add('active-section');
-    }
-
-    // IP Logging
-    function processVisitor() {
-        fetch('https://api.ipify.org?format=json').then(res => res.json()).then(data => {
-            let visitorIP = data.ip;
-            let currentTime = new Date().toLocaleString();
-            let smartLogs = JSON.parse(localStorage.getItem('dhumketu_smart_logs') || "{}");
-            if (!smartLogs[visitorIP]) smartLogs[visitorIP] = [];
-            smartLogs[visitorIP].push(currentTime);
-            localStorage.setItem('dhumketu_smart_logs', JSON.stringify(smartLogs));
-
-            let points = parseInt(localStorage.getItem('visit_points') || "0") + 1;
-            localStorage.setItem('visit_points', points);
-            document.getElementById('v-count').innerText = points.toString().padStart(2, '0');
+    // Smart Visitor Counter (Unique IP only)
+    function processIP() {
+        fetch('https://api.ipify.org?format=json').then(r => r.json()).then(data => {
+            let ip = data.ip;
+            let time = new Date().toLocaleString();
+            let logs = JSON.parse(localStorage.getItem('d_logs') || "{}");
+            
+            if (!logs[ip]) {
+                logs[ip] = []; 
+                let p = parseInt(localStorage.getItem('v_pts') || "0") + 1;
+                localStorage.setItem('v_pts', p);
+            }
+            logs[ip].push(time);
+            localStorage.setItem('d_logs', JSON.stringify(logs));
+            document.getElementById('v-count').innerText = localStorage.getItem('v_pts').toString().padStart(2, '0');
         });
     }
 
-    function accessVault() {
-        if(document.getElementById('vault-key').value === "dhumketu@129") {
+    function show(id) {
+        document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    function unlock() {
+        if(document.getElementById('key').value === "dhumketu@129") {
             document.getElementById('gate').style.display = 'none';
-            document.getElementById('vault-area').style.display = 'block';
-            let smartLogs = JSON.parse(localStorage.getItem('dhumketu_smart_logs') || "{}");
-            let display = document.getElementById('log-display');
-            display.innerHTML = "";
-            for (let ip in smartLogs) {
-                display.innerHTML += `<div class="ip-entry-row"><span style="color:var(--neon-green)">> IP: ${ip}</span><br><small style="color:#666">${smartLogs[ip].reverse().join(' | ')}</small></div>`;
+            document.getElementById('vault').style.display = 'block';
+            let logs = JSON.parse(localStorage.getItem('d_logs') || "{}");
+            let div = document.getElementById('log-content');
+            div.innerHTML = "";
+            for (let ip in logs) {
+                div.innerHTML += `<div class="ip-row"><b>> IP: ${ip}</b><br><small style="color:#666">${logs[ip].reverse().join(' | ')}</small></div>`;
             }
-        } else alert("INVALID KEY");
+        } else alert("DENIED");
     }
 
-    // Chat Bot Logic
-    function toggleChat() {
-        let chat = document.getElementById('chat-bot');
-        chat.style.display = (chat.style.display === 'flex') ? 'none' : 'flex';
+    // Bot Auto-Reply
+    function toggleBot() {
+        let b = document.getElementById('bot-ui');
+        b.style.display = (b.style.display === 'flex') ? 'none' : 'flex';
     }
 
-    function addBotMessage(text) {
-        let msgArea = document.getElementById('chat-messages');
-        msgArea.innerHTML += `<div class="bot-msg"><b>Bot:</b> ${text}</div>`;
-        msgArea.scrollTop = msgArea.scrollHeight;
+    function botLog(txt) {
+        let m = document.getElementById('bot-msgs');
+        m.innerHTML += `<div class="bot-txt"><b>Bot:</b> ${txt}</div>`;
+        m.scrollTop = m.scrollHeight;
     }
 
-    function sendMessage() {
-        let input = document.getElementById('chat-input');
-        let text = input.value.toLowerCase().trim();
-        if(!text) return;
-        
-        let msgArea = document.getElementById('chat-messages');
-        msgArea.innerHTML += `<div class="user-msg">${input.value}</div>`;
-        
-        if(text.includes('hello')) addBotMessage("Welcome to Dhumketu Cyber Force command center.");
-        else if(text.includes('help')) addBotMessage("Commands: 'status', 'whoami', 'tools'.");
-        else if(text.includes('status')) addBotMessage("All systems are operational. Matrix link stable.");
-        else if(text.includes('whoami')) addBotMessage("You are an authorized Agent of DCF.");
-        else if(text.includes('tools')) addBotMessage("Navigate to Tools menu to access Bin Gen and Checkers.");
-        else addBotMessage("Unknown command. Type 'help'.");
-        
-        input.value = "";
+    function botSend() {
+        let i = document.getElementById('bot-input');
+        if(!i.value.trim()) return;
+        document.getElementById('bot-msgs').innerHTML += `<div class="user-txt">${i.value}</div>`;
+        i.value = "";
+        setTimeout(() => botLog("Dhumketu Force is processing your message. Stay stealthy, Agent."), 800);
+    }
+
+    // Matrix
+    function initMatrix() {
+        const c = document.getElementById('matrix');
+        const x = c.getContext('2d');
+        c.width = window.innerWidth; c.height = window.innerHeight;
+        const d = Array(Math.floor(c.width/16)).fill(1);
+        setInterval(() => {
+            x.fillStyle = 'rgba(0,0,0,0.05)'; x.fillRect(0,0,c.width,c.height);
+            x.fillStyle = '#0F0';
+            d.forEach((y, i) => {
+                x.fillText("01"[Math.floor(Math.random()*2)], i*16, y*16);
+                if(y*16 > c.height && Math.random() > 0.975) d[i] = 0;
+                d[i]++;
+            });
+        }, 50);
     }
 </script>
-
 </body>
 </html>
