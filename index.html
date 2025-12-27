@@ -1,196 +1,256 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhumketu Cyber Force | Official</title>
+    <title>Dhumketu Cyber Force | Stealth Edition</title>
     <style>
-        :root { --neon: #00ff41; --bg: #050505; --card: rgba(0, 255, 65, 0.08); }
-        body { background: var(--bg); color: var(--neon); font-family: 'JetBrains Mono', monospace; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
-
-        /* Login Screen */
-        #login-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000;
-            display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10000;
+        /* CSS Variables for Unique Branding */
+        :root {
+            --primary: #00ff41; /* Neon Green */
+            --accent: #00ccff;  /* Cyber Blue */
+            --warning: #ff3e3e; /* Alert Red */
+            --bg-deep: #020202;
+            --surface: rgba(255, 255, 255, 0.03);
         }
-        .login-box { border: 1px solid var(--neon); padding: 40px; text-align: center; box-shadow: 0 0 20px var(--neon); }
 
-        /* Navigation */
-        nav { background: #000; border-bottom: 2px solid var(--neon); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
-        .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.2rem; }
-        .nav-logo img { height: 40px; width: 40px; border-radius: 50%; border: 1px solid var(--neon); }
-        .nav-links a { color: var(--neon); text-decoration: none; margin-left: 20px; font-size: 0.9rem; text-transform: uppercase; cursor: pointer; }
-        .nav-links a:hover { text-shadow: 0 0 10px var(--neon); }
+        body {
+            background-color: var(--bg-deep);
+            color: var(--primary);
+            font-family: 'JetBrains Mono', 'Segoe UI', monospace;
+            margin: 0;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
 
-        /* Sections */
-        section { padding: 80px 10%; display: none; min-height: 80vh; }
-        #home { display: block; text-align: center; padding-top: 120px; }
-        .hero-title { font-size: 3.5rem; letter-spacing: 10px; margin-bottom: 10px; text-shadow: 0 0 15px var(--neon); }
+        /* Unique Geometric Background */
+        #bg-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            z-index: -1;
+            opacity: 0.2;
+        }
 
-        /* Tools Grid */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-top: 30px; }
-        .tool-card { border: 1px solid var(--neon); padding: 20px; background: var(--card); border-radius: 5px; }
-        textarea, input { width: 100%; background: #000; border: 1px solid #333; color: var(--neon); padding: 12px; margin: 10px 0; box-sizing: border-box; outline: none; font-family: monospace; }
-        button { background: var(--neon); color: #000; border: none; padding: 10px 15px; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 0.8rem; }
-        button:hover { background: #fff; box-shadow: 0 0 10px var(--neon); }
+        /* Floating Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            left: 0; top: 0; height: 100%;
+            width: 70px;
+            background: rgba(0, 0, 0, 0.9);
+            border-right: 1px solid var(--primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 30px;
+            z-index: 1000;
+            transition: 0.3s;
+        }
 
-        /* Checker Log */
-        #logBox { height: 150px; overflow-y: scroll; background: #000; border: 1px solid #222; padding: 10px; font-size: 0.8rem; margin-top: 10px; }
-        .live { color: #00ff41; } .die { color: #ff3e3e; }
+        .sidebar:hover { width: 200px; }
 
-        /* Matrix Background */
-        #matrix-bg { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.2; }
-        footer { border-top: 1px solid #222; padding: 20px; text-align: center; font-size: 0.8rem; color: #555; }
+        .nav-item {
+            margin-bottom: 40px;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+
+        .nav-text { display: none; margin-left: 15px; font-size: 0.8rem; text-transform: uppercase; }
+        .sidebar:hover .nav-text { display: block; }
+        .nav-item:hover { color: #fff; text-shadow: 0 0 10px var(--primary); }
+
+        /* Content Area */
+        main { margin-left: 70px; padding: 40px; }
+
+        /* Hero Glitch Section */
+        .hero-section {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .glitch-wrapper { position: relative; }
+        .main-title {
+            font-size: 5rem;
+            font-weight: 900;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sub-typing {
+            font-size: 1.2rem;
+            border-right: 2px solid var(--primary);
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            animation: typing 3s steps(30, end) forwards;
+        }
+
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+
+        /* Tools Category - Hexagonal Grid */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 100px;
+        }
+
+        .cat-card {
+            background: var(--surface);
+            border: 1px solid rgba(0, 255, 65, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: 0.4s;
+        }
+
+        .cat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 65, 0.05) 0%, transparent 70%);
+            transition: 0.5s;
+        }
+
+        .cat-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0, 255, 65, 0.1);
+        }
+
+        .cat-card h3 { color: #fff; margin-bottom: 15px; letter-spacing: 2px; }
+
+        /* Action Button */
+        .cyber-btn {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 10px 25px;
+            text-transform: uppercase;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .cyber-btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        /* Sections Hidden/Show */
+        section { display: none; }
+        .active { display: block; animation: fadeIn 0.8s ease; }
+
+        @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
     </style>
 </head>
 <body>
 
-<canvas id="matrix-bg"></canvas>
+<canvas id="bg-canvas"></canvas>
 
-<div id="login-overlay">
-    <div class="login-box">
-        <img src="dhumketu-logo.png" alt="Logo" style="height: 100px; margin-bottom: 20px;">
-        <h2>DHUMKETU FORCE LOGIN</h2>
-        <input type="password" id="passkey" placeholder="ACCESS KEY" style="text-align: center;">
-        <br>
-        <button onclick="checkAuth()">INITIALIZE SYSTEM</button>
-        <p id="login-err" style="color: yellow; margin-top: 10px;"></p>
-    </div>
+<div class="sidebar">
+    <div class="nav-item" onclick="show('home')">🏠 <span class="nav-text">Home</span></div>
+    <div class="nav-item" onclick="show('tools')">🛠️ <span class="nav-text">Tools</span></div>
+    <div class="nav-item" onclick="show('intel')">📡 <span class="nav-text">Intel</span></div>
+    <div class="nav-item" onclick="show('contact')">✉️ <span class="nav-text">Contact</span></div>
 </div>
 
-<nav>
-    <div class="nav-logo">
-        <img src="dhumketu-logo.png" alt="Logo"> 
-        <span>DHUMKETU FORCE</span>
-    </div>
-    <div class="nav-links">
-        <a onclick="showSection('home')">Home</a>
-        <a onclick="showSection('tools')">Tools</a>
-        <a onclick="showSection('about')">About Us</a>
-        <a onclick="location.reload()" style="color: red;">Logout</a>
-    </div>
-</nav>
-
-<section id="home">
-    <h1 class="hero-title">DHUMKETU CYBER FORCE</h1>
-    <p>>_ CYBER POWER GROWING IN SILENCE</p>
-    <p style="color: #888;">Advanced Digital Research & Security Framework.</p>
-    <button onclick="showSection('tools')" style="margin-top: 30px;">GET STARTED</button>
-</section>
-
-<section id="tools">
-    <h2>[ ACCESS GRANTED: TOOLS HUB ]</h2>
-    <div class="grid">
-        <div class="tool-card">
-            <h3>[$] BIN MAKER</h3>
-            <input type="text" id="binIn" placeholder="Enter Bin (e.g. 458962)">
-            <textarea id="binOut" rows="4" placeholder="Generated list..."></textarea>
-            <button onclick="genBin()">Generate</button>
-            <button onclick="copy('binOut')">Copy All</button>
+<main>
+    <section id="home" class="active">
+        <div class="hero-section">
+            <div class="glitch-wrapper">
+                <h1 class="main-title">DHUMKETU</h1>
+            </div>
+            <div class="sub-typing">>_ Advanced Cyber Intelligence Laboratory</div>
+            <p style="max-width: 500px; opacity: 0.6; margin-top: 20px;">
+                আমরা তথাকথিত নিরাপত্তার দেয়াল ভেঙে সত্যের অনুসন্ধান করি। ডিজিটাল বিশ্বে গোপনীয়তা একটি মৌলিক অধিকার।
+            </p>
+            <button class="cyber-btn" style="margin-top: 30px;" onclick="show('tools')">Initialize Tools</button>
         </div>
+    </section>
 
-        <div class="tool-card">
-            <h3>[*] LIVE CHECKER (INTERNAL)</h3>
-            <textarea id="ckIn" rows="6" placeholder="Paste CC List..."></textarea>
-            <button onclick="paste('ckIn')">Paste</button>
-            <button onclick="startCheck()">Start Scan</button>
-            <div id="logBox">> Ready...</div>
+    <section id="tools">
+        <h2 style="color: #fff; font-size: 2.5rem;">RESOURCE HUB</h2>
+        <div class="category-grid">
+            <div class="cat-card">
+                <h3>FINANCIAL ANALYTICS</h3>
+                <p>Bin Generation, Card Validation, and Banking Security Testing.</p>
+                <button class="cyber-btn">Access</button>
+            </div>
+            <div class="cat-card">
+                <h3>PRIVACY ENGINES</h3>
+                <p>Temp Mail, Proxy Scrapers, and Metadata Removers.</p>
+                <button class="cyber-btn">Access</button>
+            </div>
+            <div class="cat-card">
+                <h3>OSINT MODULES</h3>
+                <p>Deep Web Search, Social Tracking, and Data Leaks Analysis.</p>
+                <button class="cyber-btn">Access</button>
+            </div>
         </div>
+    </section>
 
-        <div class="tool-card">
-            <h3>[#] BIN/CARD SEARCHER</h3>
-            <input type="text" id="findIn" placeholder="Bin or Bank Name...">
-            <button onclick="searchBin('google')">Search Google</button>
-            <button onclick="searchBin('paste')">Pastebin</button>
+    <section id="intel">
+        <h2 style="color: var(--accent);">SYSTEM LOGS</h2>
+        <div class="cat-card" style="border-color: var(--accent);">
+            <p>>_ Kernel: v5.8-Stealth</p>
+            <p>>_ Status: Encrypted</p>
+            <p>>_ Node: Dhaka_Hub_01</p>
         </div>
-    </div>
-</section>
-
-<section id="about">
-    <h2>ABOUT DHUMKETU FORCE</h2>
-    <div class="tool-card">
-        <p>We are a community of ethical security researchers and developers. Dhumketu Cyber Force focuses on digital privacy, vulnerability research, and advanced security tools.</p>
-        <p><b>Motto:</b> Education is the only weapon for freedom in the digital world.</p>
-        <p><b>System Version:</b> 5.0.2 (Alpha Build)</p>
-    </div>
-</section>
-
-<footer>
-    &copy; 2025 DHUMKETU CYBER FORCE | ALL RIGHTS RESERVED
-</footer>
+    </section>
+</main>
 
 <script>
-    // 1. Auth & Section Control
-    function checkAuth() {
-        if(document.getElementById('passkey').value === "dhumketu@129") {
-            document.getElementById('login-overlay').style.display = 'none';
-        } else {
-            document.getElementById('login-err').innerText = "DENIED!";
-        }
+    // Navigation Control
+    function show(id) {
+        document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
     }
 
-    function showSection(id) {
-        document.querySelectorAll('section').forEach(s => s.style.display = 'none');
-        document.getElementById(id).style.display = 'block';
-    }
-
-    // 2. Tools Logic
-    function genBin() {
-        let b = document.getElementById('binIn').value;
-        if(b.length < 6) return;
-        let res = "";
-        for(let i=0; i<10; i++) {
-            res += b + Math.floor(Math.random()*10000000000).toString().padStart(10,'0') + 
-            `|${("0"+(Math.floor(Math.random()*12)+1)).slice(-2)}|20${Math.floor(Math.random()*6)+25}|${Math.floor(Math.random()*899)+100}\n`;
-        }
-        document.getElementById('binOut').value = res;
-    }
-
-    async function paste(id) {
-        document.getElementById(id).value = await navigator.clipboard.readText();
-    }
-
-    function copy(id) {
-        document.getElementById(id).select(); document.execCommand('copy'); alert("Copied!");
-    }
-
-    function searchBin(type) {
-        let q = document.getElementById('findIn').value;
-        if(!q) return;
-        let url = type === 'google' ? `https://google.com/search?q=live+bin+${q}` : `https://google.com/search?q=site:pastebin.com+${q}`;
-        window.open(url, '_blank');
-    }
-
-    function startCheck() {
-        let list = document.getElementById('ckIn').value.split('\n').filter(x => x.trim() !== "");
-        let log = document.getElementById('logBox');
-        log.innerHTML = "Initializing Scan...<br>";
-        list.forEach((c, i) => {
-            setTimeout(() => {
-                let status = Math.random() > 0.8 ? "LIVE" : "DIE";
-                log.innerHTML += `<span class="${status.toLowerCase()}">[${status}] ${c}</span><br>`;
-                log.scrollTop = log.scrollHeight;
-            }, i * 600);
-        });
-    }
-
-    // Matrix Background Effect
-    const canvas = document.getElementById('matrix-bg');
+    // Dynamic Canvas Background (Floating Points)
+    const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-    const chars = "0101DHUMKETU";
-    const fontSize = 16;
-    const drops = Array(Math.floor(canvas.width / fontSize)).fill(1);
-    function draw() {
-        ctx.fillStyle = 'rgba(0,0,0,0.05)'; ctx.fillRect(0,0,canvas.width,canvas.height);
-        ctx.fillStyle = '#0F0'; ctx.font = fontSize + 'px arial';
-        drops.forEach((y, i) => {
-            ctx.fillText(chars[Math.floor(Math.random()*chars.length)], i*fontSize, y*fontSize);
-            if (y*fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-            drops[i]++;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let points = [];
+    for(let i=0; i<100; i++) {
+        points.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 0.5,
+            vy: (Math.random() - 0.5) * 0.5
         });
     }
-    setInterval(draw, 33);
+
+    function animate() {
+        ctx.clearRect(0,0,canvas.width, canvas.height);
+        ctx.fillStyle = '#00ff41';
+        points.forEach(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+            if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
+            if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 1.5, 0, Math.PI*2);
+            ctx.fill();
+        });
+        requestAnimationFrame(animate);
+    }
+    animate();
 </script>
 
 </body>
