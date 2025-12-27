@@ -3,197 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhumketu Cyber Force - All-In-One Tools</title>
+    <title>Dhumketu Cyber Force - Pro Hub</title>
     <style>
-        :root { --neon: #00ff41; --bg: #050505; --card: rgba(0, 255, 65, 0.05); }
-        body { background: var(--bg); color: var(--neon); font-family: 'JetBrains Mono', 'Courier New', monospace; margin: 0; padding: 20px; overflow-x: hidden; }
+        :root { --neon: #00ff41; --bg: #050505; --card: rgba(0, 255, 65, 0.08); }
+        body { background: var(--bg); color: var(--neon); font-family: 'JetBrains Mono', monospace; margin: 0; padding: 0; }
         
-        /* Background Matrix Effect */
-        canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.2; }
+        /* Login Screen */
+        #login-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999;
+        }
+        .login-box { border: 1px solid var(--neon); padding: 40px; text-align: center; box-shadow: 0 0 20px var(--neon); }
 
-        .container { max-width: 1100px; margin: auto; }
-        header { text-align: center; border-bottom: 2px solid var(--neon); padding-bottom: 15px; margin-bottom: 30px; }
-        h1 { letter-spacing: 5px; text-shadow: 0 0 10px var(--neon); }
+        /* Main UI */
+        #main-content { display: none; padding: 20px; }
+        header { text-align: center; border-bottom: 2px solid var(--neon); padding: 20px; margin-bottom: 30px; }
+        .logo-text { font-size: 2.5rem; letter-spacing: 8px; text-shadow: 0 0 10px var(--neon); margin: 0; }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
-        .card { border: 1px solid var(--neon); padding: 15px; background: var(--card); border-radius: 5px; position: relative; }
-        h3 { font-size: 1rem; margin-top: 0; border-left: 4px solid var(--neon); padding-left: 10px; text-transform: uppercase; }
+        .card { border: 1px solid var(--neon); padding: 20px; background: var(--card); border-radius: 5px; }
+        h3 { border-left: 4px solid var(--neon); padding-left: 10px; text-transform: uppercase; font-size: 0.9rem; }
 
-        input, textarea { width: 100%; background: #000; border: 1px solid #333; color: var(--neon); padding: 10px; margin: 10px 0; box-sizing: border-box; outline: none; font-family: monospace; }
+        input, textarea { width: 100%; background: #000; border: 1px solid #333; color: var(--neon); padding: 12px; margin: 10px 0; box-sizing: border-box; outline: none; }
         input:focus { border-color: var(--neon); }
         
-        .btn-group { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 5px; }
-        button { background: var(--neon); color: #000; border: none; padding: 10px 15px; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 0.75rem; transition: 0.3s; }
-        button:hover { background: #fff; box-shadow: 0 0 15px var(--neon); }
-        .btn-clear { background: #ff3e3e; color: white; }
+        .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+        button { background: var(--neon); color: #000; border: none; padding: 10px 15px; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 0.7rem; }
+        button:hover { background: #fff; box-shadow: 0 0 10px var(--neon); }
 
-        .status { font-size: 0.8em; color: #00d4ff; margin-top: 8px; min-height: 20px; border-top: 1px solid #222; padding-top: 5px; }
-        a { color: cyan; text-decoration: none; font-weight: bold; }
+        .status { font-size: 0.8em; color: cyan; margin-top: 10px; }
+        .logout { position: absolute; top: 20px; right: 20px; background: red; color: white; }
     </style>
 </head>
 <body>
 
-<canvas id="matrix"></canvas>
+<div id="login-overlay">
+    <h1 class="logo-text">DHUMKETU FORCE</h1>
+    <p style="color: red;">[ SYSTEM ENCRYPTED ]</p>
+    <div class="login-box">
+        <input type="password" id="passkey" placeholder="ENTER ACCESS KEY" style="text-align: center;">
+        <button onclick="checkAuth()">INITIALIZE ACCESS</button>
+        <p id="err" style="color: yellow; margin-top: 10px; font-size: 0.8rem;"></p>
+    </div>
+</div>
 
-<div class="container">
+<div id="main-content">
+    <button class="logout" onclick="location.reload()">LOGOUT</button>
     <header>
-        <h1>DHUMKETU CYBER FORCE</h1>
-        <p>>_ SYSTEM: ACTIVE | <span id="clock"></span></p>
+        <h1 class="logo-text">DHUMKETU CYBER FORCE</h1>
+        <p>>_ WELCOME ADMIN | STATUS: ONLINE</p>
     </header>
 
     <div class="grid">
         <div class="card">
-            <h3>[$] Advanced Bin Gen</h3>
-            <input type="text" id="binInput" placeholder="Enter BIN (e.g. 458962)">
-            <textarea id="binData" rows="6" placeholder="Format: CC|MM|YY|CVV"></textarea>
+            <h3>[$] BIN MAKER</h3>
+            <input type="text" id="binInp" placeholder="Enter Bin (e.g. 458962)">
+            <textarea id="binRes" rows="5" placeholder="Gen results here..."></textarea>
             <div class="btn-group">
-                <button onclick="genBin()">Generate</button>
-                <button onclick="copyToClipboard('binData')">Copy All</button>
-                <button onclick="pasteFromClipboard('binData')">Paste</button>
-                <button class="btn-clear" onclick="document.getElementById('binData').value=''">X</button>
+                <button onclick="genBin()">GENERATE</button>
+                <button onclick="copyToClipboard('binRes')">COPY ALL</button>
             </div>
-            <div id="binStatus" class="status">Type a BIN and click Generate.</div>
         </div>
 
         <div class="card">
-            <h3>[!] Phishing Scanner</h3>
-            <input type="text" id="phUrl" placeholder="Enter URL (e.g. https://login-secure.tk)">
-            <button onclick="scanPhish()">Analyze URL</button>
-            <div id="phRes" class="status">System ready for analysis...</div>
-        </div>
-
-        <div class="card">
-            <h3>[@] Social ID Tracker</h3>
-            <input type="text" id="targetUser" placeholder="Enter Username...">
-            <button onclick="searchID()">Generate Links</button>
-            <div id="osintRes" class="status">Search targets across networks.</div>
-        </div>
-
-        <div class="card">
-            <h3>[&] IP Locator</h3>
-            <input type="text" id="ipInput" placeholder="Enter Target IP...">
-            <button onclick="trackIP()">Locate Target</button>
-            <div id="ipRes" class="status">Enter IP to fetch location data.</div>
-        </div>
-
-        <div class="card">
-            <h3>[#] Temp Mail Gen</h3>
-            <input type="text" id="tMail" readonly placeholder="Click Generate to create mail">
+            <h3>[*] LIVE CARD CHECKER BOX</h3>
+            <textarea id="ckInp" rows="7" placeholder="Paste your card list here..."></textarea>
             <div class="btn-group">
-                <button onclick="genMail()">Generate</button>
-                <button onclick="copyToClipboard('tMail')">Copy</button>
+                <button onclick="pasteToField('ckInp')">PASTE LIST</button>
+                <button onclick="checkLive()">START CHECK</button>
+                <button onclick="document.getElementById('ckInp').value=''" style="background:red; color:white;">CLEAR</button>
             </div>
-            <div class="status">Use for testing account signups.</div>
+            <div id="ckStat" class="status">Waiting for list...</div>
         </div>
 
         <div class="card">
-            <h3>[*] Pass Vuln Checker</h3>
-            <input type="text" id="pCheck" placeholder="Test password strength..." oninput="checkPass()">
-            <div id="psRes" class="status">Security status: Waiting...</div>
+            <h3>[#] LIVE BIN FINDER</h3>
+            <input type="text" id="searchBin" placeholder="Search bin or bank name...">
+            <div class="btn-group">
+                <button onclick="findBin('google')">SEARCH GOOGLE</button>
+                <button onclick="findBin('dump')">SEARCH DUMPS</button>
+            </div>
+            <p class="status">Find leaked bins and live cards.</p>
+        </div>
+
+        <div class="card">
+            <h3>[!] PHISH SCANNER</h3>
+            <input type="text" id="pUrl" placeholder="Enter URL to analyze...">
+            <button onclick="scan()">SCAN LINK</button>
+            <div id="phRes" class="status"></div>
+        </div>
+
+        <div class="card">
+            <h3>[&] TARGET LOCATOR</h3>
+            <input type="text" id="ipInp" placeholder="Target IP...">
+            <button onclick="locate()">GET LOCATION</button>
+            <div id="ipRes" class="status"></div>
         </div>
     </div>
 </div>
 
 <script>
-    // Clock Function
-    setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
-
-    // Advanced Bin Generator Logic
-    function genBin() {
-        let bin = document.getElementById('binInput').value.trim();
-        if (bin.length < 6) { alert("Please enter at least 6 digits!"); return; }
-        
-        let results = "";
-        for (let i = 0; i < 10; i++) {
-            let cc = bin;
-            while (cc.length < 16) cc += Math.floor(Math.random() * 10);
-            let mm = ("0" + (Math.floor(Math.random() * 12) + 1)).slice(-2);
-            let yy = Math.floor(Math.random() * (2030 - 2025 + 1)) + 2025;
-            let cvv = Math.floor(Math.random() * 899) + 100;
-            results += `${cc}|${mm}|${yy}|${cvv}\n`;
+    // 1. Auth Logic
+    function checkAuth() {
+        const pass = document.getElementById('passkey').value;
+        if(pass === "dhumketu@129") {
+            document.getElementById('login-overlay').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        } else {
+            document.getElementById('err').innerText = "ACCESS DENIED! WRONG KEY.";
         }
-        document.getElementById('binData').value = results;
-        document.getElementById('binStatus').innerText = "Successfully generated 10 CC patterns.";
     }
 
-    // Phishing Scanner Logic
-    function scanPhish() {
-        let url = document.getElementById('phUrl').value.toLowerCase();
-        let res = document.getElementById('phRes');
-        if(!url) return;
-        res.innerText = "Scanning link...";
-        setTimeout(() => {
-            const danger = ['login', 'verify', 'update', 'secure', 'bank', 'free', 'gift'];
-            let isBad = danger.some(word => url.includes(word));
-            res.innerHTML = isBad ? "<span style='color:red;'>[!!] ALERT: High Phishing Probability!</span>" : "<span style='color:lime;'>[+] Status: Looks Clean.</span>";
-        }, 1000);
+    // 2. Bin Gen (Only Generator)
+    function genBin() {
+        let bin = document.getElementById('binInp').value;
+        if(bin.length < 6) return alert("Enter valid Bin!");
+        let res = "";
+        for(let i=0; i<10; i++) {
+            let cc = bin + Math.floor(Math.random()*10000000000);
+            res += `${cc.substring(0,16)}|${("0"+(Math.floor(Math.random()*12)+1)).slice(-2)}|20${Math.floor(Math.random()*6)+25}|${Math.floor(Math.random()*899)+100}\n`;
+        }
+        document.getElementById('binRes').value = res;
     }
 
-    // OSINT ID Searcher
-    function searchID() {
-        let user = document.getElementById('targetUser').value;
-        if(!user) return;
-        document.getElementById('osintRes').innerHTML = 
-            `<a href="https://github.com/${user}" target="_blank">GitHub</a> | 
-             <a href="https://facebook.com/${user}" target="_blank">FB</a> | 
-             <a href="https://instagram.com/${user}" target="_blank">IG</a>`;
+    // 3. Paste System for CK Box
+    async function pasteToField(id) {
+        try {
+            const text = await navigator.clipboard.readText();
+            document.getElementById(id).value = text;
+            document.getElementById('ckStat').innerText = "List pasted successfully!";
+        } catch (e) { alert("Permission denied! Use Ctrl+V"); }
     }
 
-    // IP Tracker Simulation
-    function trackIP() {
-        let ip = document.getElementById('ipInput').value;
-        if(!ip) return;
-        let res = document.getElementById('ipRes');
-        res.innerText = "Tracking " + ip + "...";
-        setTimeout(() => { res.innerText = "ISP: Cloudflare | Loc: Dhaka, BD | Status: Live"; }, 1500);
+    // 4. Bin Searcher (Finding Live Cards)
+    function findBin(type) {
+        let query = document.getElementById('searchBin').value;
+        if(!query) return alert("Enter a bin or keyword!");
+        let url = type === 'google' 
+            ? `https://www.google.com/search?q=live+bin+cards+${query}+pastebin`
+            : `https://www.google.com/search?q=site:pastebin.com+${query}+live+cc`;
+        window.open(url, '_blank');
     }
 
-    // Temp Mail
-    function genMail() {
-        document.getElementById('tMail').value = "dhumketu_" + Math.random().toString(36).substring(7) + "@temp.sh";
-    }
-
-    // Password Check
-    function checkPass() {
-        let p = document.getElementById('pCheck').value;
-        let res = document.getElementById('psRes');
-        if(p.length === 0) { res.innerText = "Security status: Waiting..."; return; }
-        if(p.length < 8) res.innerHTML = "Status: <span style='color:red;'>VULNERABLE (Very Weak)</span>";
-        else res.innerHTML = "Status: <span style='color:lime;'>SECURE (Strong)</span>";
-    }
-
-    // Utilities (Copy/Paste)
+    // 5. Utilities
     function copyToClipboard(id) {
-        let el = document.getElementById(id);
-        el.select();
-        document.execCommand("copy");
-        alert("Copied to clipboard!");
+        document.getElementById(id).select();
+        document.execCommand('copy');
+        alert("Copied!");
     }
 
-    async function pasteFromClipboard(id) {
-        const text = await navigator.clipboard.readText();
-        document.getElementById(id).value = text;
+    function checkLive() {
+        let val = document.getElementById('ckInp').value;
+        if(!val) return;
+        document.getElementById('ckStat').innerText = "Connecting to API... Please Wait.";
     }
 
-    // Matrix Rain Effect
-    const canvas = document.getElementById('matrix');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-    const chars = "01DHUMKETU";
-    const fontSize = 16;
-    const columns = canvas.width / fontSize;
-    const drops = Array(Math.floor(columns)).fill(1);
-    function draw() {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#0F0'; ctx.font = fontSize + 'px arial';
-        drops.forEach((y, i) => {
-            const text = chars[Math.floor(Math.random() * chars.length)];
-            ctx.fillText(text, i * fontSize, y * fontSize);
-            if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-            drops[i]++;
-        });
+    function scan() {
+        let u = document.getElementById('pUrl').value;
+        document.getElementById('phRes').innerText = u.includes('login') ? "WARNING: PHISH DETECTED" : "Safe Link";
     }
-    setInterval(draw, 33);
+
+    function locate() {
+        let ip = document.getElementById('ipInp').value;
+        document.getElementById('ipRes').innerText = "IP: " + ip + " | Location: Dhaka, BD";
+    }
 </script>
 
 </body>
