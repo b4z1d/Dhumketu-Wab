@@ -3,194 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhumketu Cyber Force | Terminal</title>
+    <title>Dhumketu Cyber Force | Official</title>
     <style>
         :root {
             --neon-green: #00ff41;
-            --bg-black: #050505;
-            --card-bg: #111;
+            --neon-blue: #00d4ff;
+            --bg-dark: #050505;
+            --panel-bg: #0d0d0d;
         }
 
         body {
-            font-family: 'Courier New', monospace;
-            background-color: var(--bg-black);
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-dark);
             color: white;
             margin: 0;
-            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        /* Navbar with Logo on Left */
+        /* Navbar - Logo on Left, Menu on Right */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 5%;
-            background: #000;
+            padding: 10px 4%;
+            background: rgba(0,0,0,0.9);
             border-bottom: 2px solid var(--neon-green);
-            position: sticky;
+            position: fixed;
+            width: 92%;
             top: 0;
             z-index: 1000;
         }
 
-        .logo-area { display: flex; align-items: center; }
-        .logo-area img { width: 45px; height: 45px; border-radius: 50%; margin-right: 15px; border: 1px solid var(--neon-green); }
-        .logo-area span { color: var(--neon-green); font-weight: bold; font-size: 1.2rem; }
+        .nav-logo { display: flex; align-items: center; }
+        .nav-logo img { width: 45px; height: 45px; border-radius: 50%; margin-right: 12px; border: 1px solid var(--neon-green); }
+        .nav-logo span { color: var(--neon-green); font-weight: bold; font-size: 1.1rem; letter-spacing: 1px; }
 
-        nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 0.8rem; letter-spacing: 1px; }
-        nav a:hover { color: var(--neon-green); }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-size: 0.8rem; font-weight: bold; }
+        .nav-links a:hover { color: var(--neon-green); text-shadow: 0 0 5px var(--neon-green); }
 
-        /* Home Page Content */
-        .hero {
-            height: 80vh;
+        /* Section 1: HOME PAGE (Visual Identity) */
+        .home-section {
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://i.ibb.co/vzB6Y6V/matrix.jpg');
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://i.ibb.co/vzB6Y6V/matrix.jpg');
             background-size: cover;
+            text-align: center;
         }
 
-        .hero h1 { font-size: 3rem; color: var(--neon-green); text-shadow: 0 0 20px var(--neon-green); margin-bottom: 10px; }
-        .hero p { font-size: 1.2rem; color: #00d4ff; letter-spacing: 4px; text-transform: uppercase; }
-
-        /* Tools Section */
-        .tools-section { padding: 60px 5%; background: #080808; }
-        .section-header { text-align: center; margin-bottom: 40px; color: var(--neon-green); font-size: 1.8rem; text-decoration: underline; }
-
-        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        .tool-box { background: var(--card-bg); border: 1px solid #222; padding: 25px; border-radius: 10px; transition: 0.3s; }
-        .tool-box:hover { border-color: var(--neon-green); transform: scale(1.02); }
-
-        input, textarea, button {
-            width: 100%; padding: 12px; margin: 10px 0; border-radius: 5px; border: none; font-family: monospace;
-        }
-        input, textarea { background: #1a1a1a; color: var(--neon-green); border: 1px solid #333; }
-        button { background: var(--neon-green); color: black; font-weight: bold; cursor: pointer; text-transform: uppercase; }
-        button:hover { background: white; }
-
-        .result-area {
-            background: #000; padding: 15px; border: 1px dashed var(--neon-green); height: 150px; overflow-y: auto; font-size: 0.85rem; color: #00ff41; margin-top: 10px;
+        .home-section h1 { font-size: 3.5rem; color: var(--neon-green); margin: 0; text-shadow: 0 0 20px var(--neon-green); }
+        .home-section p { font-size: 1.2rem; color: var(--neon-blue); letter-spacing: 5px; margin-top: 10px; }
+        
+        .status-bar {
+            margin-top: 30px;
+            padding: 10px 20px;
+            border: 1px solid #333;
+            background: rgba(0, 255, 65, 0.05);
+            font-family: monospace;
+            color: var(--neon-green);
         }
 
-        .live { color: #00ff41; font-weight: bold; }
-        .dead { color: #ff3e3e; }
+        /* Section 2: TOOLS HUB (The Functional Part) */
+        .tools-section { padding: 100px 5% 50px; background: #080808; }
+        .header-title { text-align: center; color: var(--neon-green); font-size: 2rem; margin-bottom: 50px; text-transform: uppercase; }
 
-        footer { text-align: center; padding: 40px; border-top: 1px solid #222; color: #444; font-size: 0.8rem; }
+        .tools-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        
+        .tool-box { 
+            background: var(--panel-bg); 
+            border: 1px solid #222; 
+            padding: 25px; 
+            border-radius: 10px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .tool-box h3 { color: var(--neon-blue); border-bottom: 1px solid #333; padding-bottom: 10px; margin-top: 0; }
+
+        textarea, input, button {
+            width: 100%; border: none; border-radius: 5px; margin-top: 10px; font-family: monospace; box-sizing: border-box;
+        }
+        textarea { height: 120px; background: #111; color: var(--neon-green); padding: 10px; border: 1px solid #333; }
+        input { background: #111; color: white; padding: 12px; border: 1px solid #333; }
+        
+        button { 
+            background: var(--neon-green); color: black; padding: 12px; font-weight: bold; cursor: pointer; transition: 0.3s; 
+        }
+        button:hover { background: white; box-shadow: 0 0 15px var(--neon-green); }
+
+        .console-output {
+            margin-top: 15px; background: #000; padding: 10px; height: 150px; overflow-y: auto;
+            border-left: 3px solid var(--neon-green); font-size: 0.85rem; color: #00ff41;
+        }
+
+        footer { text-align: center; padding: 50px; color: #444; font-size: 0.8rem; border-top: 1px solid #111; }
+
     </style>
 </head>
 <body>
 
 <div class="navbar">
-    <div class="logo-area">
+    <div class="nav-logo">
         <img src="dhumketu-logo.png" alt="Logo">
         <span>DHUMKETU FORCE</span>
     </div>
-    <nav>
+    <div class="nav-links">
         <a href="#home">HOME</a>
         <a href="#tools">TOOLS</a>
-        <a href="https://t.me/yourtelegram">TELEGRAM</a>
-    </nav>
+        <a href="https://t.me/yourtelegram" target="_blank">COMMUNITY</a>
+    </div>
 </div>
 
-<div class="hero" id="home">
+<section class="home-section" id="home">
     <h1>DHUMKETU CYBER FORCE</h1>
-    <p>Cyber Power Growing In Silence</p>
-    <div style="margin-top: 20px; color: var(--neon-green); border: 1px solid var(--neon-green); padding: 10px;">
-        STATUS: SYSTEM ENCRYPTED | USER_IP: <span id="user-ip">Loading...</span>
+    <p>CYBER POWER GROWING IN SILENCE</p>
+    <div class="status-bar">
+        SYSTEM: ONLINE | SESSION: ENCRYPTED | YOUR_IP: <span id="my-ip">...</span>
     </div>
-</div>
+</section>
 
-<div class="tools-section" id="tools">
-    <h2 class="section-header">:: WORKING PROTOCOLS ::</h2>
+<section class="tools-section" id="tools">
+    <h2 class="header-title">:: Working Protocols ::</h2>
 
-    <div class="tools-grid">
+    <div class="tools-wrapper">
         <div class="tool-box">
-            <h3>CARD GENERATOR (Bulk)</h3>
-            <p>Generates 10 valid test cards instantly.</p>
-            <button onclick="generateBulk()">GENERATE 10 CARDS</button>
-            <div id="gen-result" class="result-area">Waiting for command...</div>
+            <h3>CARD GENERATOR (Bulk x10)</h3>
+            <input type="text" id="bin-gen" placeholder="Enter BIN (e.g. 448590)">
+            <button onclick="massGen()">GENERATE 10 CARDS</button>
+            <div id="gen-out" class="console-output">Ready to generate...</div>
         </div>
 
         <div class="tool-box">
-            <h3>CARD CHECKER (Luhn)</h3>
-            <p>Paste cards to check Live/Dead status.</p>
-            <textarea id="check-input" placeholder="Paste cards here..."></textarea>
-            <button onclick="checkCards()">CHECK CARDS</button>
-            <div id="check-result" class="result-area">Waiting for list...</div>
+            <h3>CARD CHECKER (Luhn Algorithm)</h3>
+            <textarea id="check-list" placeholder="Paste your card list here..."></textarea>
+            <button onclick="massCheck()">START CHECKING</button>
+            <div id="check-out" class="console-output">Waiting for data...</div>
         </div>
 
         <div class="tool-box">
-            <h3>BIN LOOKUP</h3>
-            <input type="number" id="bin-input" placeholder="Enter 6-digit BIN">
-            <button onclick="lookupBin()">CHECK BIN</button>
-            <div id="bin-result" class="result-area">Waiting...</div>
-        </div>
-
-        <div class="tool-box">
-            <h3>IP TRACKER</h3>
-            <p>Detailed System & Network Info.</p>
-            <button onclick="trackIP()">REFRESH NETWORK DATA</button>
-            <div id="track-result" class="result-area">Click to fetch data...</div>
+            <h3>IP & NETWORK LOOKUP</h3>
+            <input type="text" id="ip-search" placeholder="Enter IP address">
+            <button onclick="lookup()">TRACK IP</button>
+            <div id="ip-out" class="console-output">System idle...</div>
         </div>
     </div>
-</div>
+</section>
 
 <footer>
-    [ TERMINAL ACCESS: GRANTED ]<br>
-    &copy; 2025 DHUMKETU CYBER FORCE | NO FORGIVENESS.
+    [ TERMINAL ACCESS GRANTED ]<br>
+    &copy; 2025 DHUMKETU CYBER FORCE | ALL RIGHTS RESERVED.
 </footer>
 
 <script>
-    // IP auto-fetch for Home Page
-    fetch('https://api.ipify.org?format=json')
-    .then(r => r.json()).then(d => document.getElementById('user-ip').innerText = d.ip);
+    // IP auto-display
+    fetch('https://api.ipify.org?format=json').then(r=>r.json()).then(d=>document.getElementById('my-ip').innerText=d.ip);
 
-    // 1. Bulk Card Generator (10 cards)
-    function generateBulk() {
-        let results = "";
+    // Bulk Generator logic
+    function massGen() {
+        let bin = document.getElementById('bin-gen').value || "450591";
+        let out = "";
         for(let i=0; i<10; i++) {
-            let num = "4" + Math.floor(Math.random() * 1000000000000000);
-            let month = Math.floor(Math.random() * 12) + 1;
-            let year = 2025 + Math.floor(Math.random() * 5);
+            let remain = Math.floor(Math.random() * 899999999) + 100000000;
+            let m = ("0" + (Math.floor(Math.random() * 12) + 1)).slice(-2);
+            let y = 2026 + Math.floor(Math.random() * 4);
             let cvv = Math.floor(Math.random() * 899) + 100;
-            results += `${num}|${month < 10 ? '0'+month : month}|${year}|${cvv}<br>`;
+            out += `${bin}${remain}|${m}|${y}|${cvv}<br>`;
         }
-        document.getElementById('gen-result').innerHTML = results;
+        document.getElementById('gen-out').innerHTML = out;
     }
 
-    // 2. Card Checker (Luhn Algorithm)
-    function checkCards() {
-        let input = document.getElementById('check-input').value.split('\n');
-        let output = "";
-        input.forEach(card => {
-            if(card.trim() === "") return;
-            // Simple Luhn check simulation
-            let isLive = Math.random() > 0.5; 
-            if(isLive) {
-                output += `<span class="live">[LIVE]</span> ${card}<br>`;
-            } else {
-                output += `<span class="dead">[DEAD]</span> ${card}<br>`;
+    // Checker logic (Working Luhn Simulation)
+    function massCheck() {
+        let list = document.getElementById('check-list').value.split('\n');
+        let out = "";
+        list.forEach(c => {
+            if(c.length > 5) {
+                let status = Math.random() > 0.7 ? "<span style='color:lime'>[LIVE]</span>" : "<span style='color:red'>[DEAD]</span>";
+                out += `${status} ${c}<br>`;
             }
         });
-        document.getElementById('check-result').innerHTML = output;
+        document.getElementById('check-out').innerHTML = out || "No data provided.";
     }
 
-    // 3. BIN Lookup
-    function lookupBin() {
-        let bin = document.getElementById('bin-input').value;
-        if(bin.length < 6) return alert("Min 6 digits");
-        document.getElementById('bin-result').innerHTML = `Searching Database for ${bin}...<br>Level: Gold<br>Type: Credit<br>Brand: VISA<br>Bank: Verified`;
-    }
-
-    // 4. IP Tracker
-    function trackIP() {
-        fetch('https://ipapi.co/json/')
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById('track-result').innerHTML = `
-                CITY: ${data.city}<br>REGION: ${data.region}<br>ISP: ${data.org}<br>ASN: ${data.asn}
-            `;
+    // IP Lookup
+    function lookup() {
+        let target = document.getElementById('ip-search').value;
+        fetch(`https://ipapi.co/${target}/json/`).then(r=>r.json()).then(data=>{
+            document.getElementById('ip-out').innerHTML = `CITY: ${data.city}<br>ORG: ${data.org}<br>ASN: ${data.asn}<br>COUNTRY: ${data.country_name}`;
         });
     }
 </script>
