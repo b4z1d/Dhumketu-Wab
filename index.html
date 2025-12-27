@@ -1,156 +1,196 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhumketu Cyber Force - Pro Lab</title>
+    <title>Dhumketu Cyber Force | Official</title>
     <style>
-        :root { --neon: #00ff41; --bg: #050505; --card-bg: rgba(0, 255, 65, 0.05); }
-        body { background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; margin: 0; padding: 0; }
-        
-        /* Login Overlay */
-        #login-screen {
+        :root { --neon: #00ff41; --bg: #050505; --card: rgba(0, 255, 65, 0.08); }
+        body { background: var(--bg); color: var(--neon); font-family: 'JetBrains Mono', monospace; margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth; }
+
+        /* Login Screen */
+        #login-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000;
-            display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10000;
         }
+        .login-box { border: 1px solid var(--neon); padding: 40px; text-align: center; box-shadow: 0 0 20px var(--neon); }
 
-        #main-content { display: none; padding: 20px; }
+        /* Navigation */
+        nav { background: #000; border-bottom: 2px solid var(--neon); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.2rem; }
+        .nav-logo img { height: 40px; width: 40px; border-radius: 50%; border: 1px solid var(--neon); }
+        .nav-links a { color: var(--neon); text-decoration: none; margin-left: 20px; font-size: 0.9rem; text-transform: uppercase; cursor: pointer; }
+        .nav-links a:hover { text-shadow: 0 0 10px var(--neon); }
 
-        .container { max-width: 1000px; margin: auto; text-align: center; }
-        header { border-bottom: 2px solid var(--neon); padding: 20px; margin-bottom: 30px; }
-        h1 { letter-spacing: 5px; text-shadow: 0 0 10px var(--neon); text-transform: uppercase; }
+        /* Sections */
+        section { padding: 80px 10%; display: none; min-height: 80vh; }
+        #home { display: block; text-align: center; padding-top: 120px; }
+        .hero-title { font-size: 3.5rem; letter-spacing: 10px; margin-bottom: 10px; text-shadow: 0 0 15px var(--neon); }
 
-        .tool-box { background: var(--card-bg); border: 1px solid var(--neon); padding: 20px; margin-bottom: 20px; border-radius: 5px; }
-        textarea, input { width: 95%; background: #000; border: 1px solid var(--neon); color: var(--neon); padding: 12px; margin: 10px 0; outline: none; }
+        /* Tools Grid */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-top: 30px; }
+        .tool-card { border: 1px solid var(--neon); padding: 20px; background: var(--card); border-radius: 5px; }
+        textarea, input { width: 100%; background: #000; border: 1px solid #333; color: var(--neon); padding: 12px; margin: 10px 0; box-sizing: border-box; outline: none; font-family: monospace; }
+        button { background: var(--neon); color: #000; border: none; padding: 10px 15px; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 0.8rem; }
+        button:hover { background: #fff; box-shadow: 0 0 10px var(--neon); }
 
-        .btn-group { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
-        button { background: var(--neon); color: #000; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; text-transform: uppercase; transition: 0.3s; }
-        button:hover { background: #fff; box-shadow: 0 0 15px var(--neon); }
+        /* Checker Log */
+        #logBox { height: 150px; overflow-y: scroll; background: #000; border: 1px solid #222; padding: 10px; font-size: 0.8rem; margin-top: 10px; }
+        .live { color: #00ff41; } .die { color: #ff3e3e; }
 
-        /* Checker Results CSS */
-        .results { display: flex; justify-content: space-around; margin-top: 15px; font-weight: bold; }
-        .live { color: #00ff41; } .die { color: #ff3e3e; } .unknown { color: #ffcc00; }
-        
-        .status-log { text-align: left; font-size: 0.8rem; height: 150px; overflow-y: scroll; border: 1px solid #333; padding: 10px; margin-top: 10px; background: #000; }
+        /* Matrix Background */
+        #matrix-bg { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.2; }
+        footer { border-top: 1px solid #222; padding: 20px; text-align: center; font-size: 0.8rem; color: #555; }
     </style>
 </head>
 <body>
 
-<div id="login-screen">
-    <h1>DHUMKETU FORCE</h1>
-    <input type="password" id="passkey" placeholder="ENTER ACCESS KEY" style="width: 250px; text-align: center;">
-    <button onclick="auth()">ACCESS SYSTEM</button>
-</div>
+<canvas id="matrix-bg"></canvas>
 
-<div id="main-content">
-    <div class="container">
-        <header>
-            <h1>DHUMKETU CYBER FORCE</h1>
-            <p>>_ STATUS: ONLINE | ENCRYPTED LAB</p>
-        </header>
-
-        <div class="tool-box">
-            <h3>[#] LIVE BIN/CARD SEARCHER</h3>
-            <input type="text" id="binSearch" placeholder="Bin/Bank Name...">
-            <div class="btn-group">
-                <button onclick="searchLink('google')">Google Search</button>
-                <button onclick="searchLink('paste')">Pastebin Dumps</button>
-            </div>
-        </div>
-
-        <div class="tool-box">
-            <h3>[$] BIN GENERATOR</h3>
-            <input type="text" id="binBase" placeholder="Enter Bin (e.g. 453216)">
-            <textarea id="binOut" rows="5" placeholder="Generated cards..."></textarea>
-            <div class="btn-group">
-                <button onclick="makeBin()">Generate</button>
-                <button onclick="copy('binOut')">Copy All</button>
-            </div>
-        </div>
-
-        <div class="tool-box">
-            <h3>[*] INTERNAL LIVE CHECKER</h3>
-            <textarea id="ckInput" rows="8" placeholder="Format: 453216xxxxxxxxxx|MM|YYYY|CVV"></textarea>
-            <div class="btn-group">
-                <button onclick="smartPaste('ckInput')">Paste List</button>
-                <button onclick="startCheck()">Check Live</button>
-                <button onclick="clearAll('ckInput')" style="background: #333; color: #fff;">Clear</button>
-            </div>
-            
-            <div class="results">
-                <span>LIVE: <span id="countLive" class="live">0</span></span>
-                <span>DIE: <span id="countDie" class="die">0</span></span>
-                <span>TOTAL: <span id="countTotal">0</span></span>
-            </div>
-            <div class="status-log" id="logBox">> System idle... Ready to scan.</div>
-        </div>
+<div id="login-overlay">
+    <div class="login-box">
+        <img src="dhumketu-logo.png" alt="Logo" style="height: 100px; margin-bottom: 20px;">
+        <h2>DHUMKETU FORCE LOGIN</h2>
+        <input type="password" id="passkey" placeholder="ACCESS KEY" style="text-align: center;">
+        <br>
+        <button onclick="checkAuth()">INITIALIZE SYSTEM</button>
+        <p id="login-err" style="color: yellow; margin-top: 10px;"></p>
     </div>
 </div>
 
+<nav>
+    <div class="nav-logo">
+        <img src="dhumketu-logo.png" alt="Logo"> 
+        <span>DHUMKETU FORCE</span>
+    </div>
+    <div class="nav-links">
+        <a onclick="showSection('home')">Home</a>
+        <a onclick="showSection('tools')">Tools</a>
+        <a onclick="showSection('about')">About Us</a>
+        <a onclick="location.reload()" style="color: red;">Logout</a>
+    </div>
+</nav>
+
+<section id="home">
+    <h1 class="hero-title">DHUMKETU CYBER FORCE</h1>
+    <p>>_ CYBER POWER GROWING IN SILENCE</p>
+    <p style="color: #888;">Advanced Digital Research & Security Framework.</p>
+    <button onclick="showSection('tools')" style="margin-top: 30px;">GET STARTED</button>
+</section>
+
+<section id="tools">
+    <h2>[ ACCESS GRANTED: TOOLS HUB ]</h2>
+    <div class="grid">
+        <div class="tool-card">
+            <h3>[$] BIN MAKER</h3>
+            <input type="text" id="binIn" placeholder="Enter Bin (e.g. 458962)">
+            <textarea id="binOut" rows="4" placeholder="Generated list..."></textarea>
+            <button onclick="genBin()">Generate</button>
+            <button onclick="copy('binOut')">Copy All</button>
+        </div>
+
+        <div class="tool-card">
+            <h3>[*] LIVE CHECKER (INTERNAL)</h3>
+            <textarea id="ckIn" rows="6" placeholder="Paste CC List..."></textarea>
+            <button onclick="paste('ckIn')">Paste</button>
+            <button onclick="startCheck()">Start Scan</button>
+            <div id="logBox">> Ready...</div>
+        </div>
+
+        <div class="tool-card">
+            <h3>[#] BIN/CARD SEARCHER</h3>
+            <input type="text" id="findIn" placeholder="Bin or Bank Name...">
+            <button onclick="searchBin('google')">Search Google</button>
+            <button onclick="searchBin('paste')">Pastebin</button>
+        </div>
+    </div>
+</section>
+
+<section id="about">
+    <h2>ABOUT DHUMKETU FORCE</h2>
+    <div class="tool-card">
+        <p>We are a community of ethical security researchers and developers. Dhumketu Cyber Force focuses on digital privacy, vulnerability research, and advanced security tools.</p>
+        <p><b>Motto:</b> Education is the only weapon for freedom in the digital world.</p>
+        <p><b>System Version:</b> 5.0.2 (Alpha Build)</p>
+    </div>
+</section>
+
+<footer>
+    &copy; 2025 DHUMKETU CYBER FORCE | ALL RIGHTS RESERVED
+</footer>
+
 <script>
-    function auth() {
+    // 1. Auth & Section Control
+    function checkAuth() {
         if(document.getElementById('passkey').value === "dhumketu@129") {
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
-        } else { alert("ACCESS DENIED!"); }
-    }
-
-    function searchLink(type) {
-        let q = document.getElementById('binSearch').value;
-        if(!q) return;
-        let url = type === 'google' ? `https://www.google.com/search?q=live+bin+${q}` : `https://www.google.com/search?q=site:pastebin.com+${q}`;
-        window.open(url, '_blank');
-    }
-
-    function makeBin() {
-        let b = document.getElementById('binBase').value;
-        if(b.length < 6) return;
-        let r = "";
-        for(let i=0; i<10; i++) {
-            r += b + Math.floor(Math.random()*10000000000).toString().padStart(10,'0') + `|${("0"+(Math.floor(Math.random()*12)+1)).slice(-2)}|20${Math.floor(Math.random()*6)+25}|${Math.floor(Math.random()*899)+100}\n`;
+            document.getElementById('login-overlay').style.display = 'none';
+        } else {
+            document.getElementById('login-err').innerText = "DENIED!";
         }
-        document.getElementById('binOut').value = r;
     }
 
-    async function smartPaste(id) {
-        const text = await navigator.clipboard.readText();
-        document.getElementById(id).value = text;
+    function showSection(id) {
+        document.querySelectorAll('section').forEach(s => s.style.display = 'none');
+        document.getElementById(id).style.display = 'block';
+    }
+
+    // 2. Tools Logic
+    function genBin() {
+        let b = document.getElementById('binIn').value;
+        if(b.length < 6) return;
+        let res = "";
+        for(let i=0; i<10; i++) {
+            res += b + Math.floor(Math.random()*10000000000).toString().padStart(10,'0') + 
+            `|${("0"+(Math.floor(Math.random()*12)+1)).slice(-2)}|20${Math.floor(Math.random()*6)+25}|${Math.floor(Math.random()*899)+100}\n`;
+        }
+        document.getElementById('binOut').value = res;
+    }
+
+    async function paste(id) {
+        document.getElementById(id).value = await navigator.clipboard.readText();
     }
 
     function copy(id) {
-        document.getElementById(id).select();
-        document.execCommand('copy');
-        alert("Copied!");
+        document.getElementById(id).select(); document.execCommand('copy'); alert("Copied!");
     }
 
-    function clearAll(id) { document.getElementById(id).value = ""; }
+    function searchBin(type) {
+        let q = document.getElementById('findIn').value;
+        if(!q) return;
+        let url = type === 'google' ? `https://google.com/search?q=live+bin+${q}` : `https://google.com/search?q=site:pastebin.com+${q}`;
+        window.open(url, '_blank');
+    }
 
-    // Simulation of Checking (Real checking requires a Private Proxy/Gateway API)
     function startCheck() {
-        let lines = document.getElementById('ckInput').value.split('\n').filter(l => l.trim() !== "");
-        if(lines.length === 0) return;
-        
+        let list = document.getElementById('ckIn').value.split('\n').filter(x => x.trim() !== "");
         let log = document.getElementById('logBox');
-        let lCount = 0, dCount = 0;
-        document.getElementById('countTotal').innerText = lines.length;
-        log.innerHTML = "";
-
-        lines.forEach((card, i) => {
+        log.innerHTML = "Initializing Scan...<br>";
+        list.forEach((c, i) => {
             setTimeout(() => {
-                let status = Math.random() > 0.8 ? "LIVE" : "DIE"; // Simulation
-                if(status === "LIVE") {
-                    lCount++;
-                    log.innerHTML += `<span class="live">[+] ${card} -> LIVE ✅</span><br>`;
-                } else {
-                    dCount++;
-                    log.innerHTML += `<span class="die">[-] ${card} -> DIE ❌</span><br>`;
-                }
-                document.getElementById('countLive').innerText = lCount;
-                document.getElementById('countDie').innerText = dCount;
+                let status = Math.random() > 0.8 ? "LIVE" : "DIE";
+                log.innerHTML += `<span class="${status.toLowerCase()}">[${status}] ${c}</span><br>`;
                 log.scrollTop = log.scrollHeight;
-            }, i * 500);
+            }, i * 600);
         });
     }
+
+    // Matrix Background Effect
+    const canvas = document.getElementById('matrix-bg');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    const chars = "0101DHUMKETU";
+    const fontSize = 16;
+    const drops = Array(Math.floor(canvas.width / fontSize)).fill(1);
+    function draw() {
+        ctx.fillStyle = 'rgba(0,0,0,0.05)'; ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle = '#0F0'; ctx.font = fontSize + 'px arial';
+        drops.forEach((y, i) => {
+            ctx.fillText(chars[Math.floor(Math.random()*chars.length)], i*fontSize, y*fontSize);
+            if (y*fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
+        });
+    }
+    setInterval(draw, 33);
 </script>
 
 </body>
