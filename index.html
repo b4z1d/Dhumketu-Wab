@@ -3,44 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhumketu Cyber Force | Stealth Dashboard</title>
+    <title>Dhumketu Cyber Force | Active Terminal</title>
     <style>
         :root { --neon: #00ff41; --bg: #000; --red: #ff003c; --blue: #00ccff; }
         body { background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; margin: 0; overflow-x: hidden; }
         #matrix { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.15; }
 
-        /* Nav & Logo */
         nav { background: rgba(0,0,0,0.95); border-bottom: 2px solid var(--neon); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
-        .nav-logo { display: flex; align-items: center; gap: 10px; }
-        .nav-logo img { height: 45px; border-radius: 50%; border: 1px solid var(--neon); box-shadow: 0 0 10px var(--neon); }
+        .nav-logo img { height: 45px; border-radius: 50%; border: 1px solid var(--neon); }
         .nav-links a { color: var(--red); text-decoration: none; margin-left: 15px; font-size: 0.8rem; text-transform: uppercase; cursor: pointer; }
 
-        /* Sections */
-        section { padding: 40px 8%; display: none; min-height: 80vh; }
+        section { padding: 40px 8%; display: none; min-height: 80vh; text-align: center; }
         .active { display: block; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Articles & Tools Hub */
-        .article { background: rgba(0, 255, 65, 0.05); border-left: 4px solid var(--neon); padding: 25px; margin-bottom: 25px; text-align: justify; line-height: 1.6; }
-        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; }
-        .tool-btn { background: #111; border: 1px solid var(--red); padding: 15px; color: var(--red); cursor: pointer; text-transform: uppercase; border-radius: 5px; font-weight: bold; }
-        .tool-btn:hover { background: var(--red); color: #000; box-shadow: 0 0 15px var(--red); }
+        .article { background: rgba(0, 255, 65, 0.05); border-left: 4px solid var(--neon); padding: 20px; margin-bottom: 20px; text-align: left; }
 
-        /* Admin/Dhumketu Logs */
-        .admin-lock { border: 1px solid var(--red); padding: 40px; text-align: center; max-width: 400px; margin: 10vh auto; }
-        .log-vault { background: #050505; border: 1px solid var(--blue); padding: 20px; height: 350px; overflow-y: scroll; display: none; }
-        .ip-row { border-bottom: 1px solid #222; padding: 10px 0; font-size: 0.8rem; }
+        /* Tools Hub Styling */
+        .tools-container { max-width: 600px; margin: auto; }
+        .tool-box { background: #111; border: 1px solid var(--red); padding: 20px; border-radius: 10px; margin-top: 20px; }
+        textarea, input { width: 100%; background: #000; border: 1px solid var(--neon); color: var(--neon); padding: 10px; margin: 10px 0; box-sizing: border-box; outline: none; }
+        
+        .tools-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+        .tool-btn { background: #000; border: 1px solid var(--red); padding: 12px; color: var(--red); cursor: pointer; text-transform: uppercase; font-weight: bold; }
+        .tool-btn:hover { background: var(--red); color: #000; }
 
-        /* Chat Bot */
-        #bot-ui { position: fixed; bottom: 80px; left: 20px; width: 280px; height: 380px; background: #000; border: 2px solid var(--neon); display: none; flex-direction: column; box-shadow: 0 0 20px var(--neon); z-index: 2000; }
-        #bot-header { background: var(--neon); color: #000; padding: 10px; font-weight: bold; display: flex; justify-content: space-between; }
-        #bot-msgs { flex: 1; overflow-y: auto; padding: 10px; font-size: 0.8rem; display: flex; flex-direction: column; gap: 8px; }
-        .bot-txt { color: var(--blue); } .user-txt { color: #fff; text-align: right; }
-        #bot-input-area { display: flex; border-top: 1px solid #333; }
-        #bot-input { background: #000; border: none; color: #fff; padding: 10px; flex: 1; outline: none; }
+        /* Bot & Points */
+        #bot-ui { position: fixed; bottom: 80px; left: 20px; width: 280px; height: 350px; background: #000; border: 2px solid var(--neon); display: none; flex-direction: column; z-index: 2000; }
+        #bot-header { background: var(--neon); color: #000; padding: 10px; font-weight: bold; }
+        #bot-msgs { flex: 1; overflow-y: auto; padding: 10px; font-size: 0.8rem; text-align: left; }
+        #bot-input { background: #000; border: none; border-top: 1px solid #333; color: #fff; padding: 10px; outline: none; }
         
         #toggle-bot { position: fixed; bottom: 20px; left: 20px; background: var(--neon); color: #000; padding: 10px 20px; border-radius: 50px; cursor: pointer; font-weight: bold; }
-        .points { position: fixed; bottom: 20px; right: 20px; background: rgba(0, 255, 65, 0.1); border: 1px solid var(--neon); padding: 10px 20px; font-size: 0.9rem; }
+        .points { position: fixed; bottom: 20px; right: 20px; background: rgba(0, 255, 65, 0.1); border: 1px solid var(--neon); padding: 10px 20px; }
     </style>
 </head>
 <body onload="startSystem()">
@@ -48,86 +43,62 @@
 <canvas id="matrix"></canvas>
 
 <nav>
-    <div class="nav-logo">
-        <img src="dhumketu-logo.png" alt="Logo">
-        <span style="font-weight:bold; letter-spacing: 2px;">DHUMKETU FORCE</span>
-    </div>
+    <div class="nav-logo"><img src="dhumketu-logo.png" alt="Logo"></div>
     <div class="nav-links">
         <a onclick="show('home')">Home</a>
-        <a onclick="show('tools')">Tools</a>
+        <a onclick="show('tools')">Tools Hub</a>
         <a onclick="show('admin')" style="color:var(--blue)">[Dhumketu]</a>
     </div>
 </nav>
 
-<main>
-    <section id="home" class="active">
-        <div class="article">
-            <h2 style="color:var(--blue)">:: Evolution of Cyber Power ::</h2>
-            <p>Dhumketu Cyber Force (DCF) একটি স্বাধীন রিসার্চ টিম। আমরা ডিজিটাল নিরাপত্তার ত্রুটি বিশ্লেষণ করি। আমাদের লক্ষ্য সচেতনতা এবং নিরাপত্তা নিশ্চিত করা।</p>
-        </div>
-        <div class="article" style="border-left-color: var(--red);">
-            <h2 style="color:var(--red)">:: Awareness is Our Weapon ::</h2>
-            <p>হ্যাকিং শুধু আক্রমণ নয়, এটি রক্ষার কৌশল। আমরা সাধারণ ব্যবহারকারীদের ডিজিটাল হুমকি থেকে বাঁচার পথ দেখাই।</p>
-        </div>
-    </section>
+<section id="home" class="active">
+    <h1>DHUMKETU CYBER FORCE</h1>
+    <div class="article">
+        <h3>:: Stealth Mode Active ::</h3>
+        <p>Amader team cyber security research niye kaj kore. Nicher Tools Hub-e active tools paben.</p>
+    </div>
+</section>
 
-    <section id="tools">
-        <h2 style="color:var(--red); text-align: center;">[ ACCESS GRANTED: TOOLS HUB ]</h2>
+<section id="tools">
+    <h2 style="color:var(--red)">[ ACCESS GRANTED: WORKING TOOLS ]</h2>
+    <div class="tools-container">
         <div class="tools-grid">
-            <button class="tool-btn" onclick="alert('Bin Gen Active')">bin generator</button>
-            <button class="tool-btn" onclick="alert('Checker Active')">live checker</button>
-            <button class="tool-btn" onclick="alert('Temp Mail Ready')">temp mail</button>
-            <button class="tool-btn" onclick="alert('OSINT Ready')">osint finder</button>
+            <button class="tool-btn" onclick="openTool('bin')">Bin Generator</button>
+            <button class="tool-btn" onclick="openTool('mail')">Temp Mail</button>
         </div>
-    </section>
 
-    <section id="admin">
-        <div id="gate" class="admin-lock">
-            <h3 style="color:var(--red)">[ VAULT ENCRYPTED ]</h3>
-            <input type="password" id="key" placeholder="Enter Access Key" style="background:#000; border:1px solid var(--neon); color:var(--neon); padding:10px; width:80%; margin-bottom:15px; outline:none; text-align:center;">
-            <button class="tool-btn" style="width:85%" onclick="unlock()">Unlock Logs</button>
+        <div id="bin-tool" class="tool-box" style="display:none;">
+            <input type="text" id="binInput" placeholder="Enter 6 Digit BIN (e.g. 458962)">
+            <button class="tool-btn" style="width:100%" onclick="generateBin()">Generate Cards</button>
+            <textarea id="binResult" rows="6" placeholder="Results..."></textarea>
         </div>
-        <div id="vault" class="log-vault">
-            <h3 style="color:var(--blue); border-bottom:1px solid var(--blue)">:: IP TRACKER LOGS ::</h3>
-            <div id="log-content"></div>
+
+        <div id="mail-tool" class="tool-box" style="display:none;">
+            <button class="tool-btn" style="width:100%" onclick="generateMail()">Generate New Mail</button>
+            <input type="text" id="mailResult" readonly placeholder="Your Temp Mail">
+            <p style="font-size:0.7rem; color:gray;">*This is a generated decoy mail.</p>
         </div>
-    </section>
-</main>
+    </div>
+</section>
+
+<section id="admin">
+    <h3>:: SMART TRACKER LOGS ::</h3>
+    <div id="logs" style="text-align:left; font-size:0.8rem; color:var(--blue)"></div>
+</section>
 
 <div id="toggle-bot" onclick="toggleBot()">Chat with Dhumketu Bot</div>
 <div id="bot-ui">
-    <div id="bot-header"><span>DHUMKETU BOT</span><span onclick="toggleBot()" style="cursor:pointer;">X</span></div>
+    <div id="bot-header">DHUMKETU BOT</div>
     <div id="bot-msgs"></div>
-    <div id="bot-input-area">
-        <input type="text" id="bot-input" placeholder="Type anything..." onkeypress="if(event.key==='Enter') botSend()">
-    </div>
+    <input type="text" id="bot-input" placeholder="Type message..." onkeypress="if(event.key==='Enter') botChat()">
 </div>
-
 <div class="points">VISITOR POINTS: <span id="v-count">00</span></div>
 
 <script>
     function startSystem() {
-        processIP();
+        initIP();
         initMatrix();
-        botLog("System Online. Greetings, Agent! How can I assist you today?");
-    }
-
-    // Smart Visitor Counter (Unique IP only)
-    function processIP() {
-        fetch('https://api.ipify.org?format=json').then(r => r.json()).then(data => {
-            let ip = data.ip;
-            let time = new Date().toLocaleString();
-            let logs = JSON.parse(localStorage.getItem('d_logs') || "{}");
-            
-            if (!logs[ip]) {
-                logs[ip] = []; 
-                let p = parseInt(localStorage.getItem('v_pts') || "0") + 1;
-                localStorage.setItem('v_pts', p);
-            }
-            logs[ip].push(time);
-            localStorage.setItem('d_logs', JSON.stringify(logs));
-            document.getElementById('v-count').innerText = localStorage.getItem('v_pts').toString().padStart(2, '0');
-        });
+        botReply("Greetings Agent. Tools Hub is now active. How can I help?");
     }
 
     function show(id) {
@@ -135,40 +106,69 @@
         document.getElementById(id).classList.add('active');
     }
 
-    function unlock() {
-        if(document.getElementById('key').value === "dhumketu@129") {
-            document.getElementById('gate').style.display = 'none';
-            document.getElementById('vault').style.display = 'block';
-            let logs = JSON.parse(localStorage.getItem('d_logs') || "{}");
-            let div = document.getElementById('log-content');
-            div.innerHTML = "";
-            for (let ip in logs) {
-                div.innerHTML += `<div class="ip-row"><b>> IP: ${ip}</b><br><small style="color:#666">${logs[ip].reverse().join(' | ')}</small></div>`;
-            }
-        } else alert("DENIED");
+    // Tools Functionality
+    function openTool(name) {
+        document.getElementById('bin-tool').style.display = (name === 'bin') ? 'block' : 'none';
+        document.getElementById('mail-tool').style.display = (name === 'mail') ? 'block' : 'none';
     }
 
-    // Bot Auto-Reply
-    function toggleBot() {
+    function generateBin() {
+        let bin = document.getElementById('binInput').value;
+        if(bin.length < 6) return alert("Valid BIN din!");
+        let out = "";
+        for(let i=0; i<10; i++) {
+            let card = bin + Math.floor(Math.random()*10000000000).toString().padStart(10,'0');
+            out += `${card}|${("0"+(Math.floor(Math.random()*12)+1)).slice(-2)}|20${Math.floor(Math.random()*6)+25}|${Math.floor(Math.random()*899)+100}\n`;
+        }
+        document.getElementById('binResult').value = out;
+    }
+
+    function generateMail() {
+        let names = ["stealth", "agent", "dhumketu", "force", "shadow"];
+        let random = names[Math.floor(Math.random()*names.length)] + Math.floor(Math.random()*999) + "@dhumketu-force.com";
+        document.getElementById('mailResult').value = random;
+    }
+
+    // Unique IP & Visitor Points
+    function initIP() {
+        fetch('https://api.ipify.org?format=json').then(r => r.json()).then(data => {
+            let ip = data.ip;
+            let time = new Date().toLocaleString();
+            let logs = JSON.parse(localStorage.getItem('d_logs') || "{}");
+            if (!logs[ip]) {
+                logs[ip] = [];
+                let p = parseInt(localStorage.getItem('v_pts') || "0") + 1;
+                localStorage.setItem('v_pts', p);
+            }
+            logs[ip].push(time);
+            localStorage.setItem('d_logs', JSON.stringify(logs));
+            document.getElementById('v-count').innerText = localStorage.getItem('v_pts').toString().padStart(2, '0');
+            
+            // Populate Admin Logs
+            let logDiv = document.getElementById('logs');
+            for(let key in logs) {
+                logDiv.innerHTML += `<div>> IP: ${key} | Last Visit: ${logs[key].slice(-1)}</div>`;
+            }
+        });
+    }
+
+    // Bot Auto Reply
+    function toggleBot() { 
         let b = document.getElementById('bot-ui');
         b.style.display = (b.style.display === 'flex') ? 'none' : 'flex';
     }
-
-    function botLog(txt) {
-        let m = document.getElementById('bot-msgs');
-        m.innerHTML += `<div class="bot-txt"><b>Bot:</b> ${txt}</div>`;
-        m.scrollTop = m.scrollHeight;
-    }
-
-    function botSend() {
+    function botChat() {
         let i = document.getElementById('bot-input');
-        if(!i.value.trim()) return;
-        document.getElementById('bot-msgs').innerHTML += `<div class="user-txt">${i.value}</div>`;
-        i.value = "";
-        setTimeout(() => botLog("Dhumketu Force is processing your message. Stay stealthy, Agent."), 800);
+        if(!i.value) return;
+        document.getElementById('bot-msgs').innerHTML += `<div style="text-align:right">You: ${i.value}</div>`;
+        let userVal = i.value; i.value = "";
+        setTimeout(() => botReply("Dhumketu Bot is analyzing: '" + userVal + "'. Status: Online."), 1000);
+    }
+    function botReply(t) {
+        document.getElementById('bot-msgs').innerHTML += `<div style="color:var(--blue)">Bot: ${t}</div>`;
     }
 
-    // Matrix
+    // Matrix Rain
     function initMatrix() {
         const c = document.getElementById('matrix');
         const x = c.getContext('2d');
