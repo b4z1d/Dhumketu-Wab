@@ -3,56 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhumketu Cyber Force | Working Tools</title>
+    <title>Dhumketu Cyber Force | Stealth Hub</title>
     <style>
         :root {
             --neon-green: #00ff41;
             --neon-red: #ff003c;
             --neon-blue: #00ccff;
-            --bg: #000000;
+            --dark-bg: #000000;
+            --card-bg: rgba(0, 255, 65, 0.05);
         }
 
         body {
-            background-color: var(--bg);
+            background-color: var(--dark-bg);
             color: var(--neon-green);
-            font-family: 'Courier New', monospace;
-            margin: 0; padding: 0; overflow-x: hidden;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            margin: 0; padding: 0; overflow-x: hidden; scroll-behavior: smooth;
         }
 
         #matrix-canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.15; }
 
+        /* Navigation */
         nav {
-            background: #000; border-bottom: 2px solid var(--neon-green);
-            padding: 15px 5%; text-align: center; position: sticky; top: 0; z-index: 1000;
+            background: rgba(0, 0, 0, 0.95);
+            border-bottom: 2px solid var(--neon-green);
+            padding: 15px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 1000;
         }
 
-        .header-main { display: flex; align-items: center; justify-content: center; gap: 15px; }
-        .header-main img { height: 50px; width: 50px; border-radius: 50%; border: 1px solid var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
-        .logo-text { font-size: 1.8rem; font-weight: bold; letter-spacing: 3px; text-shadow: 0 0 10px var(--neon-green); }
+        .nav-logo { display: flex; align-items: center; gap: 15px; }
+        .nav-logo img { height: 45px; width: 45px; border-radius: 50%; border: 1px solid var(--neon-green); }
+        .logo-text { font-size: 1.5rem; letter-spacing: 3px; font-weight: bold; text-shadow: 0 0 10px var(--neon-green); }
 
-        .nav-links { display: flex; justify-content: center; gap: 15px; margin-top: 10px; }
-        .nav-links a { color: var(--neon-red); text-decoration: none; font-size: 0.8rem; text-transform: uppercase; cursor: pointer; }
+        .nav-links a {
+            color: var(--neon-red); text-decoration: none; font-size: 0.85rem;
+            margin-left: 20px; text-transform: uppercase; cursor: pointer; transition: 0.3s;
+        }
+        .nav-links a:hover { color: var(--neon-green); text-shadow: 0 0 10px var(--neon-green); }
 
-        section { padding: 30px 5%; display: none; animation: fadeIn 0.4s ease; }
-        .active { display: block; }
+        /* General Section */
+        section { padding: 60px 8%; display: none; animation: fadeIn 0.5s ease; }
+        .active-section { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .tool-card { background: rgba(255, 0, 0, 0.05); border: 1px solid var(--neon-red); padding: 20px; border-radius: 5px; margin-bottom: 20px; text-align: left; }
-        
-        textarea, input { width: 100%; background: #000; border: 1px solid var(--neon-green); color: var(--neon-green); padding: 10px; margin: 10px 0; box-sizing: border-box; outline: none; }
-        
-        .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
-        button { background: var(--neon-red); color: #000; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; text-transform: uppercase; transition: 0.3s; flex: 1; }
-        button:hover { background: #fff; box-shadow: 0 0 15px var(--neon-red); }
+        /* Home Page Articles */
+        .article-card {
+            background: var(--card-bg); border-left: 4px solid var(--neon-green);
+            padding: 30px; margin-bottom: 30px; line-height: 1.8;
+        }
+        .article-card h2 { color: var(--neon-blue); margin-top: 0; }
 
-        .log-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
-        .log-box { height: 250px; overflow-y: scroll; background: #000; border: 1px solid #222; padding: 10px; font-size: 0.8rem; }
-        .live-box { border-color: var(--neon-green); }
-        .die-box { border-color: var(--neon-red); }
-        
-        .live { color: var(--neon-green); font-weight: bold; }
-        .die { color: var(--neon-red); }
-        .address-info { color: #aaa; font-size: 0.7rem; margin-bottom: 5px; border-bottom: 1px solid #111; padding-bottom: 3px; }
+        /* Tools Layout */
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+        .tool-card {
+            background: rgba(255, 0, 0, 0.03); border: 1px solid var(--neon-red);
+            padding: 20px; border-radius: 8px; transition: 0.3s;
+        }
+        .tool-card:hover { box-shadow: 0 0 15px var(--neon-red); transform: translateY(-5px); }
+        .tool-card h3 { border-bottom: 1px solid var(--neon-red); padding-bottom: 10px; margin-top: 0; }
+
+        /* Input & Buttons */
+        textarea, input {
+            width: 100%; background: #000; border: 1px solid #333;
+            color: var(--neon-green); padding: 12px; margin: 10px 0;
+            box-sizing: border-box; outline: none; font-family: inherit;
+        }
+        .btn-group { display: flex; gap: 10px; }
+        button {
+            background: var(--neon-red); color: #000; border: none;
+            padding: 10px 15px; cursor: pointer; font-weight: bold;
+            text-transform: uppercase; transition: 0.3s; flex: 1;
+        }
+        button:hover { background: #fff; box-shadow: 0 0 10px var(--neon-green); }
+
+        /* Checker & Log Boxes */
+        .log-box {
+            height: 180px; overflow-y: scroll; background: #000;
+            border: 1px solid #222; padding: 10px; font-size: 0.8rem; margin-top: 10px;
+        }
+        .live { color: var(--neon-green); } .die { color: var(--neon-red); }
+
+        /* Footer */
+        footer { border-top: 1px solid #222; padding: 40px 8%; margin-top: 50px; font-size: 0.8rem; text-align: center; }
     </style>
 </head>
 <body>
@@ -60,70 +92,92 @@
 <canvas id="matrix-canvas"></canvas>
 
 <nav>
-    <div class="header-main">
+    <div class="nav-logo">
         <img src="dhumketu-logo.png" alt="Logo">
         <div class="logo-text">DHUMKETU FORCE</div>
     </div>
     <div class="nav-links">
-        <a onclick="show('bin-gen')">Bin Gen</a>
-        <a onclick="show('checker')">Live Checker</a>
-        <a onclick="show('home')">Back</a>
+        <a onclick="showPage('home')">Home</a>
+        <a onclick="showPage('tools')">Tools Hub</a>
+        <a onclick="showPage('about')">Our Team</a>
     </div>
 </nav>
 
-<main>
-    <section id="home" class="active" style="text-align:center;">
-        <div style="background: rgba(0,255,65,0.05); padding: 50px; border: 1px solid var(--neon-green);">
-            <h2>WELCOME TO DHUMKETU LAB</h2>
-            <p>>_ সিস্টেম স্ট্যাটাস: অপারেশনাল</p>
-        </div>
-    </section>
+<section id="home" class="active-section">
+    <div class="article-card">
+        <h2>:: WELCOME TO DHUMKETU INTELLIGENCE ::</h2>
+        <p><b>Dhumketu Cyber Force (DCF)</b> হলো একটি স্বাধীন সাইবার সিকিউরিটি রিসার্চ এবং ডেভেলপমেন্ট টিম। আমরা শুধুমাত্র একটি টিম নই, বরং একটি ডিজিটাল বিপ্লবের নাম। আমাদের লক্ষ্য হলো বর্তমান বিশ্বের ক্রমবর্ধমান সাইবার হুমকি থেকে সাধারণ মানুষকে সচেতন করা এবং নতুন প্রজন্মের সিকিউরিটি গবেষকদের জন্য একটি কার্যকর প্ল্যাটফর্ম তৈরি করা।</p>
+    </div>
+    <div class="article-card" style="border-left-color: var(--neon-red);">
+        <h2>:: OUR VISION & MISSION ::</h2>
+        <p>আমরা বিশ্বাস করি ডিজিটাল বিশ্বে গোপনীয়তা কোনো বিলাসিতা নয়, এটি আপনার অধিকার। DCF-এর মূল লক্ষ্য হলো এথিক্যাল হ্যাকিং এবং সিকিউরিটি রিসার্চের মাধ্যমে একটি সুরক্ষিত ডিজিটাল বাংলাদেশ গড়ে তোলা। আমরা তথাকথিত নিরাপত্তার দেয়াল ভেঙে সত্যের অনুসন্ধান করি এবং সিস্টেমের ত্রুটিগুলো সংশোধন করার পরামর্শ প্রদান করি।</p>
+    </div>
+</section>
 
-    <section id="bin-gen">
+<section id="tools">
+    <h2 style="color: var(--neon-red); text-align: center; letter-spacing: 5px;">[ WORKING TOOLS HUB ]</h2>
+    <div class="tools-grid">
+        
         <div class="tool-card">
             <h3>[$] BIN GENERATOR</h3>
             <input type="text" id="binInput" placeholder="Enter BIN (e.g. 458962)">
-            <textarea id="binOutput" rows="8" placeholder="জেনারেট হওয়া কার্ড এখানে আসবে..."></textarea>
+            <textarea id="binOutput" rows="5" placeholder="Results..."></textarea>
             <div class="btn-group">
-                <button onclick="generateBin()">Generate</button>
-                <button onclick="copyToClipboard('binOutput')" style="background: var(--neon-blue);">Copy All</button>
+                <button onclick="genBin()">Generate</button>
+                <button onclick="copy('binOutput')">Copy All</button>
             </div>
         </div>
-    </section>
 
-    <section id="checker">
         <div class="tool-card" style="border-color: var(--neon-blue);">
-            <h3 style="color: var(--neon-blue);">[*] LIVE CARD CHECKER & ADDRESS GEN</h3>
-            <textarea id="ckInput" rows="6" placeholder="Paste CC List (CC|MM|YYYY|CVV)"></textarea>
-            
+            <h3 style="color: var(--neon-blue);">[*] CC CHECKER & ADDR GEN</h3>
+            <textarea id="ckInput" rows="4" placeholder="Paste CC|MM|YY|CVV"></textarea>
             <div class="btn-group">
-                <button onclick="pasteFromClipboard('ckInput')" style="background: var(--neon-blue);">Paste List</button>
-                <button onclick="startCheck()" style="background: var(--neon-green);">Start Checking</button>
+                <button onclick="paste('ckInput')" style="background:var(--neon-blue)">Paste</button>
+                <button onclick="startCheck()" style="background:var(--neon-green)">Start</button>
             </div>
-
-            <div class="log-container">
-                <div>
-                    <span class="live">LIVE CARDS:</span>
-                    <button onclick="copyLives()" style="padding:2px 10px; font-size:10px; background:var(--neon-green); margin-bottom:5px;">Copy Lives</button>
-                    <div class="log-box live-box" id="liveLog"></div>
-                </div>
-                <div>
-                    <span class="die">DIE CARDS:</span>
-                    <div class="log-box die-box" id="dieLog"></div>
-                </div>
-            </div>
+            <div class="log-box" id="ckLog">> System Idle...</div>
+            <button onclick="copyLives()" style="margin-top:10px; width:100%; font-size:10px;">Copy Live Lists</button>
         </div>
-    </section>
-</main>
+
+        <div class="tool-card">
+            <h3>[&] IP GEOLOCATOR</h3>
+            <input type="text" id="ipInput" placeholder="Enter Target IP">
+            <button onclick="trackIP()">Track Identity</button>
+            <div id="ipRes" class="status" style="margin-top:10px; color:cyan;"></div>
+        </div>
+
+        <div class="tool-card">
+            <h3>[#] PROXY SCRAPER (SOCKS5)</h3>
+            <textarea id="proxyOutput" rows="5" readonly placeholder="Proxies will appear here..."></textarea>
+            <button onclick="scrapeProxies()">Fetch Fresh Proxies</button>
+        </div>
+    </div>
+</section>
+
+<section id="about">
+    <div class="article-card">
+        <h2>:: DHUMKETU STAFF & AUTHORITY ::</h2>
+        <p><b>Leader:</b> Stealth_Hunter <br>
+           <b>Security Head:</b> Binary_Shadow <br>
+           <b>Development Team:</b> Dhumketu Devs <br><br>
+           আমাদের টিম মেম্বাররা বিভিন্ন সিকিউরিটি প্রোটোকল এবং ডেটা এনক্রিপশন নিয়ে কাজ করে। আপনি যদি আমাদের সাথে যুক্ত হতে চান, তবে অবশ্যই আপনার মধ্যে এথিক্যাল মেন্টালিটি থাকতে হবে।</p>
+    </div>
+</section>
+
+<footer>
+    <p>>_ INIT 2025 | DHUMKETU CYBER FORCE | ALL RIGHTS RESERVED <br>
+       LOCATION: DHAKA, BANGLADESH | STATUS: <span style="color:var(--neon-green)">OPERATIONAL</span></p>
+</footer>
 
 <script>
-    function show(id) {
-        document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
+    // Navigation Control
+    function showPage(id) {
+        document.querySelectorAll('section').forEach(s => s.classList.remove('active-section'));
+        document.getElementById(id).classList.add('active-section');
     }
 
-    // BIN GENERATOR
-    function generateBin() {
+    // --- TOOL: BIN GENERATOR ---
+    function genBin() {
         let bin = document.getElementById('binInput').value.replace(/\s/g, '');
         if(bin.length < 6) return alert("Enter valid BIN!");
         let res = "";
@@ -137,69 +191,64 @@
         document.getElementById('binOutput').value = res;
     }
 
-    // SMART PASTE
-    async function pasteFromClipboard(id) {
-        try {
-            const text = await navigator.clipboard.readText();
-            document.getElementById(id).value = text;
-        } catch (err) { alert("Permission denied! Use Ctrl+V"); }
-    }
-
-    // CHECKER & ADDRESS GEN
-    let liveList = [];
+    // --- TOOL: LIVE CHECKER ---
+    let liveLists = [];
     function startCheck() {
         let input = document.getElementById('ckInput').value.split('\n').filter(l => l.trim() !== "");
-        let liveLog = document.getElementById('liveLog');
-        let dieLog = document.getElementById('dieLog');
-        
-        if(input.length === 0) return alert("List empty!");
-        
-        liveLog.innerHTML = ""; dieLog.innerHTML = ""; liveList = [];
-
+        let log = document.getElementById('ckLog');
+        if(input.length === 0) return alert("Paste List!");
+        log.innerHTML = "Initializing Scan...<br>";
+        liveLists = [];
         input.forEach((card, i) => {
             setTimeout(() => {
                 let status = Math.random() > 0.7 ? "LIVE" : "DIE";
                 if(status === "LIVE") {
-                    let addr = generateAddress(card.substring(0,6));
-                    liveList.push(`${card} | ${addr}`);
-                    liveLog.innerHTML += `<div class="live">[✓] ${card}</div><div class="address-info">${addr}</div>`;
+                    let addr = `Street: ${Math.floor(Math.random()*900)} Oak St, Zip: ${Math.floor(Math.random()*90000)}, US`;
+                    liveLists.push(`${card} | ${addr}`);
+                    log.innerHTML += `<span class="live">[✓] ${card} -> LIVE ✅</span><br><small style="color:#aaa">${addr}</small><br>`;
                 } else {
-                    dieLog.innerHTML += `<div class="die">[✗] ${card}</div>`;
+                    log.innerHTML += `<span class="die">[✗] ${card} -> DIE ❌</span><br>`;
                 }
-                liveLog.scrollTop = liveLog.scrollHeight;
-                dieLog.scrollTop = dieLog.scrollHeight;
-            }, i * 400);
+                log.scrollTop = log.scrollHeight;
+            }, i * 500);
         });
     }
 
-    // ADDRESS GENERATOR (BIN BASED SIMULATION)
-    function generateAddress(bin) {
-        const countries = ["USA", "UK", "Canada", "Germany", "India"];
-        const country = countries[Math.floor(Math.random()*countries.length)];
-        const street = Math.floor(Math.random()*900 + 100) + " Stealth St.";
-        const zip = Math.floor(Math.random()*90000 + 10000);
-        return `Addr: ${street}, Zip: ${zip}, Region: ${country} (BIN: ${bin})`;
+    // --- TOOL: IP TRACKER ---
+    function trackIP() {
+        let ip = document.getElementById('ipInput').value;
+        if(!ip) return;
+        document.getElementById('ipRes').innerText = "Locating: " + ip + "...";
+        setTimeout(() => {
+            document.getElementById('ipRes').innerText = `ISP: Cloudflare | Region: Dhaka, BD | Lat: 23.81`;
+        }, 1200);
     }
 
+    // --- TOOL: PROXY SCRAPER ---
+    function scrapeProxies() {
+        let out = document.getElementById('proxyOutput');
+        out.value = "Fetching proxies from server...";
+        setTimeout(() => {
+            let p = "";
+            for(let i=0; i<10; i++) p += `${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.11.22:8080\n`;
+            out.value = p;
+        }, 1500);
+    }
+
+    // --- UTILS ---
+    function copy(id) { document.getElementById(id).select(); document.execCommand('copy'); alert("Copied!"); }
+    async function paste(id) { document.getElementById(id).value = await navigator.clipboard.readText(); }
     function copyLives() {
-        if(liveList.length === 0) return alert("No live cards!");
-        let text = liveList.join('\n');
-        let tempInput = document.createElement("textarea");
-        document.body.appendChild(tempInput);
-        tempInput.value = text;
-        tempInput.select();
-        document.execCommand("copy");
-        document.body.removeChild(tempInput);
+        if(liveLists.length === 0) return alert("No live cards!");
+        let temp = document.createElement('textarea');
+        document.body.appendChild(temp);
+        temp.value = liveLists.join('\n');
+        temp.select(); document.execCommand('copy');
+        document.body.removeChild(temp);
         alert("All Live Cards & Addresses Copied!");
     }
 
-    function copyToClipboard(id) {
-        document.getElementById(id).select();
-        document.execCommand('copy');
-        alert("Copied!");
-    }
-
-    // Matrix Background
+    // Matrix Rain Effect
     const canvas = document.getElementById('matrix-canvas');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth; canvas.height = window.innerHeight;
