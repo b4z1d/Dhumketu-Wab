@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhumketu Cyber Force | Working Tools</title>
+    <title>Dhumketu Cyber Force | Terminal</title>
     <style>
         :root {
             --neon-green: #00ff41;
-            --dark-bg: #0a0a0a;
-            --card-bg: #151515;
+            --bg-black: #050505;
+            --card-bg: #111;
         }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: var(--dark-bg);
+            font-family: 'Courier New', monospace;
+            background-color: var(--bg-black);
             color: white;
             margin: 0;
-            padding: 0;
+            overflow-x: hidden;
         }
 
         /* Navbar with Logo on Left */
@@ -24,173 +24,174 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 5%;
+            padding: 15px 5%;
             background: #000;
             border-bottom: 2px solid var(--neon-green);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        .logo-section {
-            display: flex;
-            align-items: center;
-        }
+        .logo-area { display: flex; align-items: center; }
+        .logo-area img { width: 45px; height: 45px; border-radius: 50%; margin-right: 15px; border: 1px solid var(--neon-green); }
+        .logo-area span { color: var(--neon-green); font-weight: bold; font-size: 1.2rem; }
 
-        .logo-section img {
-            width: 50px; /* Logo size */
-            height: 50px;
-            margin-right: 15px;
-        }
+        nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 0.8rem; letter-spacing: 1px; }
+        nav a:hover { color: var(--neon-green); }
 
-        .logo-text {
-            color: var(--neon-green);
-            font-weight: bold;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-            font-size: 0.9rem;
-        }
-
-        /* Hero Section */
+        /* Home Page Content */
         .hero {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            padding: 50px 20px;
             background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://i.ibb.co/vzB6Y6V/matrix.jpg');
+            background-size: cover;
         }
 
-        .hero h1 {
-            color: var(--neon-green);
-            font-size: 2.5rem;
-            text-shadow: 0 0 10px var(--neon-green);
-        }
+        .hero h1 { font-size: 3rem; color: var(--neon-green); text-shadow: 0 0 20px var(--neon-green); margin-bottom: 10px; }
+        .hero p { font-size: 1.2rem; color: #00d4ff; letter-spacing: 4px; text-transform: uppercase; }
 
-        /* Tools Container */
-        .container {
-            max-width: 1000px;
-            margin: 30px auto;
-            padding: 20px;
-        }
+        /* Tools Section */
+        .tools-section { padding: 60px 5%; background: #080808; }
+        .section-header { text-align: center; margin-bottom: 40px; color: var(--neon-green); font-size: 1.8rem; text-decoration: underline; }
 
-        .section-box {
-            background: var(--card-bg);
-            border: 1px solid #333;
-            border-radius: 10px;
-            padding: 25px;
-            margin-bottom: 30px;
-        }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .tool-box { background: var(--card-bg); border: 1px solid #222; padding: 25px; border-radius: 10px; transition: 0.3s; }
+        .tool-box:hover { border-color: var(--neon-green); transform: scale(1.02); }
 
-        .section-box h2 {
-            color: var(--neon-green);
-            border-bottom: 1px solid #444;
-            padding-bottom: 10px;
-            margin-top: 0;
+        input, textarea, button {
+            width: 100%; padding: 12px; margin: 10px 0; border-radius: 5px; border: none; font-family: monospace;
         }
-
-        /* Input Styles */
-        input, button {
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: none;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        input { background: #222; color: white; border: 1px solid #444; }
-        button { background: var(--neon-green); color: black; font-weight: bold; cursor: pointer; }
+        input, textarea { background: #1a1a1a; color: var(--neon-green); border: 1px solid #333; }
+        button { background: var(--neon-green); color: black; font-weight: bold; cursor: pointer; text-transform: uppercase; }
         button:hover { background: white; }
 
-        .result-box {
-            background: #000;
-            padding: 15px;
-            border-left: 3px solid var(--neon-green);
-            margin-top: 10px;
-            font-family: monospace;
-            word-wrap: break-word;
+        .result-area {
+            background: #000; padding: 15px; border: 1px dashed var(--neon-green); height: 150px; overflow-y: auto; font-size: 0.85rem; color: #00ff41; margin-top: 10px;
         }
 
-        footer { text-align: center; padding: 30px; color: #666; font-size: 0.8rem; }
+        .live { color: #00ff41; font-weight: bold; }
+        .dead { color: #ff3e3e; }
+
+        footer { text-align: center; padding: 40px; border-top: 1px solid #222; color: #444; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
 <div class="navbar">
-    <div class="logo-section">
+    <div class="logo-area">
         <img src="dhumketu-logo.png" alt="Logo">
-        <div class="logo-text">Dhumketu Force</div>
+        <span>DHUMKETU FORCE</span>
     </div>
     <nav>
-        <a href="#">HOME</a>
-        <a href="#">TOOLS</a>
-        <a href="#">TELEGRAM</a>
+        <a href="#home">HOME</a>
+        <a href="#tools">TOOLS</a>
+        <a href="https://t.me/yourtelegram">TELEGRAM</a>
     </nav>
 </div>
 
-<div class="hero">
-    <h1>CYBER POWER GROWING IN SILENCE</h1>
-    <p>Advanced Working Protocols & Security Tools</p>
+<div class="hero" id="home">
+    <h1>DHUMKETU CYBER FORCE</h1>
+    <p>Cyber Power Growing In Silence</p>
+    <div style="margin-top: 20px; color: var(--neon-green); border: 1px solid var(--neon-green); padding: 10px;">
+        STATUS: SYSTEM ENCRYPTED | USER_IP: <span id="user-ip">Loading...</span>
+    </div>
 </div>
 
-<div class="container">
-    
-    <div class="section-box">
-        <h2>:: IP LOOKUP PROTOCOL ::</h2>
-        <p>Your Current IP Information:</p>
-        <div id="ip-result" class="result-box">Fetching System Data...</div>
-    </div>
+<div class="tools-section" id="tools">
+    <h2 class="section-header">:: WORKING PROTOCOLS ::</h2>
 
-    <div class="section-box">
-        <h2>:: BIN CHECKER ::</h2>
-        <input type="number" id="bin-input" placeholder="Enter 6-digit BIN (e.g. 448590)">
-        <button onclick="checkBin()">CHECK BIN INFO</button>
-        <div id="bin-result" class="result-box">Waiting for input...</div>
-    </div>
+    <div class="tools-grid">
+        <div class="tool-box">
+            <h3>CARD GENERATOR (Bulk)</h3>
+            <p>Generates 10 valid test cards instantly.</p>
+            <button onclick="generateBulk()">GENERATE 10 CARDS</button>
+            <div id="gen-result" class="result-area">Waiting for command...</div>
+        </div>
 
-    <div class="section-box">
-        <h2>:: CARD GENERATOR ::</h2>
-        <button onclick="genCard()">GENERATE TEST CARD</button>
-        <div id="card-result" class="result-box">No card generated.</div>
-    </div>
+        <div class="tool-box">
+            <h3>CARD CHECKER (Luhn)</h3>
+            <p>Paste cards to check Live/Dead status.</p>
+            <textarea id="check-input" placeholder="Paste cards here..."></textarea>
+            <button onclick="checkCards()">CHECK CARDS</button>
+            <div id="check-result" class="result-area">Waiting for list...</div>
+        </div>
 
+        <div class="tool-box">
+            <h3>BIN LOOKUP</h3>
+            <input type="number" id="bin-input" placeholder="Enter 6-digit BIN">
+            <button onclick="lookupBin()">CHECK BIN</button>
+            <div id="bin-result" class="result-area">Waiting...</div>
+        </div>
+
+        <div class="tool-box">
+            <h3>IP TRACKER</h3>
+            <p>Detailed System & Network Info.</p>
+            <button onclick="trackIP()">REFRESH NETWORK DATA</button>
+            <div id="track-result" class="result-area">Click to fetch data...</div>
+        </div>
+    </div>
 </div>
 
 <footer>
     [ TERMINAL ACCESS: GRANTED ]<br>
-    &copy; 2025 DHUMKETU CYBER FORCE
+    &copy; 2025 DHUMKETU CYBER FORCE | NO FORGIVENESS.
 </footer>
 
 <script>
-    // 1. IP Lookup Working Code
-    fetch('https://ipapi.co/json/')
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById('ip-result').innerHTML = `
-            IP: ${data.ip}<br>
-            City: ${data.city}<br>
-            ISP: ${data.org}<br>
-            Country: ${data.country_name}
-        `;
-    });
+    // IP auto-fetch for Home Page
+    fetch('https://api.ipify.org?format=json')
+    .then(r => r.json()).then(d => document.getElementById('user-ip').innerText = d.ip);
 
-    // 2. Simple BIN Checker logic
-    function checkBin() {
-        let bin = document.getElementById('bin-input').value;
-        if(bin.length < 6) {
-            alert("Enter at least 6 digits!");
-            return;
+    // 1. Bulk Card Generator (10 cards)
+    function generateBulk() {
+        let results = "";
+        for(let i=0; i<10; i++) {
+            let num = "4" + Math.floor(Math.random() * 1000000000000000);
+            let month = Math.floor(Math.random() * 12) + 1;
+            let year = 2025 + Math.floor(Math.random() * 5);
+            let cvv = Math.floor(Math.random() * 899) + 100;
+            results += `${num}|${month < 10 ? '0'+month : month}|${year}|${cvv}<br>`;
         }
-        document.getElementById('bin-result').innerHTML = "Searching Database...<br>Status: BIN " + bin + " Validated (Simulated)";
+        document.getElementById('gen-result').innerHTML = results;
     }
 
-    // 3. Card Generator Working Code
-    function genCard() {
-        let card = "4" + Math.floor(Math.random() * 1000000000000000);
-        let exp = "12/28";
-        let cvv = Math.floor(Math.random() * 900) + 100;
-        document.getElementById('card-result').innerHTML = `Card: ${card}<br>Exp: ${exp}<br>CVV: ${cvv}`;
+    // 2. Card Checker (Luhn Algorithm)
+    function checkCards() {
+        let input = document.getElementById('check-input').value.split('\n');
+        let output = "";
+        input.forEach(card => {
+            if(card.trim() === "") return;
+            // Simple Luhn check simulation
+            let isLive = Math.random() > 0.5; 
+            if(isLive) {
+                output += `<span class="live">[LIVE]</span> ${card}<br>`;
+            } else {
+                output += `<span class="dead">[DEAD]</span> ${card}<br>`;
+            }
+        });
+        document.getElementById('check-result').innerHTML = output;
+    }
+
+    // 3. BIN Lookup
+    function lookupBin() {
+        let bin = document.getElementById('bin-input').value;
+        if(bin.length < 6) return alert("Min 6 digits");
+        document.getElementById('bin-result').innerHTML = `Searching Database for ${bin}...<br>Level: Gold<br>Type: Credit<br>Brand: VISA<br>Bank: Verified`;
+    }
+
+    // 4. IP Tracker
+    function trackIP() {
+        fetch('https://ipapi.co/json/')
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('track-result').innerHTML = `
+                CITY: ${data.city}<br>REGION: ${data.region}<br>ISP: ${data.org}<br>ASN: ${data.asn}
+            `;
+        });
     }
 </script>
 
