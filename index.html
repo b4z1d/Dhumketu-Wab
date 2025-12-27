@@ -3,169 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhumketu Cyber Force - Pro Hub</title>
+    <title>Dhumketu Cyber Force - Pro Lab</title>
     <style>
-        :root { --neon: #00ff41; --bg: #050505; --card: rgba(0, 255, 65, 0.08); }
-        body { background: var(--bg); color: var(--neon); font-family: 'JetBrains Mono', monospace; margin: 0; padding: 0; }
+        :root { --neon: #00ff41; --bg: #050505; --card-bg: rgba(0, 255, 65, 0.05); }
+        body { background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; margin: 0; padding: 0; }
         
-        /* Login Screen */
-        #login-overlay {
+        /* Login Overlay */
+        #login-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000;
             display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999;
         }
-        .login-box { border: 1px solid var(--neon); padding: 40px; text-align: center; box-shadow: 0 0 20px var(--neon); }
 
-        /* Main UI */
         #main-content { display: none; padding: 20px; }
-        header { text-align: center; border-bottom: 2px solid var(--neon); padding: 20px; margin-bottom: 30px; }
-        .logo-text { font-size: 2.5rem; letter-spacing: 8px; text-shadow: 0 0 10px var(--neon); margin: 0; }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
-        .card { border: 1px solid var(--neon); padding: 20px; background: var(--card); border-radius: 5px; }
-        h3 { border-left: 4px solid var(--neon); padding-left: 10px; text-transform: uppercase; font-size: 0.9rem; }
+        .container { max-width: 1000px; margin: auto; text-align: center; }
+        header { border-bottom: 2px solid var(--neon); padding: 20px; margin-bottom: 30px; }
+        h1 { letter-spacing: 5px; text-shadow: 0 0 10px var(--neon); text-transform: uppercase; }
 
-        input, textarea { width: 100%; background: #000; border: 1px solid #333; color: var(--neon); padding: 12px; margin: 10px 0; box-sizing: border-box; outline: none; }
-        input:focus { border-color: var(--neon); }
+        .tool-box { background: var(--card-bg); border: 1px solid var(--neon); padding: 20px; margin-bottom: 20px; border-radius: 5px; }
+        textarea, input { width: 95%; background: #000; border: 1px solid var(--neon); color: var(--neon); padding: 12px; margin: 10px 0; outline: none; }
+
+        .btn-group { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        button { background: var(--neon); color: #000; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; text-transform: uppercase; transition: 0.3s; }
+        button:hover { background: #fff; box-shadow: 0 0 15px var(--neon); }
+
+        /* Checker Results CSS */
+        .results { display: flex; justify-content: space-around; margin-top: 15px; font-weight: bold; }
+        .live { color: #00ff41; } .die { color: #ff3e3e; } .unknown { color: #ffcc00; }
         
-        .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
-        button { background: var(--neon); color: #000; border: none; padding: 10px 15px; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 0.7rem; }
-        button:hover { background: #fff; box-shadow: 0 0 10px var(--neon); }
-
-        .status { font-size: 0.8em; color: cyan; margin-top: 10px; }
-        .logout { position: absolute; top: 20px; right: 20px; background: red; color: white; }
+        .status-log { text-align: left; font-size: 0.8rem; height: 150px; overflow-y: scroll; border: 1px solid #333; padding: 10px; margin-top: 10px; background: #000; }
     </style>
 </head>
 <body>
 
-<div id="login-overlay">
-    <h1 class="logo-text">DHUMKETU FORCE</h1>
-    <p style="color: red;">[ SYSTEM ENCRYPTED ]</p>
-    <div class="login-box">
-        <input type="password" id="passkey" placeholder="ENTER ACCESS KEY" style="text-align: center;">
-        <button onclick="checkAuth()">INITIALIZE ACCESS</button>
-        <p id="err" style="color: yellow; margin-top: 10px; font-size: 0.8rem;"></p>
-    </div>
+<div id="login-screen">
+    <h1>DHUMKETU FORCE</h1>
+    <input type="password" id="passkey" placeholder="ENTER ACCESS KEY" style="width: 250px; text-align: center;">
+    <button onclick="auth()">ACCESS SYSTEM</button>
 </div>
 
 <div id="main-content">
-    <button class="logout" onclick="location.reload()">LOGOUT</button>
-    <header>
-        <h1 class="logo-text">DHUMKETU CYBER FORCE</h1>
-        <p>>_ WELCOME ADMIN | STATUS: ONLINE</p>
-    </header>
+    <div class="container">
+        <header>
+            <h1>DHUMKETU CYBER FORCE</h1>
+            <p>>_ STATUS: ONLINE | ENCRYPTED LAB</p>
+        </header>
 
-    <div class="grid">
-        <div class="card">
-            <h3>[$] BIN MAKER</h3>
-            <input type="text" id="binInp" placeholder="Enter Bin (e.g. 458962)">
-            <textarea id="binRes" rows="5" placeholder="Gen results here..."></textarea>
+        <div class="tool-box">
+            <h3>[#] LIVE BIN/CARD SEARCHER</h3>
+            <input type="text" id="binSearch" placeholder="Bin/Bank Name...">
             <div class="btn-group">
-                <button onclick="genBin()">GENERATE</button>
-                <button onclick="copyToClipboard('binRes')">COPY ALL</button>
+                <button onclick="searchLink('google')">Google Search</button>
+                <button onclick="searchLink('paste')">Pastebin Dumps</button>
             </div>
         </div>
 
-        <div class="card">
-            <h3>[*] LIVE CARD CHECKER BOX</h3>
-            <textarea id="ckInp" rows="7" placeholder="Paste your card list here..."></textarea>
+        <div class="tool-box">
+            <h3>[$] BIN GENERATOR</h3>
+            <input type="text" id="binBase" placeholder="Enter Bin (e.g. 453216)">
+            <textarea id="binOut" rows="5" placeholder="Generated cards..."></textarea>
             <div class="btn-group">
-                <button onclick="pasteToField('ckInp')">PASTE LIST</button>
-                <button onclick="checkLive()">START CHECK</button>
-                <button onclick="document.getElementById('ckInp').value=''" style="background:red; color:white;">CLEAR</button>
+                <button onclick="makeBin()">Generate</button>
+                <button onclick="copy('binOut')">Copy All</button>
             </div>
-            <div id="ckStat" class="status">Waiting for list...</div>
         </div>
 
-        <div class="card">
-            <h3>[#] LIVE BIN FINDER</h3>
-            <input type="text" id="searchBin" placeholder="Search bin or bank name...">
+        <div class="tool-box">
+            <h3>[*] INTERNAL LIVE CHECKER</h3>
+            <textarea id="ckInput" rows="8" placeholder="Format: 453216xxxxxxxxxx|MM|YYYY|CVV"></textarea>
             <div class="btn-group">
-                <button onclick="findBin('google')">SEARCH GOOGLE</button>
-                <button onclick="findBin('dump')">SEARCH DUMPS</button>
+                <button onclick="smartPaste('ckInput')">Paste List</button>
+                <button onclick="startCheck()">Check Live</button>
+                <button onclick="clearAll('ckInput')" style="background: #333; color: #fff;">Clear</button>
             </div>
-            <p class="status">Find leaked bins and live cards.</p>
-        </div>
-
-        <div class="card">
-            <h3>[!] PHISH SCANNER</h3>
-            <input type="text" id="pUrl" placeholder="Enter URL to analyze...">
-            <button onclick="scan()">SCAN LINK</button>
-            <div id="phRes" class="status"></div>
-        </div>
-
-        <div class="card">
-            <h3>[&] TARGET LOCATOR</h3>
-            <input type="text" id="ipInp" placeholder="Target IP...">
-            <button onclick="locate()">GET LOCATION</button>
-            <div id="ipRes" class="status"></div>
+            
+            <div class="results">
+                <span>LIVE: <span id="countLive" class="live">0</span></span>
+                <span>DIE: <span id="countDie" class="die">0</span></span>
+                <span>TOTAL: <span id="countTotal">0</span></span>
+            </div>
+            <div class="status-log" id="logBox">> System idle... Ready to scan.</div>
         </div>
     </div>
 </div>
 
 <script>
-    // 1. Auth Logic
-    function checkAuth() {
-        const pass = document.getElementById('passkey').value;
-        if(pass === "dhumketu@129") {
-            document.getElementById('login-overlay').style.display = 'none';
+    function auth() {
+        if(document.getElementById('passkey').value === "dhumketu@129") {
+            document.getElementById('login-screen').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
-        } else {
-            document.getElementById('err').innerText = "ACCESS DENIED! WRONG KEY.";
-        }
+        } else { alert("ACCESS DENIED!"); }
     }
 
-    // 2. Bin Gen (Only Generator)
-    function genBin() {
-        let bin = document.getElementById('binInp').value;
-        if(bin.length < 6) return alert("Enter valid Bin!");
-        let res = "";
-        for(let i=0; i<10; i++) {
-            let cc = bin + Math.floor(Math.random()*10000000000);
-            res += `${cc.substring(0,16)}|${("0"+(Math.floor(Math.random()*12)+1)).slice(-2)}|20${Math.floor(Math.random()*6)+25}|${Math.floor(Math.random()*899)+100}\n`;
-        }
-        document.getElementById('binRes').value = res;
-    }
-
-    // 3. Paste System for CK Box
-    async function pasteToField(id) {
-        try {
-            const text = await navigator.clipboard.readText();
-            document.getElementById(id).value = text;
-            document.getElementById('ckStat').innerText = "List pasted successfully!";
-        } catch (e) { alert("Permission denied! Use Ctrl+V"); }
-    }
-
-    // 4. Bin Searcher (Finding Live Cards)
-    function findBin(type) {
-        let query = document.getElementById('searchBin').value;
-        if(!query) return alert("Enter a bin or keyword!");
-        let url = type === 'google' 
-            ? `https://www.google.com/search?q=live+bin+cards+${query}+pastebin`
-            : `https://www.google.com/search?q=site:pastebin.com+${query}+live+cc`;
+    function searchLink(type) {
+        let q = document.getElementById('binSearch').value;
+        if(!q) return;
+        let url = type === 'google' ? `https://www.google.com/search?q=live+bin+${q}` : `https://www.google.com/search?q=site:pastebin.com+${q}`;
         window.open(url, '_blank');
     }
 
-    // 5. Utilities
-    function copyToClipboard(id) {
+    function makeBin() {
+        let b = document.getElementById('binBase').value;
+        if(b.length < 6) return;
+        let r = "";
+        for(let i=0; i<10; i++) {
+            r += b + Math.floor(Math.random()*10000000000).toString().padStart(10,'0') + `|${("0"+(Math.floor(Math.random()*12)+1)).slice(-2)}|20${Math.floor(Math.random()*6)+25}|${Math.floor(Math.random()*899)+100}\n`;
+        }
+        document.getElementById('binOut').value = r;
+    }
+
+    async function smartPaste(id) {
+        const text = await navigator.clipboard.readText();
+        document.getElementById(id).value = text;
+    }
+
+    function copy(id) {
         document.getElementById(id).select();
         document.execCommand('copy');
         alert("Copied!");
     }
 
-    function checkLive() {
-        let val = document.getElementById('ckInp').value;
-        if(!val) return;
-        document.getElementById('ckStat').innerText = "Connecting to API... Please Wait.";
-    }
+    function clearAll(id) { document.getElementById(id).value = ""; }
 
-    function scan() {
-        let u = document.getElementById('pUrl').value;
-        document.getElementById('phRes').innerText = u.includes('login') ? "WARNING: PHISH DETECTED" : "Safe Link";
-    }
+    // Simulation of Checking (Real checking requires a Private Proxy/Gateway API)
+    function startCheck() {
+        let lines = document.getElementById('ckInput').value.split('\n').filter(l => l.trim() !== "");
+        if(lines.length === 0) return;
+        
+        let log = document.getElementById('logBox');
+        let lCount = 0, dCount = 0;
+        document.getElementById('countTotal').innerText = lines.length;
+        log.innerHTML = "";
 
-    function locate() {
-        let ip = document.getElementById('ipInp').value;
-        document.getElementById('ipRes').innerText = "IP: " + ip + " | Location: Dhaka, BD";
+        lines.forEach((card, i) => {
+            setTimeout(() => {
+                let status = Math.random() > 0.8 ? "LIVE" : "DIE"; // Simulation
+                if(status === "LIVE") {
+                    lCount++;
+                    log.innerHTML += `<span class="live">[+] ${card} -> LIVE ✅</span><br>`;
+                } else {
+                    dCount++;
+                    log.innerHTML += `<span class="die">[-] ${card} -> DIE ❌</span><br>`;
+                }
+                document.getElementById('countLive').innerText = lCount;
+                document.getElementById('countDie').innerText = dCount;
+                log.scrollTop = log.scrollHeight;
+            }, i * 500);
+        });
     }
 </script>
 
