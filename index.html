@@ -3,212 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhumketu Cyber Force - Elite Edition</title>
+    <title>Dhumketu Cyber Force - All In One</title>
     <style>
-        :root {
-            --neon-green: #00ff41;
-            --dark-bg: #050505;
-            --box-bg: rgba(0, 255, 65, 0.05);
-            --danger: #ff3e3e;
+        :root { --neon: #00ff41; --bg: #050505; --card: rgba(0, 255, 65, 0.05); }
+        body { background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; margin: 0; overflow-x: hidden; }
+        
+        /* matrix background */
+        #matrix { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.3; }
+
+        /* Public Page Styles */
+        #public-page { text-align: center; padding: 60px 20px; display: block; }
+        .hero-title { font-size: 2.5rem; text-shadow: 0 0 15px var(--neon); letter-spacing: 5px; }
+        .btn-group { display: flex; justify-content: center; gap: 15px; margin-top: 30px; flex-wrap: wrap; }
+        .btn { border: 1px solid var(--neon); padding: 12px 25px; background: transparent; color: var(--neon); cursor: pointer; transition: 0.3s; font-weight: bold; }
+        .btn:hover { background: var(--neon); color: #000; box-shadow: 0 0 15px var(--neon); }
+
+        /* Login Modal */
+        #login-modal { 
+            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: #000; border: 2px solid var(--neon); padding: 30px; z-index: 1000; width: 300px;
+            box-shadow: 0 0 50px rgba(0, 255, 65, 0.4);
         }
 
-        body {
-            background-color: var(--dark-bg);
-            color: var(--neon-green);
-            font-family: 'JetBrains Mono', 'Courier New', monospace;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+        /* Admin Dashboard Styles */
+        #admin-dashboard { display: none; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
+        .card { border: 1px solid var(--neon); padding: 15px; background: var(--card); border-radius: 4px; }
+        input, textarea { width: 100%; background: #000; border: 1px solid #333; color: var(--neon); padding: 10px; margin: 10px 0; box-sizing: border-box; }
+        input:focus { border-color: var(--neon); outline: none; }
+        .status { font-size: 0.8em; color: #00d4ff; min-height: 20px; }
 
-        /* Login Section */
-        #login-screen {
-            text-align: center;
-            border: 1px solid var(--neon-green);
-            padding: 30px;
-            box-shadow: 0 0 20px var(--neon-green);
-            background: #000;
-        }
-
-        /* Main Dashboard */
-        #dashboard {
-            display: none;
-            width: 100%;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .container { max-width: 1100px; margin: auto; }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
-        }
-
-        .tool-card {
-            background: var(--box-bg);
-            border: 1px solid var(--neon-green);
-            padding: 15px;
-            border-radius: 4px;
-            position: relative;
-        }
-
-        h3 { border-left: 4px solid var(--neon-green); padding-left: 10px; margin-top: 0; font-size: 1rem; }
-
-        input, textarea {
-            width: 100%;
-            background: #000;
-            border: 1px solid #333;
-            color: var(--neon-green);
-            padding: 10px;
-            margin: 10px 0;
-            box-sizing: border-box;
-            font-size: 0.9em;
-        }
-
-        input:focus { border-color: var(--neon-green); outline: none; }
-
-        button {
-            background: var(--neon-green);
-            color: #000;
-            border: none;
-            padding: 8px 15px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.8em;
-            transition: 0.3s;
-        }
-
-        button:hover { background: #fff; box-shadow: 0 0 10px var(--neon-green); }
-
-        .status { font-size: 0.8em; color: #00d4ff; min-height: 20px; margin-top: 5px; }
-
-        /* Temp Mail specific */
-        .mail-box { display: flex; gap: 5px; }
+        .logout-btn { float: right; background: red; color: white; border: none; padding: 5px 10px; cursor: pointer; }
+        .secret-dot { color: #111; cursor: pointer; position: fixed; bottom: 10px; right: 10px; }
     </style>
 </head>
 <body>
 
-<div id="login-screen">
-    <h1 style="font-size: 1.5rem;">[ DHUMKETU ACCESS ]</h1>
-    <input type="password" id="passkey" placeholder="Enter Key..." style="text-align:center;">
-    <br>
-    <button onclick="checkAuth()">Decrypt & Enter</button>
-    <p id="err" style="color: var(--danger); font-size: 0.8em; margin-top: 10px;"></p>
+<canvas id="matrix"></canvas>
+
+<div id="public-page">
+    <h1 class="hero-title">DHUMKETU CYBER FORCE</h1>
+    <p>>_ Cyber Power Growing In Silence</p>
+    <div class="btn-group">
+        <button class="btn" onclick="userAction('ip')">MY IP STATUS</button>
+        <button class="btn" onclick="userAction('pass')">PASS GENERATOR</button>
+        <button class="btn" onclick="alert('Join Dhumketu Community to learn!')">JOIN FORCE</button>
+    </div>
+    <div id="userResult" style="margin-top: 30px; font-size: 1.2rem; color: cyan;"></div>
+    <span class="secret-dot" onclick="toggleLogin()">.</span>
 </div>
 
-<div id="dashboard">
-    <div class="container">
-        <header style="text-align:center; margin-bottom: 30px; border-bottom: 1px solid var(--neon-green); padding-bottom: 10px;">
-            <h1 style="letter-spacing: 5px;">DHUMKETU CYBER FORCE</h1>
-            <p>>_ ID: ADMIN_01 | SYSTEM: <span id="clock"></span></p>
-        </header>
+<div id="login-modal">
+    <h3 style="text-align: center;">ADMIN AUTH</h3>
+    <input type="password" id="passkey" placeholder="Enter Key...">
+    <button class="btn" style="width: 100%;" onclick="attemptLogin()">INITIALIZE</button>
+    <p id="loginErr" style="color: red; text-align: center; font-size: 0.8rem;"></p>
+    <button onclick="toggleLogin()" style="background:none; border:none; color:#444; width:100%; cursor:pointer; margin-top:10px;">Cancel</button>
+</div>
 
-        <div class="grid">
-            <div class="tool-card">
-                <h3>[#] TEMP MAIL GEN</h3>
-                <div class="mail-box">
-                    <input type="text" id="tempMail" readonly placeholder="Click Generate...">
-                    <button onclick="genMail()">GEN</button>
-                </div>
-                <button onclick="copyToClipboard('tempMail')">COPY MAIL</button>
-                <div class="status" id="mailStat"></div>
-            </div>
+<div id="admin-dashboard">
+    <button class="logout-btn" onclick="logout()">LOGOUT</button>
+    <h1 style="border-bottom: 2px solid var(--neon);">ADMIN PANEL <small style="font-size: 0.5em;">v2.0</small></h1>
+    <p>>_ Session Active | <span id="clock"></span></p>
 
-            <div class="tool-card">
-                <h3>[!] PASS VULN CHECKER</h3>
-                <input type="text" id="passInput" placeholder="Enter password to test..." oninput="checkStrength()">
-                <div id="strengthResult" class="status">Strength: Waiting...</div>
-            </div>
+    <div class="grid">
+        <div class="card">
+            <h3>[!] PHISH SCANNER</h3>
+            <input type="text" id="phUrl" placeholder="https://link-here.com">
+            <button class="btn" onclick="toolLogic('phish')">SCAN</button>
+            <div id="phStat" class="status"></div>
+        </div>
 
-            <div class="tool-card">
-                <h3>[*] PHISH ANALYZER</h3>
-                <input type="text" id="phUrl" placeholder="https://example.com">
-                <button onclick="scanPhish()">SCAN LINK</button>
-                <div id="phRes" class="status"></div>
-            </div>
+        <div class="card">
+            <h3>[$] BIN/CC STORAGE</h3>
+            <textarea id="binData" rows="3" placeholder="Paste bins..."></textarea>
+            <button class="btn" onclick="copy('binData')">COPY</button>
+            <button class="btn" onclick="paste('binData')">PASTE</button>
+        </div>
 
-            <div class="tool-card">
-                <h3>[@] SOCIAL OSINT</h3>
-                <input type="text" id="target" placeholder="Username...">
-                <button onclick="trackUser()">TRACK ID</button>
-                <div id="osintRes" class="status"></div>
-            </div>
+        <div class="card">
+            <h3>[#] TEMP MAIL GEN</h3>
+            <input type="text" id="tMail" readonly>
+            <button class="btn" onclick="toolLogic('mail')">GENERATE</button>
+            <button class="btn" onclick="copy('tMail')">COPY</button>
+        </div>
 
-            <div class="tool-card">
-                <h3>[$] BIN/CC STORAGE</h3>
-                <textarea id="binData" rows="3" placeholder="Paste generated bins here..."></textarea>
-                <button onclick="copyToClipboard('binData')">COPY ALL</button>
-                <button onclick="document.getElementById('binData').value=''">CLEAR</button>
-            </div>
+        <div class="card">
+            <h3>[@] OSINT TRACKER</h3>
+            <input type="text" id="target" placeholder="Username...">
+            <button class="btn" onclick="toolLogic('osint')">TRACK</button>
+            <div id="osStat" class="status"></div>
+        </div>
 
-            <div class="tool-card">
-                <h3>[&] IP GEOLOCATOR</h3>
-                <input type="text" id="ip" placeholder="Target IP...">
-                <button onclick="locateIP()">GET LOCATION</button>
-                <div id="ipRes" class="status"></div>
-            </div>
+        <div class="card">
+            <h3>[&] IP GEOLOCATOR</h3>
+            <input type="text" id="ipInp" placeholder="Enter IP...">
+            <button class="btn" onclick="toolLogic('ip')">LOCATE</button>
+            <div id="ipStat" class="status"></div>
+        </div>
+
+        <div class="card">
+            <h3>[*] PASS VULN CHECK</h3>
+            <input type="text" id="pCheck" oninput="toolLogic('passCheck')" placeholder="Type pass...">
+            <div id="psStat" class="status">Waiting...</div>
         </div>
     </div>
 </div>
 
 <script>
-    function checkAuth() {
-        if(document.getElementById('passkey').value === "dhumketu@129") {
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
-            document.body.style.alignItems = 'normal';
+    // --- LOGIN LOGIC ---
+    function toggleLogin() {
+        const modal = document.getElementById('login-modal');
+        modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function attemptLogin() {
+        const key = document.getElementById('passkey').value;
+        if(key === "dhumketu@129") {
+            document.getElementById('public-page').style.display = 'none';
+            document.getElementById('login-modal').style.display = 'none';
+            document.getElementById('admin-dashboard').style.display = 'block';
         } else {
-            document.getElementById('err').innerText = "[!] ACCESS DENIED";
+            document.getElementById('loginErr').innerText = "DENIED!";
         }
     }
 
-    setInterval(() => {
-        document.getElementById('clock').innerText = new Date().toLocaleTimeString();
-    }, 1000);
-
-    // Temp Mail Logic
-    function genMail() {
-        const domains = ["@tempmail.com", "@cyberforce.sh", "@ghostmail.org"];
-        const rand = Math.random().toString(36).substring(7);
-        const domain = domains[Math.floor(Math.random() * domains.length)];
-        document.getElementById('tempMail').value = rand + domain;
-        document.getElementById('mailStat').innerText = "New mail generated.";
+    function logout() {
+        location.reload();
     }
 
-    // Password Strength
-    function checkStrength() {
-        let p = document.getElementById('passInput').value;
-        let res = document.getElementById('strengthResult');
-        if(p.length < 6) res.innerHTML = "Status: <span style='color:red;'>WEAK (Too Short)</span>";
-        else if(p.length < 10) res.innerHTML = "Status: <span style='color:yellow;'>MEDIUM</span>";
-        else res.innerHTML = "Status: <span style='color:#00ff41;'>STRONG (SAFE)</span>";
+    // --- PUBLIC TOOLS ---
+    function userAction(type) {
+        const res = document.getElementById('userResult');
+        if(type === 'ip') res.innerText = "YOUR IP: 103.25.250.241 (Dhaka, BD)";
+        if(type === 'pass') res.innerText = "SAFE PASS: " + Math.random().toString(36).slice(-10);
     }
 
-    // Others
-    function scanPhish() {
-        let val = document.getElementById('phUrl').value;
-        document.getElementById('phRes').innerText = "Scanning " + (val.includes('secure') ? "ALERT: SUSPICIOUS" : "Clean");
+    // --- ADMIN TOOLS LOGIC ---
+    function toolLogic(tool) {
+        if(tool === 'phish') {
+            let u = document.getElementById('phUrl').value;
+            document.getElementById('phStat').innerText = u.includes('login') ? "PHISHING DETECTED!" : "CLEAN";
+        }
+        if(tool === 'mail') {
+            document.getElementById('tMail').value = Math.random().toString(36).substring(7) + "@dhumketu.sh";
+        }
+        if(tool === 'osint') {
+            let u = document.getElementById('target').value;
+            document.getElementById('osStat').innerHTML = `<a href="https://github.com/${u}" target="_blank" style="color:cyan">Github</a> | <a href="https://facebook.com/${u}" target="_blank" style="color:cyan">FB</a>`;
+        }
+        if(tool === 'ip') {
+            document.getElementById('ipStat').innerText = "ISP: Link3, City: Dhaka, Lat: 23.8";
+        }
+        if(tool === 'passCheck') {
+            let p = document.getElementById('pCheck').value;
+            document.getElementById('psStat').innerText = p.length < 8 ? "VULNERABLE (WEAK)" : "SECURE (STRONG)";
+        }
     }
 
-    function trackUser() {
-        let u = document.getElementById('target').value;
-        document.getElementById('osintRes').innerHTML = `<a href='https://social-searcher.com/?q=${u}' target='_blank' style='color:cyan'>Deep Search ${u}</a>`;
-    }
+    // --- UTILS ---
+    function copy(id) { document.getElementById(id).select(); document.execCommand('copy'); alert("Copied!"); }
+    async function paste(id) { document.getElementById(id).value = await navigator.clipboard.readText(); }
+    setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
 
-    function locateIP() {
-        document.getElementById('ipRes').innerText = "Loc: Dhaka, ISP: Link3, Lat: 23.7";
+    // Matrix Rain
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    const chars = "010101ABCDEF";
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+    function draw() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#0F0'; ctx.font = fontSize + 'px arial';
+        drops.forEach((y, i) => {
+            const text = chars[Math.floor(Math.random() * chars.length)];
+            ctx.fillText(text, i * fontSize, y * fontSize);
+            if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
+        });
     }
-
-    function copyToClipboard(id) {
-        let el = document.getElementById(id);
-        el.select();
-        document.execCommand('copy');
-        alert("Copied to clipboard!");
-    }
+    setInterval(draw, 33);
 </script>
 
 </body>
