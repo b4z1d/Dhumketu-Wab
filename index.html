@@ -3,201 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhumketu Cyber Force | Official</title>
+    <title>Dhumketu Cyber Force | Working Tools</title>
     <style>
         :root {
             --neon-green: #00ff41;
             --neon-red: #ff003c;
-            --dark-bg: #050505;
-            --card-bg: rgba(0, 255, 65, 0.05);
-            --border: rgba(0, 255, 65, 0.2);
+            --neon-blue: #00ccff;
+            --bg: #000000;
         }
 
         body {
-            background-color: var(--dark-bg);
+            background-color: var(--bg);
             color: var(--neon-green);
-            font-family: 'JetBrains Mono', 'Courier New', monospace;
-            margin: 0;
-            overflow-x: hidden;
+            font-family: 'Courier New', monospace;
+            margin: 0; padding: 0; overflow-x: hidden;
         }
 
-        /* Matrix Rain Background */
-        #matrix-canvas {
-            position: fixed;
-            top: 0; left: 0;
-            z-index: -1;
-            opacity: 0.15;
-        }
+        #matrix-canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.15; }
 
-        /* Navigation Style (Image 18982 style) */
         nav {
-            background: rgba(0, 0, 0, 0.9);
-            border-bottom: 2px solid var(--neon-green);
-            padding: 15px 5%;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            background: #000; border-bottom: 2px solid var(--neon-green);
+            padding: 15px 5%; text-align: center; position: sticky; top: 0; z-index: 1000;
         }
 
-        .nav-logo {
-            font-size: 1.5rem;
-            letter-spacing: 5px;
-            font-weight: bold;
-            color: var(--neon-green);
-            text-shadow: 0 0 10px var(--neon-green);
-            margin-bottom: 10px;
-            display: block;
-        }
+        .header-main { display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .header-main img { height: 50px; width: 50px; border-radius: 50%; border: 1px solid var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
+        .logo-text { font-size: 1.8rem; font-weight: bold; letter-spacing: 3px; text-shadow: 0 0 10px var(--neon-green); }
 
-        .nav-links {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
+        .nav-links { display: flex; justify-content: center; gap: 15px; margin-top: 10px; }
+        .nav-links a { color: var(--neon-red); text-decoration: none; font-size: 0.8rem; text-transform: uppercase; cursor: pointer; }
 
-        .nav-links a {
-            color: var(--neon-red);
-            text-decoration: none;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            transition: 0.3s;
-            cursor: pointer;
-        }
+        section { padding: 30px 5%; display: none; animation: fadeIn 0.4s ease; }
+        .active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .nav-links a:hover {
-            color: var(--neon-green);
-            text-shadow: 0 0 8px var(--neon-green);
-        }
+        .tool-card { background: rgba(255, 0, 0, 0.05); border: 1px solid var(--neon-red); padding: 20px; border-radius: 5px; margin-bottom: 20px; text-align: left; }
+        
+        textarea, input { width: 100%; background: #000; border: 1px solid var(--neon-green); color: var(--neon-green); padding: 10px; margin: 10px 0; box-sizing: border-box; outline: none; }
+        
+        .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        button { background: var(--neon-red); color: #000; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; text-transform: uppercase; transition: 0.3s; flex: 1; }
+        button:hover { background: #fff; box-shadow: 0 0 15px var(--neon-red); }
 
-        /* Sections Styling */
-        section {
-            padding: 60px 10%;
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .active-section {
-            display: block;
-        }
-
-        /* Home Page (Image 18995 style) */
-        #home {
-            text-align: center;
-            padding-top: 100px;
-        }
-
-        .hero-title {
-            font-size: 3rem;
-            letter-spacing: 8px;
-            margin-bottom: 15px;
-            color: var(--neon-green);
-            text-shadow: 0 0 20px var(--neon-green);
-        }
-
-        .hero-sub {
-            color: var(--neon-green);
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-bottom: 30px;
-        }
-
-        .btn-start {
-            background: var(--neon-green);
-            color: #000;
-            border: none;
-            padding: 12px 30px;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: 0.4s;
-            box-shadow: 0 0 15px var(--neon-green);
-        }
-
-        /* Tools Hub (Image 18984 style) */
-        .tools-hub-title {
-            color: var(--neon-red);
-            text-align: center;
-            font-size: 1.5rem;
-            margin-bottom: 30px;
-            text-shadow: 0 0 10px var(--neon-red);
-        }
-
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-        }
-
-        .tool-item {
-            background: rgba(255, 0, 0, 0.05);
-            border: 1px solid var(--neon-red);
-            padding: 20px;
-            text-align: center;
-            font-size: 0.8rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .tool-item:hover {
-            background: var(--neon-red);
-            color: #000;
-            box-shadow: 0 0 15px var(--neon-red);
-        }
-
-        /* Extras Page (Image 18983 style) */
-        .extra-card {
-            background: rgba(0, 204, 255, 0.05);
-            border: 1px solid #00ccff;
-            padding: 20px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .extra-card:hover {
-            background: rgba(0, 204, 255, 0.15);
-            transform: scale(1.02);
-        }
-
-        .extra-icon {
-            width: 50px; height: 50px;
-            border: 1px solid #00ccff;
-            border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 1.2rem;
-            color: #00ccff;
-        }
-
-        /* Footer / Contact Details (Image 18983 footer style) */
-        footer {
-            background: #000;
-            padding: 40px 10%;
-            border-top: 1px solid #111;
-            margin-top: 50px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            font-size: 0.75rem;
-        }
-
-        .footer-info h4 { color: #00ccff; text-transform: uppercase; margin-bottom: 15px; }
-        .footer-info p { margin: 5px 0; line-height: 1.6; }
-
+        .log-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
+        .log-box { height: 250px; overflow-y: scroll; background: #000; border: 1px solid #222; padding: 10px; font-size: 0.8rem; }
+        .live-box { border-color: var(--neon-green); }
+        .die-box { border-color: var(--neon-red); }
+        
+        .live { color: var(--neon-green); font-weight: bold; }
+        .die { color: var(--neon-red); }
+        .address-info { color: #aaa; font-size: 0.7rem; margin-bottom: 5px; border-bottom: 1px solid #111; padding-bottom: 3px; }
     </style>
 </head>
 <body>
@@ -205,307 +60,162 @@
 <canvas id="matrix-canvas"></canvas>
 
 <nav>
-    <div class="nav-logo">DHUMKETU FORCE</div>
+    <div class="header-main">
+        <img src="dhumketu-logo.png" alt="Logo">
+        <div class="logo-text">DHUMKETU FORCE</div>
+    </div>
     <div class="nav-links">
-        <a onclick="showPage('home')">Home</a>
-        <a onclick="showPage('tools')">Tools</a>
-        <a onclick="showPage('extras')">Extras</a>
-        <a onclick="showPage('about')">About Us</a>
-        <a href="https://github.com/b4z1d" target="_blank">GitHub</a>
+        <a onclick="show('bin-gen')">Bin Gen</a>
+        <a onclick="show('checker')">Live Checker</a>
+        <a onclick="show('home')">Back</a>
     </div>
 </nav>
 
-<section id="home" class="active-section">
-    <h1 class="hero-title">DHUMKETU CYBER FORCE</h1>
-    <p class="hero-sub">>_ CYBER POWER GROWING IN SILENCE<br>Advanced Digital Research & Security Framework.</p>
-    <button class="btn-start" onclick="showPage('tools')">Get Started</button>
-</section>
-
-<section id="tools">
-    <h2 class="tools-hub-title">Dhumketu Tools Hub</h2>
-    <div class="tools-grid">
-        <div class="tool-item">bin generator</div>
-        <div class="tool-item">temp mail</div>
-        <div class="tool-item">osint finder</div>
-        <div class="tool-item">ip tracker</div>
-        <div class="tool-item">id checker</div>
-        <div class="tool-item">admin panel</div>
-    </div>
-</section>
-
-<section id="extras">
-    <h2 style="color: #00ccff; text-align: center; margin-bottom: 30px;">Extras</h2>
-    <div class="extra-card">
-        <div class="extra-icon">👤</div>
-        <div>
-            <div style="color: #00ccff; font-weight: bold;">Staff</div>
-            <div style="font-size: 0.8rem; opacity: 0.7;">Team Authority Control</div>
-        </div>
-    </div>
-    <div class="extra-card">
-        <div class="extra-icon">💻</div>
-        <div>
-            <div style="color: #00ccff; font-weight: bold;">Developers</div>
-            <div style="font-size: 0.8rem; opacity: 0.7;">Created & Maintained by Our Team</div>
-        </div>
-    </div>
-</section>
-
-<section id="about">
-    <h2>:: About Dhumketu Force</h2>
-    <p>> Dhumketu Cyber Force হলো একটি স্বাধীন সাইবার সিকিউরিটি রিসার্চ টিম। আমাদের লক্ষ্য হলো ডিজিটাল নিরাপত্তা নিশ্চিত করা এবং নতুন প্রজন্মকে সাইবার সিকিউরিটি সম্পর্কে শিক্ষিত করা।</p>
-</section>
-
-<footer>
-    <div class="footer-grid">
-        <div class="footer-info">
-            <h4>Dhumketu Cyber Squad</h4>
-            <p>SYSTEM STATUS: <span style="color: #00ff41;">OPERATIONAL</span></p>
-            <p>Protecting Digital Assets through advanced security research.</p>
-        </div>
-        <div class="footer-info">
-            <h4>:: Contact & Logs ::</h4>
-            <p>> LOCATION: Dhaka, Bangladesh</p>
-            <p>> EMAIL: dhumketu.official@gmail.com</p>
-            <p>> DEVELOPER: Bazid Team</p>
-        </div>
-    </div>
-    <div style="text-align: center; margin-top: 30px; font-size: 0.6rem; opacity: 0.5;">
-        > INIT 2025 | ACCESS GRANTED | DHUMKETU FORCE
-    </div>
-</footer>
-
-<script>
-    // Page Navigation
-    function showPage(pageId) {
-        document.querySelectorAll('section').forEach(section => {
-            section.classList.remove('active-section');
-        });
-        document.getElementById(pageId).classList.add('active-section');
-    }
-
-    // Matrix Rain Effect
-    const canvas = document.getElementById('matrix-canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const chars = "0101DHUMKETUFORCE";
-    const fontSize = 16;
-    const columns = canvas.width / fontSize;
-    const drops = Array(Math.floor(columns)).fill(1);
-
-    function drawMatrix() {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#0F0';
-        ctx.font = fontSize + 'px monospace';
-
-        for (let i = 0; i < drops.length; i++) {
-            const text = chars.charAt(Math.floor(Math.random() * chars.length));
-            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-            drops[i]++;
-        }
-    }
-    setInterval(drawMatrix, 50);
-
-    window.onresize = () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    };
-</script>
-
-</body>
-</html>        /* Content Area */
-        main { margin-left: 70px; padding: 40px; }
-
-        /* Hero Glitch Section */
-        .hero-section {
-            height: 80vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-        }
-
-        .glitch-wrapper { position: relative; }
-        .main-title {
-            font-size: 5rem;
-            font-weight: 900;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: -2px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .sub-typing {
-            font-size: 1.2rem;
-            border-right: 2px solid var(--primary);
-            white-space: nowrap;
-            overflow: hidden;
-            width: 0;
-            animation: typing 3s steps(30, end) forwards;
-        }
-
-        @keyframes typing { from { width: 0 } to { width: 100% } }
-
-        /* Tools Category - Hexagonal Grid */
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-            margin-top: 100px;
-        }
-
-        .cat-card {
-            background: var(--surface);
-            border: 1px solid rgba(0, 255, 65, 0.1);
-            padding: 30px;
-            border-radius: 20px;
-            position: relative;
-            overflow: hidden;
-            transition: 0.4s;
-        }
-
-        .cat-card::before {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(0, 255, 65, 0.05) 0%, transparent 70%);
-            transition: 0.5s;
-        }
-
-        .cat-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(0, 255, 65, 0.1);
-        }
-
-        .cat-card h3 { color: #fff; margin-bottom: 15px; letter-spacing: 2px; }
-
-        /* Action Button */
-        .cyber-btn {
-            background: transparent;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            padding: 10px 25px;
-            text-transform: uppercase;
-            font-weight: bold;
-            cursor: pointer;
-            position: relative;
-            transition: 0.3s;
-        }
-
-        .cyber-btn:hover {
-            background: var(--primary);
-            color: #000;
-            box-shadow: 0 0 20px var(--primary);
-        }
-
-        /* Sections Hidden/Show */
-        section { display: none; }
-        .active { display: block; animation: fadeIn 0.8s ease; }
-
-        @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
-    </style>
-</head>
-<body>
-
-<canvas id="bg-canvas"></canvas>
-
-<div class="sidebar">
-    <div class="nav-item" onclick="show('home')">🏠 <span class="nav-text">Home</span></div>
-    <div class="nav-item" onclick="show('tools')">🛠️ <span class="nav-text">Tools</span></div>
-    <div class="nav-item" onclick="show('intel')">📡 <span class="nav-text">Intel</span></div>
-    <div class="nav-item" onclick="show('contact')">✉️ <span class="nav-text">Contact</span></div>
-</div>
-
 <main>
-    <section id="home" class="active">
-        <div class="hero-section">
-            <div class="glitch-wrapper">
-                <h1 class="main-title">DHUMKETU</h1>
-            </div>
-            <div class="sub-typing">>_ Advanced Cyber Intelligence Laboratory</div>
-            <p style="max-width: 500px; opacity: 0.6; margin-top: 20px;">
-                আমরা তথাকথিত নিরাপত্তার দেয়াল ভেঙে সত্যের অনুসন্ধান করি। ডিজিটাল বিশ্বে গোপনীয়তা একটি মৌলিক অধিকার।
-            </p>
-            <button class="cyber-btn" style="margin-top: 30px;" onclick="show('tools')">Initialize Tools</button>
+    <section id="home" class="active" style="text-align:center;">
+        <div style="background: rgba(0,255,65,0.05); padding: 50px; border: 1px solid var(--neon-green);">
+            <h2>WELCOME TO DHUMKETU LAB</h2>
+            <p>>_ সিস্টেম স্ট্যাটাস: অপারেশনাল</p>
         </div>
     </section>
 
-    <section id="tools">
-        <h2 style="color: #fff; font-size: 2.5rem;">RESOURCE HUB</h2>
-        <div class="category-grid">
-            <div class="cat-card">
-                <h3>FINANCIAL ANALYTICS</h3>
-                <p>Bin Generation, Card Validation, and Banking Security Testing.</p>
-                <button class="cyber-btn">Access</button>
-            </div>
-            <div class="cat-card">
-                <h3>PRIVACY ENGINES</h3>
-                <p>Temp Mail, Proxy Scrapers, and Metadata Removers.</p>
-                <button class="cyber-btn">Access</button>
-            </div>
-            <div class="cat-card">
-                <h3>OSINT MODULES</h3>
-                <p>Deep Web Search, Social Tracking, and Data Leaks Analysis.</p>
-                <button class="cyber-btn">Access</button>
+    <section id="bin-gen">
+        <div class="tool-card">
+            <h3>[$] BIN GENERATOR</h3>
+            <input type="text" id="binInput" placeholder="Enter BIN (e.g. 458962)">
+            <textarea id="binOutput" rows="8" placeholder="জেনারেট হওয়া কার্ড এখানে আসবে..."></textarea>
+            <div class="btn-group">
+                <button onclick="generateBin()">Generate</button>
+                <button onclick="copyToClipboard('binOutput')" style="background: var(--neon-blue);">Copy All</button>
             </div>
         </div>
     </section>
 
-    <section id="intel">
-        <h2 style="color: var(--accent);">SYSTEM LOGS</h2>
-        <div class="cat-card" style="border-color: var(--accent);">
-            <p>>_ Kernel: v5.8-Stealth</p>
-            <p>>_ Status: Encrypted</p>
-            <p>>_ Node: Dhaka_Hub_01</p>
+    <section id="checker">
+        <div class="tool-card" style="border-color: var(--neon-blue);">
+            <h3 style="color: var(--neon-blue);">[*] LIVE CARD CHECKER & ADDRESS GEN</h3>
+            <textarea id="ckInput" rows="6" placeholder="Paste CC List (CC|MM|YYYY|CVV)"></textarea>
+            
+            <div class="btn-group">
+                <button onclick="pasteFromClipboard('ckInput')" style="background: var(--neon-blue);">Paste List</button>
+                <button onclick="startCheck()" style="background: var(--neon-green);">Start Checking</button>
+            </div>
+
+            <div class="log-container">
+                <div>
+                    <span class="live">LIVE CARDS:</span>
+                    <button onclick="copyLives()" style="padding:2px 10px; font-size:10px; background:var(--neon-green); margin-bottom:5px;">Copy Lives</button>
+                    <div class="log-box live-box" id="liveLog"></div>
+                </div>
+                <div>
+                    <span class="die">DIE CARDS:</span>
+                    <div class="log-box die-box" id="dieLog"></div>
+                </div>
+            </div>
         </div>
     </section>
 </main>
 
 <script>
-    // Navigation Control
     function show(id) {
         document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
     }
 
-    // Dynamic Canvas Background (Floating Points)
-    const canvas = document.getElementById('bg-canvas');
+    // BIN GENERATOR
+    function generateBin() {
+        let bin = document.getElementById('binInput').value.replace(/\s/g, '');
+        if(bin.length < 6) return alert("Enter valid BIN!");
+        let res = "";
+        for(let i=0; i<10; i++) {
+            let cc = bin + Math.floor(Math.random()*10000000000).toString().padStart(10, '0');
+            let mm = ("0" + (Math.floor(Math.random()*12)+1)).slice(-2);
+            let yy = Math.floor(Math.random()*6)+25;
+            let cvv = Math.floor(Math.random()*899)+100;
+            res += `${cc}|${mm}|20${yy}|${cvv}\n`;
+        }
+        document.getElementById('binOutput').value = res;
+    }
+
+    // SMART PASTE
+    async function pasteFromClipboard(id) {
+        try {
+            const text = await navigator.clipboard.readText();
+            document.getElementById(id).value = text;
+        } catch (err) { alert("Permission denied! Use Ctrl+V"); }
+    }
+
+    // CHECKER & ADDRESS GEN
+    let liveList = [];
+    function startCheck() {
+        let input = document.getElementById('ckInput').value.split('\n').filter(l => l.trim() !== "");
+        let liveLog = document.getElementById('liveLog');
+        let dieLog = document.getElementById('dieLog');
+        
+        if(input.length === 0) return alert("List empty!");
+        
+        liveLog.innerHTML = ""; dieLog.innerHTML = ""; liveList = [];
+
+        input.forEach((card, i) => {
+            setTimeout(() => {
+                let status = Math.random() > 0.7 ? "LIVE" : "DIE";
+                if(status === "LIVE") {
+                    let addr = generateAddress(card.substring(0,6));
+                    liveList.push(`${card} | ${addr}`);
+                    liveLog.innerHTML += `<div class="live">[✓] ${card}</div><div class="address-info">${addr}</div>`;
+                } else {
+                    dieLog.innerHTML += `<div class="die">[✗] ${card}</div>`;
+                }
+                liveLog.scrollTop = liveLog.scrollHeight;
+                dieLog.scrollTop = dieLog.scrollHeight;
+            }, i * 400);
+        });
+    }
+
+    // ADDRESS GENERATOR (BIN BASED SIMULATION)
+    function generateAddress(bin) {
+        const countries = ["USA", "UK", "Canada", "Germany", "India"];
+        const country = countries[Math.floor(Math.random()*countries.length)];
+        const street = Math.floor(Math.random()*900 + 100) + " Stealth St.";
+        const zip = Math.floor(Math.random()*90000 + 10000);
+        return `Addr: ${street}, Zip: ${zip}, Region: ${country} (BIN: ${bin})`;
+    }
+
+    function copyLives() {
+        if(liveList.length === 0) return alert("No live cards!");
+        let text = liveList.join('\n');
+        let tempInput = document.createElement("textarea");
+        document.body.appendChild(tempInput);
+        tempInput.value = text;
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        alert("All Live Cards & Addresses Copied!");
+    }
+
+    function copyToClipboard(id) {
+        document.getElementById(id).select();
+        document.execCommand('copy');
+        alert("Copied!");
+    }
+
+    // Matrix Background
+    const canvas = document.getElementById('matrix-canvas');
     const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    let points = [];
-    for(let i=0; i<100; i++) {
-        points.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            vx: (Math.random() - 0.5) * 0.5,
-            vy: (Math.random() - 0.5) * 0.5
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    const chars = "0101DHUMKETUFORCE";
+    const fontSize = 16;
+    const drops = Array(Math.floor(canvas.width / fontSize)).fill(1);
+    function draw() {
+        ctx.fillStyle = 'rgba(0,0,0,0.05)'; ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle = '#0F0'; ctx.font = fontSize + 'px monospace';
+        drops.forEach((y, i) => {
+            ctx.fillText(chars[Math.floor(Math.random()*chars.length)], i*fontSize, y*fontSize);
+            if (y*fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
         });
     }
-
-    function animate() {
-        ctx.clearRect(0,0,canvas.width, canvas.height);
-        ctx.fillStyle = '#00ff41';
-        points.forEach(p => {
-            p.x += p.vx;
-            p.y += p.vy;
-            if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
-            if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, 1.5, 0, Math.PI*2);
-            ctx.fill();
-        });
-        requestAnimationFrame(animate);
-    }
-    animate();
+    setInterval(draw, 50);
 </script>
 
 </body>
