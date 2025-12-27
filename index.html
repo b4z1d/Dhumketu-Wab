@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dhumketu Cyber Force</title>
+    <style>
+        /* সম্পূর্ণ ডিজাইন এক ফাইলেই */
+        :root {
+            --primary-color: #00ff41; /* হ্যাকার গ্রিন */
+            --bg-color: #050505;
+            --card-bg: #111;
+            --text-color: #e0e0e0;
+        }
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
+                        url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            border-bottom: 2px solid var(--primary-color);
+            text-align: center;
+        }
+        .glitch {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px var(--primary-color);
+            margin: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: -40px auto 50px;
+            padding: 20px;
+        }
+        .section {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            border: 1px solid #222;
+            box-shadow: 0 5px 15px rgba(0,255,65,0.05);
+        }
+        h2 {
+            color: var(--primary-color);
+            text-transform: uppercase;
+            font-size: 1.5rem;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+        }
+        ul { list-style: none; padding: 0; }
+        li::before { content: "> "; color: var(--primary-color); }
+        li { margin-bottom: 10px; }
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: black;
+            padding: 10px 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: white;
+            box-shadow: 0 0 20px var(--primary-color);
+        }
+        footer { text-align: center; padding: 40px; color: #555; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+<header>
+    <div class="status">SYSTEM: ONLINE</div>
+    <h1 class="glitch">DHUMKETU CYBER FORCE</h1>
+    <p>Protecting the Digital Frontier</p>
+</header>
+<div class="container">
+    <div class="section">
+        <h2>Mission Statement</h2>
+        <p>আমরা সাইবার জগতের নিরাপত্তা নিশ্চিত করতে কাজ করি। ডিজিটাল স্প্যামিং, ফিশিং এবং অনলাইন থ্রেড থেকে সাধারণ মানুষকে সচেতন করাই আমাদের মূল লক্ষ্য।</p>
+    </div>
+    <div class="section">
+        <h2>Core Services</h2>
+        <ul>
+            <li>Vulnerability Assessment</li>
+            <li>Digital Threat Intelligence</li>
+            <li>Spam Awareness Training</li>
+            <li>Secure System Architecture</li>
+        </ul>
+    </div>
+    <div class="section">
+        <h2>Report a Vulnerability</h2>
+        <p>আপনি কি কোনো নিরাপত্তা ত্রুটি খুঁজে পেয়েছেন? আমাদের জানান।</p>
+        <a href="mailto:contact@b4z1d.github.io" class="btn">SECURE CONNECT</a>
+    </div>
+</div>
+<footer>
+    [ &copy; 2025 Dhumketu Cyber Force | Terminal Access: Granted ]
+</footer>
+</body>
+</html>
