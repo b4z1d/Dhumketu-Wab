@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhumketu Cyber Force | Active Terminal</title>
+    <title>Dhumketu Cyber Force | Advanced Mail</title>
     <style>
         :root { --neon: #00ff41; --bg: #000; --red: #ff003c; --blue: #00ccff; }
         body { background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; margin: 0; overflow-x: hidden; }
@@ -11,58 +11,167 @@
 
         nav { background: rgba(0,0,0,0.95); border-bottom: 2px solid var(--neon); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
         .nav-logo img { height: 45px; border-radius: 50%; border: 1px solid var(--neon); }
-        .nav-links a { color: var(--red); text-decoration: none; margin-left: 15px; font-size: 0.8rem; text-transform: uppercase; cursor: pointer; }
 
-        section { padding: 40px 8%; display: none; min-height: 80vh; text-align: center; }
-        .active { display: block; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        section { padding: 40px 8%; display: block; text-align: center; }
 
-        .article { background: rgba(0, 255, 65, 0.05); border-left: 4px solid var(--neon); padding: 20px; margin-bottom: 20px; text-align: left; }
-
-        /* Tools Hub Styling */
-        .tools-container { max-width: 600px; margin: auto; }
-        .tool-box { background: #111; border: 1px solid var(--red); padding: 20px; border-radius: 10px; margin-top: 20px; }
-        textarea, input { width: 100%; background: #000; border: 1px solid var(--neon); color: var(--neon); padding: 10px; margin: 10px 0; box-sizing: border-box; outline: none; }
+        .tool-box { background: #111; border: 1px solid var(--red); padding: 20px; border-radius: 10px; max-width: 650px; margin: auto; }
+        input { width: 100%; background: #000; border: 1px solid var(--neon); color: var(--neon); padding: 12px; margin: 10px 0; box-sizing: border-box; outline: none; text-align: center; }
         
-        .tools-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
-        .tool-btn { background: #000; border: 1px solid var(--red); padding: 12px; color: var(--red); cursor: pointer; text-transform: uppercase; font-weight: bold; }
+        .tool-btn { background: #000; border: 1px solid var(--red); padding: 12px; color: var(--red); cursor: pointer; text-transform: uppercase; font-weight: bold; width: 100%; margin-bottom: 10px; transition: 0.3s; }
         .tool-btn:hover { background: var(--red); color: #000; }
 
-        /* Bot & Points */
-        #bot-ui { position: fixed; bottom: 80px; left: 20px; width: 280px; height: 350px; background: #000; border: 2px solid var(--neon); display: none; flex-direction: column; z-index: 2000; }
-        #bot-header { background: var(--neon); color: #000; padding: 10px; font-weight: bold; }
-        #bot-msgs { flex: 1; overflow-y: auto; padding: 10px; font-size: 0.8rem; text-align: left; }
-        #bot-input { background: #000; border: none; border-top: 1px solid #333; color: #fff; padding: 10px; outline: none; }
+        .inbox-container { margin-top: 20px; text-align: left; background: #080808; border: 1px solid var(--blue); padding: 15px; border-radius: 5px; min-height: 250px; }
+        .inbox-header { border-bottom: 1px solid var(--blue); padding-bottom: 10px; margin-bottom: 10px; color: var(--blue); font-weight: bold; display: flex; justify-content: space-between; }
         
-        #toggle-bot { position: fixed; bottom: 20px; left: 20px; background: var(--neon); color: #000; padding: 10px 20px; border-radius: 50px; cursor: pointer; font-weight: bold; }
+        .mail-item { padding: 10px; border-bottom: 1px solid #222; font-size: 0.85rem; cursor: pointer; }
+        .mail-item:hover { background: #1a1a1a; }
+        
+        #mail-view { display: none; background: #000; border: 1px solid var(--neon); padding: 15px; margin-top: 15px; text-align: left; }
+        .attach-box { margin-top: 15px; padding: 10px; background: #111; border: 1px dashed var(--blue); font-size: 0.8rem; }
+        .dl-link { color: var(--neon); text-decoration: underline; cursor: pointer; margin-right: 10px; }
+        
+        .back-btn { font-size: 0.7rem; color: var(--red); cursor: pointer; text-decoration: underline; margin-bottom: 10px; display: inline-block; }
         .points { position: fixed; bottom: 20px; right: 20px; background: rgba(0, 255, 65, 0.1); border: 1px solid var(--neon); padding: 10px 20px; }
     </style>
 </head>
-<body onload="startSystem()">
+<body>
 
 <canvas id="matrix"></canvas>
 
 <nav>
     <div class="nav-logo"><img src="dhumketu-logo.png" alt="Logo"></div>
-    <div class="nav-links">
-        <a onclick="show('home')">Home</a>
-        <a onclick="show('tools')">Tools Hub</a>
-        <a onclick="show('admin')" style="color:var(--blue)">[Dhumketu]</a>
-    </div>
+    <div style="color:var(--red); font-weight:bold;">DHUMKETU STEALTH MAIL</div>
 </nav>
 
-<section id="home" class="active">
-    <h1>DHUMKETU CYBER FORCE</h1>
-    <div class="article">
-        <h3>:: Stealth Mode Active ::</h3>
-        <p>Amader team cyber security research niye kaj kore. Nicher Tools Hub-e active tools paben.</p>
+<section>
+    <div class="tool-box">
+        <h3 style="color:var(--neon)">[ WORKING TEMP MAIL & ATTACHMENTS ]</h3>
+        <button class="tool-btn" onclick="createNewMail()">GENERATE NEW EMAIL</button>
+        <input type="text" id="mailAddress" readonly placeholder="Click Generate to Start...">
+        
+        <div class="inbox-container">
+            <div class="inbox-header">
+                <span>INBOX SERVER</span>
+                <span id="sync-status" style="font-size: 0.7rem; color:var(--neon);">Idle</span>
+            </div>
+            
+            <div id="inbox-list">
+                <div style="color: gray; text-align: center; padding: 40px;">No messages. System is active.</div>
+            </div>
+
+            <div id="mail-view">
+                <span class="back-btn" onclick="closeMail()">← Back to Inbox</span>
+                <div id="mail-body"></div>
+                <div id="attachment-area" class="attach-box" style="display:none;">
+                    <strong>Attachments:</strong> <div id="file-list"></div>
+                </div>
+            </div>
+        </div>
+        <p style="font-size:0.7rem; color:gray; margin-top: 15px;">*Powered by Dhumketu Force Intelligence.</p>
     </div>
 </section>
 
-<section id="tools">
-    <h2 style="color:var(--red)">[ ACCESS GRANTED: WORKING TOOLS ]</h2>
-    <div class="tools-container">
-        <div class="tools-grid">
+<div class="points">VISITOR POINTS: <span id="v-count">02</span></div>
+
+<script>
+    let currentEmail = "";
+    let login = "";
+    let domain = "";
+    let checkInterval = null;
+
+    async function createNewMail() {
+        const response = await fetch('https://www.1secmail.com/api/v1/?action=genRandomMailbox&count=1');
+        const data = await response.json();
+        currentEmail = data[0];
+        document.getElementById('mailAddress').value = currentEmail;
+        [login, domain] = currentEmail.split('@');
+        
+        closeMail();
+        document.getElementById('inbox-list').innerHTML = '<div style="color:gray; text-align:center; padding:40px;">Waiting for mail...</div>';
+        
+        if (checkInterval) clearInterval(checkInterval);
+        checkInterval = setInterval(checkInbox, 5000);
+        document.getElementById('sync-status').innerText = "Syncing...";
+    }
+
+    async function checkInbox() {
+        if (!login || !domain) return;
+        const response = await fetch(`https://www.1secmail.com/api/v1/?action=getMessages&login=${login}&domain=${domain}`);
+        const messages = await response.json();
+        const listArea = document.getElementById('inbox-list');
+        
+        if (messages.length > 0) {
+            listArea.innerHTML = "";
+            messages.forEach(msg => {
+                const item = document.createElement('div');
+                item.className = 'mail-item';
+                item.innerHTML = `<strong>From:</strong> ${msg.from} <br> <strong>Subject:</strong> ${msg.subject}`;
+                item.onclick = () => readMail(msg.id);
+                listArea.appendChild(item);
+            });
+        }
+    }
+
+    async function readMail(id) {
+        const response = await fetch(`https://www.1secmail.com/api/v1/?action=readMessage&login=${login}&domain=${domain}&id=${id}`);
+        const data = await response.json();
+        
+        document.getElementById('inbox-list').style.display = 'none';
+        document.getElementById('mail-view').style.display = 'block';
+        document.getElementById('mail-body').innerHTML = `
+            <div style="border-bottom: 1px solid #333; margin-bottom:10px; padding-bottom:5px;">
+                <strong>From:</strong> ${data.from} | <strong>Date:</strong> ${data.date}
+            </div>
+            <div style="white-space: pre-wrap;">${data.textBody}</div>
+        `;
+
+        // Handle Attachments
+        const attachArea = document.getElementById('attachment-area');
+        const fileList = document.getElementById('file-list');
+        if (data.attachments && data.attachments.length > 0) {
+            attachArea.style.display = 'block';
+            fileList.innerHTML = "";
+            data.attachments.forEach(file => {
+                const link = document.createElement('span');
+                link.className = 'dl-link';
+                link.innerText = `Download ${file.filename}`;
+                link.onclick = () => downloadFile(id, file.filename);
+                fileList.appendChild(link);
+            });
+        } else {
+            attachArea.style.display = 'none';
+        }
+    }
+
+    function downloadFile(id, filename) {
+        const url = `https://www.1secmail.com/api/v1/?action=downloadMessageAttachment&login=${login}&domain=${domain}&id=${id}&file=${filename}`;
+        window.open(url, '_blank');
+    }
+
+    function closeMail() {
+        document.getElementById('inbox-list').style.display = 'block';
+        document.getElementById('mail-view').style.display = 'none';
+    }
+
+    // Matrix Rain Effect
+    const canvas = document.createElement('canvas');
+    canvas.id = "matrix";
+    document.body.appendChild(canvas);
+    const x = canvas.getContext('2d');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    const d = Array(Math.floor(canvas.width/16)).fill(1);
+    setInterval(() => {
+        x.fillStyle = 'rgba(0,0,0,0.05)'; x.fillRect(0,0,canvas.width,canvas.height);
+        x.fillStyle = '#0F0';
+        d.forEach((y, i) => {
+            x.fillText("01"[Math.floor(Math.random()*2)], i*16, y*16);
+            if(y*16 > canvas.height && Math.random() > 0.975) d[i] = 0;
+            d[i]++;
+        });
+    }, 50);
+</script>
+</body>
+</html>        <div class="tools-grid">
             <button class="tool-btn" onclick="openTool('bin')">Bin Generator</button>
             <button class="tool-btn" onclick="openTool('mail')">Temp Mail</button>
         </div>
