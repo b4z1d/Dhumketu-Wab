@@ -1,0 +1,21 @@
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+body { background: #f0f2f5; }
+nav { display: flex; justify-content: space-between; padding: 10px 20px; background: #fff; position: sticky; top: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 10; }
+.logo { width: 40px; }
+nav input { background: #f0f2f5; border: none; padding: 10px; border-radius: 20px; margin-left: 10px; }
+.nav-middle i { font-size: 22px; margin: 0 20px; color: #65676b; cursor: pointer; }
+.active { color: #1877f2 !important; border-bottom: 3px solid #1877f2; padding-bottom: 5px; }
+.user-img { width: 40px; border-radius: 50%; }
+.container { display: flex; padding: 20px; }
+.left-sidebar { width: 25%; }
+.link-item { padding: 10px; cursor: pointer; display: flex; align-items: center; gap: 10px; border-radius: 10px; }
+.link-item:hover { background: #ddd; }
+.main-content { width: 50%; padding: 0 20px; }
+.post-box { background: #fff; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+.post-box .top { display: flex; gap: 10px; }
+.post-box input { flex: 1; border-radius: 20px; border: none; background: #f0f2f5; padding: 10px 20px; }
+.post-box button { background: #1877f2; color: #fff; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer; }
+.post { background: #fff; padding: 15px; border-radius: 10px; margin-top: 20px; }
+.post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.like-btn { cursor: pointer; color: #65676b; font-weight: bold; }
+.liked { color: #1877f2; }
